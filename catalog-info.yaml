@@ -1,0 +1,20 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: 'dtsse-ardoq-adapter'
+  description: "Provides an integration to Ardoq in order to maintain the tech stack"
+  annotations:
+    # This must match folder-name/job-name in Jenkins.
+    jenkins.io/job-full-name: cft:HMCTS_dtsse/dtsse-ardoq-adapter
+    github.com/project-slug: 'hmcts/dtsse-ardoq-adapter'
+  tags:
+    - nodejs
+  links:
+    - url: https://hmcts-reform.slack.com/app_redirect?channel=#rse
+      title: #rse on Slack
+      icon: chat
+spec:
+  type: service
+  system: dtsse
+  lifecycle: experimental
+  owner: dts_cft_software_engineering

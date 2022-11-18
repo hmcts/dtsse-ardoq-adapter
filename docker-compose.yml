@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  ardoq-adapter:
+    build:
+      context: .
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    ports:
+      - '8506:8506'

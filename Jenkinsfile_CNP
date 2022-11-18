@@ -1,0 +1,17 @@
+#!groovy
+
+@Library("Infrastructure")
+
+def type = "nodejs"
+def product = "dtsse"
+def component = "ardoq-adapter"
+
+def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
+
+withPipeline(type, product, component) {
+  after('build') {
+    yarnBuilder.yarn('rebuild puppeteer')
+    yarnBuilder.yarn('build')
+  }
+
+}
