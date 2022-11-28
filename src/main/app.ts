@@ -1,10 +1,5 @@
 import * as path from 'path';
 
-import { HTTPError } from './HttpError';
-import { AppInsights } from './modules/appinsights';
-import { Helmet } from './modules/helmet';
-import { Nunjucks } from './modules/nunjucks';
-import { PropertiesVolume } from './modules/properties-volume';
 
 import * as bodyParser from 'body-parser';
 import config = require('config');
@@ -13,14 +8,22 @@ import express from 'express';
 import { glob } from 'glob';
 import favicon from 'serve-favicon';
 
-const { setupDev } = require('./development');
+import { HTTPError } from './HttpError';
+import { AppInsights } from './modules/appinsights';
+import { Helmet } from './modules/helmet';
+import { Nunjucks } from './modules/nunjucks';
+import { PropertiesVolume } from './modules/properties-volume';
+
 
 const { Logger } = require('@hmcts/nodejs-logging');
+
+const { setupDev } = require('./development');
 
 const env = process.env.NODE_ENV || 'development';
 const developmentMode = env === 'development';
 
 export const app = express();
+
 app.locals.ENV = env;
 
 const logger = Logger.getLogger('app');
@@ -33,6 +36,7 @@ new Helmet(config.get('security')).enableFor(app);
 
 app.use(favicon(path.join(__dirname, '/public/assets/images/favicon.ico')));
 app.use(bodyParser.json());
+app.use(bodyParser.text({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
