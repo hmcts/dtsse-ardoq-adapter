@@ -20,4 +20,12 @@ describe('Ardoq GradleParser', () => {
     expect(res[2]).toBe('org.springframework.boot:spring-boot-starter-aop -> 2.7.2');
     expect(res[3]).toBe('org.springframework.boot:spring-boot-starter-json -> 2.7.2');
   });
+
+  test('error on no tests', async () => {
+    try {
+      GradleParser.fromDepString('');
+    } catch (e) {
+      expect(e.message === 'No dependencies found');
+    }
+  });
 });

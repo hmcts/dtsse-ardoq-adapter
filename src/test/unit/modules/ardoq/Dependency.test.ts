@@ -14,4 +14,12 @@ describe('Ardoq Dependency', () => {
     const d = Dependency.fromDepString('something:else -> 1.1.1');
     expect(d.getFullName()).toBe('something:else 1.1.1');
   });
+
+  test('error when malformed', async () => {
+    try {
+      Dependency.fromDepString('nopes:nopes:1.2.3');
+    } catch (e) {
+      expect(e.message === "Dependency string 'nopes:nopes:1.2.3' is malformed. Should match <name> -> <version>");
+    }
+  });
 });
