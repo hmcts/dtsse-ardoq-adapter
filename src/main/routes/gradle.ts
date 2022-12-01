@@ -1,10 +1,10 @@
-import config from 'config';
-import { Application } from 'express';
-
 import { ArdoqClient } from '../modules/ardoq/ArdoqClient';
 import { ArdoqComponentCreatedResponse } from '../modules/ardoq/ArdoqComponentCreatedResponse';
 import { Dependency } from '../modules/ardoq/Dependency';
 import { GradleParser } from '../modules/ardoq/GradleParser';
+
+import config from 'config';
+import { Application } from 'express';
 
 export default function (app: Application): void {
   app.post('/api/gradle/:repo', async (req, res) => {

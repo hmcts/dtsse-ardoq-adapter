@@ -1,7 +1,7 @@
-import axios from 'axios';
-
 import { ArdoqComponentCreatedResponse } from './ArdoqComponentCreatedResponse';
 import { Dependency } from './Dependency';
+
+import axios from 'axios';
 
 export class ArdoqClient {
   apiKey: string;
