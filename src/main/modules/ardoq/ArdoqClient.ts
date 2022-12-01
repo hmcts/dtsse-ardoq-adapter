@@ -76,16 +76,16 @@ export class ArdoqClient {
         return this.createComponent(d.getFullName()).then(createResponse => {
           if (createResponse.status === 201) {
             // Can now create a relationship between the application and this object
-            console.log('Created ${d.name} ${d.version} : ${createResponse.status}');
+            // console.log('Created ${d.name} ${d.version} : ${createResponse.status}');
             this.cacheResult(d);
             return ArdoqComponentCreatedResponse.CREATED;
           } else {
-            console.log('Error Creating ${d.name} ${d.version} : ${createResponse.status}');
+            // console.log('Error Creating ${d.name} ${d.version} : ${createResponse.status}');
             return ArdoqComponentCreatedResponse.ERROR;
           }
         });
       } else {
-        console.log('Error Searching for ${d.name} ${d.version} : ${searchResponse.status}');
+        // console.log('Error Searching for ${d.name} ${d.version} : ${searchResponse.status}');
         return ArdoqComponentCreatedResponse.ERROR;
       }
     });

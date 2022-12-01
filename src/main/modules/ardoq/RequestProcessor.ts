@@ -1,26 +1,21 @@
-import { ArdoqClient } from '../modules/ardoq/ArdoqClient';
-import { ArdoqComponentCreatedResponse } from '../modules/ardoq/ArdoqComponentCreatedResponse';
-import { Dependency } from '../modules/ardoq/Dependency';
-import { GradleParser } from '../modules/ardoq/GradleParser';
+import { ArdoqClient } from './ArdoqClient';
+import { ArdoqComponentCreatedResponse } from './ArdoqComponentCreatedResponse';
+import { Dependency } from './Dependency';
 
-import config from 'config';
-import { Application } from 'express';
+import express from 'express';
 
-export default function (app: Application): void {
-  app.post('/api/gradle/:repo', async (req, res) => {
-    // console.log('Repo: ' + req.params.repo);
+export class RequestProcessor {
+  client: ArdoqClient;
 
+  constructor(client: ArdoqClient) {
+    this.client = client;
+  }
+
+  public async processRequest(res: express.Response, deps: Map<string, Dependency>): Promise<void> {
     try {
-      const deps: Map<string, Dependency> = GradleParser.fromDepString(String(req.body));
-      const client = new ArdoqClient(
-        config.get('ardoq.apiKey'),
-        config.get('ardoq.apiUrl'),
-        config.get('ardoq.apiWorkspace')
-      );
-
       const depUpdate: Promise<ArdoqComponentCreatedResponse>[] = [];
       deps.forEach((d: Dependency) => {
-        depUpdate.push(client.updateDep(d));
+        depUpdate.push(this.client.updateDep(d));
       });
 
       await Promise.all(depUpdate).then(up => {
@@ -43,5 +38,5 @@ export default function (app: Application): void {
       res.contentType('text/plain');
       res.send(e.message);
     }
-  });
+  }
 }

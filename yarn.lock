@@ -3108,6 +3108,7 @@ __metadata:
     "@hmcts/nodejs-healthcheck": 1.7.3
     "@hmcts/nodejs-logging": 4.0.4
     "@hmcts/properties-volume": 0.0.14
+    "@jest/globals": ^29.3.1
     "@types/body-parser": 1.19.2
     "@types/chai-as-promised": 7.1.5
     "@types/compression": ^1.7.2
@@ -3158,6 +3159,7 @@ __metadata:
     jest: 29.0.3
     jest-html-reporter: 3.7.0
     jest-junit: 14.0.1
+    jest-mock: ^29.3.1
     jquery: 3.6.1
     lint: ^0.8.6
     lint-staged: 13.0.3
@@ -3178,7 +3180,7 @@ __metadata:
     sinon: 14.0.0
     sinon-chai: 3.7.0
     style-loader: 3.3.1
-    supertest: 6.2.4
+    supertest: ^6.3.1
     ts-jest: 29.0.1
     ts-loader: 9.3.1
     ts-node: 10.9.1
@@ -5294,13 +5296,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dezalgo@npm:1.0.3":
-  version: 1.0.3
-  resolution: "dezalgo@npm:1.0.3"
+"dezalgo@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "dezalgo@npm:1.0.4"
   dependencies:
     asap: ^2.0.0
     wrappy: 1
-  checksum: 8b26238db91423b2702a7a6d9629d0019c37c415e7b6e75d4b3e8d27e9464e21cac3618dd145f4d4ee96c70cc6ff034227b5b8a0e9c09015a8bdbe6dace3cfb9
+  checksum: 895389c6aead740d2ab5da4d3466d20fa30f738010a4d3f4dcccc9fc645ca31c9d10b7e1804ae489b1eb02c7986f9f1f34ba132d409b043082a86d9a4e745624
   languageName: node
   linkType: hard
 
@@ -6647,14 +6649,14 @@ __metadata:
   linkType: hard
 
 "formidable@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "formidable@npm:2.0.1"
+  version: 2.1.1
+  resolution: "formidable@npm:2.1.1"
   dependencies:
-    dezalgo: 1.0.3
-    hexoid: 1.0.0
-    once: 1.4.0
-    qs: 6.9.3
-  checksum: b35445444e7b6f6f3cacbadd5e6fadd6b5b2e83162e7c41fa22586df584cc515bbd1ee0dc2b701ce031fcb000d71769bc77bd0958db8a89a0ceb8b2227bdc695
+    dezalgo: ^1.0.4
+    hexoid: ^1.0.0
+    once: ^1.4.0
+    qs: ^6.11.0
+  checksum: b407bf89abf0dc40e00efe20edd80aa60ff7e7f4928b3a7048b630d3bb61012f316b69cd3350ccc9aab2d4c682516fea917bc31aef3479d4a652ed97cf8ba9aa
   languageName: node
   linkType: hard
 
@@ -7234,7 +7236,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hexoid@npm:1.0.0":
+"hexoid@npm:^1.0.0":
   version: 1.0.0
   resolution: "hexoid@npm:1.0.0"
   checksum: 27a148ca76a2358287f40445870116baaff4a0ed0acc99900bf167f0f708ffd82e044ff55e9949c71963852b580fc024146d3ac6d5d76b508b78d927fa48ae2d
@@ -9934,7 +9936,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"once@npm:1.4.0, once@npm:^1.3.0, once@npm:^1.3.1, once@npm:^1.4.0":
+"once@npm:^1.3.0, once@npm:^1.3.1, once@npm:^1.4.0":
   version: 1.4.0
   resolution: "once@npm:1.4.0"
   dependencies:
@@ -10656,13 +10658,6 @@ __metadata:
   dependencies:
     side-channel: ^1.0.4
   checksum: 6e1f29dd5385f7488ec74ac7b6c92f4d09a90408882d0c208414a34dd33badc1a621019d4c799a3df15ab9b1d0292f97c1dd71dc7c045e69f81a8064e5af7297
-  languageName: node
-  linkType: hard
-
-"qs@npm:6.9.3":
-  version: 6.9.3
-  resolution: "qs@npm:6.9.3"
-  checksum: 89cd1b5e521c19a7e0a7a056ddc261c5c30889664608cf9ce6085f9f25606fc48568cf6a6249e641b4b5c04dac7889e3b82133142523abf397228eb4f488fc38
   languageName: node
   linkType: hard
 
@@ -12093,7 +12088,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"superagent@npm:^8.0.0":
+"superagent@npm:^8.0.3":
   version: 8.0.4
   resolution: "superagent@npm:8.0.4"
   dependencies:
@@ -12111,13 +12106,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supertest@npm:6.2.4":
-  version: 6.2.4
-  resolution: "supertest@npm:6.2.4"
+"supertest@npm:^6.3.1":
+  version: 6.3.1
+  resolution: "supertest@npm:6.3.1"
   dependencies:
     methods: ^1.1.2
-    superagent: ^8.0.0
-  checksum: f2ddc4f3ba467a5c4036dd4aad41351e4b60eb13c39ecf5233ccd2ebb425504073b2b7036c973a70c7047f5c6bc1b9fef096b7bbff114d357cbe80654441db23
+    superagent: ^8.0.3
+  checksum: 024d10e305bbaf926efff3d2dc68d339ae8d8650917a82ad121886c4a3a70707af92fdd1a1fd139054235d65ddab842ec54d48bb7161f6969bf98ef29eea3740
   languageName: node
   linkType: hard
 
