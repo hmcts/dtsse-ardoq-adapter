@@ -62,6 +62,11 @@ describe('ArdoqClient', () => {
     const client = new ArdoqClient('a', 'b', 'c');
     client.updateDep(new Dependency('hot-tech', '2.2.2')).then(result => {
       expect(result).toEqual(ArdoqComponentCreatedResponse.EXISTING);
+
+      // should now use a cached result
+      client.updateDep(new Dependency('hot-tech', '2.2.2')).then(result => {
+        expect(result).toEqual(ArdoqComponentCreatedResponse.EXISTING);
+      });
     });
   });
 
