@@ -4,12 +4,7 @@ import { Dependency } from './Dependency';
 import axios from 'axios';
 
 export class ArdoqClient {
-  apiWorkspace: string;
-  cache: Map<string, string> = new Map<string, string>();
-
-  constructor(apiWorkspace: string) {
-    this.apiWorkspace = apiWorkspace;
-  }
+  constructor(private apiWorkspace: string, private cache: Map<string, string> = new Map<string, string>()) {}
 
   private cacheResult(d: Dependency) {
     this.cache.set(d.name, d.version);
