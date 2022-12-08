@@ -41,7 +41,7 @@ describe('RequestProcessor', () => {
   });
 
   it('Returns a 200 with empty array', () => {
-    const requestProcessor = new RequestProcessor(new mockedArdoqClient('a', 'b', 'c'));
+    const requestProcessor = new RequestProcessor(new mockedArdoqClient('a'));
     // @ts-ignore
     requestProcessor.processRequest(mockRes, new Map<string, Dependency>()).then(_ => {
       expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
@@ -51,7 +51,7 @@ describe('RequestProcessor', () => {
   });
 
   it('Returns a 200 with existing item', () => {
-    const requestProcessor = new RequestProcessor(new mockedArdoqClient('a', 'b', 'c'));
+    const requestProcessor = new RequestProcessor(new mockedArdoqClient('a'));
     // @ts-ignore
     requestProcessor
       .processRequest(mockRes, new Map<string, Dependency>([['spring 1.1.1', new Dependency('spring', '1.1.1')]]))
@@ -63,7 +63,7 @@ describe('RequestProcessor', () => {
   });
 
   it('Returns a 201 with a populated array which creates something in ardoq', () => {
-    const requestProcessor = new RequestProcessor(new mockedArdoqClient('a', 'b', 'c'));
+    const requestProcessor = new RequestProcessor(new mockedArdoqClient('a'));
     // @ts-ignore
     requestProcessor
       .processRequest(mockRes, new Map<string, Dependency>([['hot-tech 1.1.1', new Dependency('hot-tech', '1.1.1')]]))
@@ -75,7 +75,7 @@ describe('RequestProcessor', () => {
   });
 
   it('Returns a 400 on error', () => {
-    const requestProcessor = new RequestProcessor(new mockedArdoqClient('a', 'b', 'c'));
+    const requestProcessor = new RequestProcessor(new mockedArdoqClient('a'));
     // @ts-ignore
     requestProcessor
       .processRequest(mockRes, new Map<string, Dependency>([['@!££$%^ 1.1.1', new Dependency('@!££$%^', '1.1.1')]]))
@@ -87,7 +87,7 @@ describe('RequestProcessor', () => {
   });
 
   it('Returns a 201 when multiple items with 1 created', () => {
-    const requestProcessor = new RequestProcessor(new mockedArdoqClient('a', 'b', 'c'));
+    const requestProcessor = new RequestProcessor(new mockedArdoqClient('a'));
     // @ts-ignore
     requestProcessor
       .processRequest(
@@ -105,7 +105,7 @@ describe('RequestProcessor', () => {
   });
 
   it('Returns a 201 when multiple items with 0 created', () => {
-    const requestProcessor = new RequestProcessor(new mockedArdoqClient('a', 'b', 'c'));
+    const requestProcessor = new RequestProcessor(new mockedArdoqClient('a'));
     // @ts-ignore
     requestProcessor
       .processRequest(

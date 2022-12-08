@@ -7,11 +7,7 @@ import config from 'config';
 import { Application } from 'express';
 
 export default function (app: Application): void {
-  const client = new ArdoqClient(
-    config.get('ardoq.apiKey'),
-    config.get('ardoq.apiUrl'),
-    config.get('ardoq.apiWorkspace')
-  );
+  const client = new ArdoqClient(config.get('ardoq.apiWorkspace'));
   const requestProcessor = new RequestProcessor(client);
 
   app.post('/api/gradle/:repo', async (req, res) => {

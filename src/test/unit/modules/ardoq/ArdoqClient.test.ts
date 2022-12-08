@@ -45,21 +45,21 @@ describe('ArdoqClient', () => {
   });
 
   it('Returns a CREATED response', () => {
-    const client = new ArdoqClient('a', 'b', 'c');
+    const client = new ArdoqClient('a');
     client.updateDep(new Dependency('hot-tech', '1.1.1')).then(result => {
       expect(result).toEqual(ArdoqComponentCreatedResponse.CREATED);
     });
   });
 
   it('Returns an ERROR response', () => {
-    const client = new ArdoqClient('a', 'b', 'c');
+    const client = new ArdoqClient('a');
     client.updateDep(new Dependency('@!££$%^', '1.1.1')).then(result => {
       expect(result).toEqual(ArdoqComponentCreatedResponse.ERROR);
     });
   });
 
   it('Returns an EXISTING response', () => {
-    const client = new ArdoqClient('a', 'b', 'c');
+    const client = new ArdoqClient('a');
     client.updateDep(new Dependency('hot-tech', '2.2.2')).then(result => {
       expect(result).toEqual(ArdoqComponentCreatedResponse.EXISTING);
 
@@ -71,7 +71,7 @@ describe('ArdoqClient', () => {
   });
 
   it('Returns an ERROR response', () => {
-    const client = new ArdoqClient('a', 'b', 'c');
+    const client = new ArdoqClient('a');
     client.updateDep(new Dependency('hot-tech', '2.0.0')).then(result => {
       expect(result).toEqual(ArdoqComponentCreatedResponse.ERROR);
     });

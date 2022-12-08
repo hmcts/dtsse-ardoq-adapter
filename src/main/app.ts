@@ -6,6 +6,7 @@ import { Helmet } from './modules/helmet';
 import { Nunjucks } from './modules/nunjucks';
 import { PropertiesVolume } from './modules/properties-volume';
 
+import axios from 'axios';
 import * as bodyParser from 'body-parser';
 import config = require('config');
 import cookieParser from 'cookie-parser';
@@ -31,6 +32,9 @@ new AppInsights().enable();
 new Nunjucks(developmentMode).enableFor(app);
 // secure the application by adding various HTTP headers to its responses
 new Helmet(config.get('security')).enableFor(app);
+
+axios.defaults.baseURL = config.get('ardoq.apiUrl');
+axios.defaults.headers.common['Authorization'] = 'Token token=' + config.get('ardoq.apiKey');
 
 app.use(favicon(path.join(__dirname, '/public/assets/images/favicon.ico')));
 app.use(bodyParser.json());

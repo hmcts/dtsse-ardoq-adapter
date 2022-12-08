@@ -4,14 +4,10 @@ import { Dependency } from './Dependency';
 import axios from 'axios';
 
 export class ArdoqClient {
-  apiKey: string;
-  apiUrl: string;
   apiWorkspace: string;
   cache: Map<string, string> = new Map<string, string>();
 
-  constructor(apiKey: string, apiUrl: string, apiWorkspace: string) {
-    this.apiKey = apiKey;
-    this.apiUrl = apiUrl;
+  constructor(apiWorkspace: string) {
     this.apiWorkspace = apiWorkspace;
   }
 
@@ -24,23 +20,18 @@ export class ArdoqClient {
   }
 
   private searchForComponent(dependencyFullName: string) {
-    const url = this.apiUrl + '/api/component/search';
-    return axios.get(url, {
+    return axios.get('/api/component/search', {
       params: {
         workspace: this.apiWorkspace,
         name: dependencyFullName,
-      },
-      headers: {
-        Authorization: 'Token token=' + this.apiKey,
       },
       responseType: 'json',
     });
   }
 
   private createComponent(dependencyFullName: string) {
-    const url = this.apiUrl + '/api/component/search';
     return axios.post(
-      url,
+      '/api/component/search',
       {
         rootWorkspace: this.apiWorkspace,
         name: dependencyFullName,
@@ -49,9 +40,6 @@ export class ArdoqClient {
         params: {
           workspace: this.apiWorkspace,
           name: dependencyFullName,
-        },
-        headers: {
-          Authorization: 'Token token=' + this.apiKey,
         },
         responseType: 'json',
       }
