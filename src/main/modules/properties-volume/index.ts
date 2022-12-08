@@ -6,9 +6,9 @@ import { get, set } from 'lodash';
 export class PropertiesVolume {
   enableFor(server: Application): void {
     require('dotenv').config();
-    set(config, 'ardoq.apiKey', process.env.ARDOQ_API_KEY);
-    set(config, 'ardoq.apiUrl', process.env.ARDOQ_API_URL);
-    set(config, 'ardoq.apiWorkspace', process.env.ARDOQ_API_WORKSPACE);
+    set(config, 'ardoq.apiKey', process.env.ARDOQ_API_KEY ?? 'ARDOQ_API_KEY');
+    set(config, 'ardoq.apiUrl', process.env.ARDOQ_API_URL ?? 'ARDOQ_API_URL');
+    set(config, 'ardoq.apiWorkspace', process.env.ARDOQ_API_WORKSPACE ?? 'ARDOQ_API_WORKSPACE');
     if (server.locals.ENV !== 'development') {
       propertiesVolume.addTo(config);
 
