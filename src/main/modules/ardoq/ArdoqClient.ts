@@ -51,31 +51,24 @@ export class ArdoqClient {
       return ArdoqComponentCreatedResponse.EXISTING;
     }
 
-    return this.searchForComponent(d.getFullName()).then(searchResponse => {
-      if (searchResponse.status === 200) {
-        // Can now create a relationship between the application and this object
+    const searchResponse = await this.searchForComponent(d.getFullName());
+    if (searchResponse.status === 200) {
+      // Can now create a relationship between the application and this object
 
-        if (searchResponse.data !== '[]') {
-          this.cacheResult(d);
-          return ArdoqComponentCreatedResponse.EXISTING;
-        }
-
-        // create a new object
-        return this.createComponent(d.getFullName()).then(createResponse => {
-          if (createResponse.status === 201) {
-            // Can now create a relationship between the application and this object
-            // console.log('Created ${d.name} ${d.version} : ${createResponse.status}');
-            this.cacheResult(d);
-            return ArdoqComponentCreatedResponse.CREATED;
-          } else {
-            // console.log('Error Creating ${d.name} ${d.version} : ${createResponse.status}');
-            return ArdoqComponentCreatedResponse.ERROR;
-          }
-        });
-      } else {
-        // console.log('Error Searching for ${d.name} ${d.version} : ${searchResponse.status}');
-        return ArdoqComponentCreatedResponse.ERROR;
+      if (searchResponse.data !== '[]') {
+        this.cacheResult(d);
+        return ArdoqComponentCreatedResponse.EXISTING;
       }
-    });
+
+      // create a new object
+      const createResponse = await this.createComponent(d.getFullName());
+      if (createResponse.status === 201) {
+        // Can now create a relationship between the application and this object
+        this.cacheResult(d);
+        return ArdoqComponentCreatedResponse.CREATED;
+      }
+      return ArdoqComponentCreatedResponse.ERROR;
+    }
+    return ArdoqComponentCreatedResponse.ERROR;
   }
 }

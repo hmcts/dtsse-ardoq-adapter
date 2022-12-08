@@ -2,9 +2,9 @@ import axios from 'axios';
 import { jest } from '@jest/globals';
 import { describe, expect, it } from '@jest/globals';
 
-import { ArdoqComponentCreatedResponse } from '../../../../main/modules/ardoq/ArdoqComponentCreatedResponse';
 import { ArdoqClient } from '../../../../main/modules/ardoq/ArdoqClient';
 import { Dependency } from '../../../../main/modules/ardoq/Dependency';
+import { ArdoqComponentCreatedResponse } from '../../../../main/modules/ardoq/ArdoqComponentCreatedResponse';
 
 jest.mock('axios');
 
