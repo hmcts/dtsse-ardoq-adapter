@@ -4,8 +4,11 @@ nodejs:
   ingressHost: dtsse-ardoq-adapter.{{ .Values.global.environment }}.platform.hmcts.net
   image: 'hmctspublic.azurecr.io/dtsse/ardoq-adapter:latest'
   #  Uncomment once the vault containing the app insights key has been set up
-  #  keyVaults:
-  #    dtsse:
-  #      secrets:
-  #        - AppInsightsInstrumentationKey
+  keyVaults:
+    dtsse:
+      secrets:
+        - AppInsightsConnectionString
+        - ardoq-api-key
+        - ardoq-api-url
+        - ardoq-api-workspace
   environment:

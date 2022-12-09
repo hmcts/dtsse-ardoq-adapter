@@ -9,6 +9,7 @@ export const iAmOnPage = (text: string): void => {
   }
   I.amOnPage(url.toString());
 };
+
 Given('I go to {string}', iAmOnPage);
 
 Then('the page URL should be {string}', (url: string) => {

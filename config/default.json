@@ -5,5 +5,10 @@
   },
   "appInsights": {
     "instrumentationKey": false
+  },
+  "ardoq": {
+    "apiKey": "",
+    "apiUrl": "",
+    "apiWorkspace": ""
   }
 }
