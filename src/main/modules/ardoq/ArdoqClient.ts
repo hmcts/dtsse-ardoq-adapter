@@ -1,10 +1,14 @@
 import { ArdoqComponentCreatedResponse } from './ArdoqComponentCreatedResponse';
 import { Dependency } from './Dependency';
 
-import axios from 'axios';
+import { AxiosInstance } from 'axios';
 
 export class ArdoqClient {
-  constructor(private apiWorkspace: string, private cache: Map<string, string> = new Map<string, string>()) {}
+  constructor(
+    private httpClient: AxiosInstance,
+    private apiWorkspace: string,
+    private cache: Map<string, string> = new Map<string, string>()
+  ) {}
 
   private cacheResult(d: Dependency) {
     this.cache.set(d.name, d.version);
@@ -15,7 +19,7 @@ export class ArdoqClient {
   }
 
   private searchForComponent(dependencyFullName: string) {
-    return axios.get('/api/component/search', {
+    return this.httpClient.get('/api/component/search', {
       params: {
         workspace: this.apiWorkspace,
         name: dependencyFullName,
@@ -25,7 +29,7 @@ export class ArdoqClient {
   }
 
   private createComponent(dependencyFullName: string) {
-    return axios.post(
+    return this.httpClient.post(
       '/api/component/search',
       {
         rootWorkspace: this.apiWorkspace,

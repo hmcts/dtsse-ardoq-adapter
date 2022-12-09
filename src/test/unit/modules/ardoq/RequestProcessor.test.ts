@@ -6,6 +6,7 @@ import { RequestProcessor } from '../../../../main/modules/ardoq/RequestProcesso
 import { describe, expect, it, beforeEach } from '@jest/globals';
 import { Dependency } from '../../../../main/modules/ardoq/Dependency';
 import { ArdoqComponentCreatedResponse } from '../../../../main/modules/ardoq/ArdoqComponentCreatedResponse';
+import axios from 'axios';
 
 jest.mock('../../../../main/modules/ardoq/ArdoqClient', () => {
   return {
@@ -24,6 +25,8 @@ jest.mock('../../../../main/modules/ardoq/ArdoqClient', () => {
     }),
   };
 });
+jest.mock('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 const mockRes = {
   // mock props, methods you use
@@ -41,7 +44,7 @@ describe('RequestProcessor', () => {
   });
 
   it('Returns a 200 with empty array', () => {
-    const requestProcessor = new RequestProcessor(new mockedArdoqClient('a'));
+    const requestProcessor = new RequestProcessor(new mockedArdoqClient(mockedAxios, 'a'));
     // @ts-ignore
     requestProcessor.processRequest(mockRes, new Map<string, Dependency>()).then(_ => {
       expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
@@ -51,7 +54,7 @@ describe('RequestProcessor', () => {
   });
 
   it('Returns a 200 with existing item', () => {
-    const requestProcessor = new RequestProcessor(new mockedArdoqClient('a'));
+    const requestProcessor = new RequestProcessor(new mockedArdoqClient(mockedAxios, 'a'));
     // @ts-ignore
     requestProcessor
       .processRequest(mockRes, new Map<string, Dependency>([['spring 1.1.1', new Dependency('spring', '1.1.1')]]))
@@ -63,7 +66,7 @@ describe('RequestProcessor', () => {
   });
 
   it('Returns a 201 with a populated array which creates something in ardoq', () => {
-    const requestProcessor = new RequestProcessor(new mockedArdoqClient('a'));
+    const requestProcessor = new RequestProcessor(new mockedArdoqClient(mockedAxios, 'a'));
     // @ts-ignore
     requestProcessor
       .processRequest(mockRes, new Map<string, Dependency>([['hot-tech 1.1.1', new Dependency('hot-tech', '1.1.1')]]))
@@ -75,7 +78,7 @@ describe('RequestProcessor', () => {
   });
 
   it('Returns a 400 on error', () => {
-    const requestProcessor = new RequestProcessor(new mockedArdoqClient('a'));
+    const requestProcessor = new RequestProcessor(new mockedArdoqClient(mockedAxios, 'a'));
     // @ts-ignore
     requestProcessor
       .processRequest(mockRes, new Map<string, Dependency>([['@!££$%^ 1.1.1', new Dependency('@!££$%^', '1.1.1')]]))
@@ -87,7 +90,7 @@ describe('RequestProcessor', () => {
   });
 
   it('Returns a 201 when multiple items with 1 created', () => {
-    const requestProcessor = new RequestProcessor(new mockedArdoqClient('a'));
+    const requestProcessor = new RequestProcessor(new mockedArdoqClient(mockedAxios, 'a'));
     // @ts-ignore
     requestProcessor
       .processRequest(
@@ -105,7 +108,7 @@ describe('RequestProcessor', () => {
   });
 
   it('Returns a 201 when multiple items with 0 created', () => {
-    const requestProcessor = new RequestProcessor(new mockedArdoqClient('a'));
+    const requestProcessor = new RequestProcessor(new mockedArdoqClient(mockedAxios, 'a'));
     // @ts-ignore
     requestProcessor
       .processRequest(
