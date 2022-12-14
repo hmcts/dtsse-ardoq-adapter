@@ -1,6 +1,6 @@
 nodejs:
   applicationPort: 8506
-  aadIdentityName: dtsse
+  aadIdentityName: dtsse-ardoq-adapter
   ingressHost: dtsse-ardoq-adapter.{{ .Values.global.environment }}.platform.hmcts.net
   image: 'hmctspublic.azurecr.io/dtsse/ardoq-adapter:latest'
   #  Uncomment once the vault containing the app insights key has been set up
