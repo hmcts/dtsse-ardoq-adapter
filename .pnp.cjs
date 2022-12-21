@@ -92,7 +92,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lint", "npm:0.8.6"],\
             ["lint-staged", "npm:13.1.0"],\
             ["lodash", "npm:4.17.21"],\
-            ["mini-css-extract-plugin", "virtual:0fe8ae6be068d2f30e6e1c4ad9d0c715db41428fa3e9a2c42a5aa8d93fba288315271172dae737de2f4d34a9b38ebab987b8667f4cbf6aa1a2f33cbd30fb6c1b#npm:2.6.1"],\
+            ["mini-css-extract-plugin", "virtual:0fe8ae6be068d2f30e6e1c4ad9d0c715db41428fa3e9a2c42a5aa8d93fba288315271172dae737de2f4d34a9b38ebab987b8667f4cbf6aa1a2f33cbd30fb6c1b#npm:2.7.2"],\
             ["nock", "npm:13.2.9"],\
             ["nodemon", "npm:2.0.20"],\
             ["nunjucks", "virtual:0fe8ae6be068d2f30e6e1c4ad9d0c715db41428fa3e9a2c42a5aa8d93fba288315271172dae737de2f4d34a9b38ebab987b8667f4cbf6aa1a2f33cbd30fb6c1b#npm:3.2.3"],\
@@ -4723,7 +4723,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lint", "npm:0.8.6"],\
             ["lint-staged", "npm:13.1.0"],\
             ["lodash", "npm:4.17.21"],\
-            ["mini-css-extract-plugin", "virtual:0fe8ae6be068d2f30e6e1c4ad9d0c715db41428fa3e9a2c42a5aa8d93fba288315271172dae737de2f4d34a9b38ebab987b8667f4cbf6aa1a2f33cbd30fb6c1b#npm:2.6.1"],\
+            ["mini-css-extract-plugin", "virtual:0fe8ae6be068d2f30e6e1c4ad9d0c715db41428fa3e9a2c42a5aa8d93fba288315271172dae737de2f4d34a9b38ebab987b8667f4cbf6aa1a2f33cbd30fb6c1b#npm:2.7.2"],\
             ["nock", "npm:13.2.9"],\
             ["nodemon", "npm:2.0.20"],\
             ["nunjucks", "virtual:0fe8ae6be068d2f30e6e1c4ad9d0c715db41428fa3e9a2c42a5aa8d93fba288315271172dae737de2f4d34a9b38ebab987b8667f4cbf6aa1a2f33cbd30fb6c1b#npm:3.2.3"],\
@@ -11864,13 +11864,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["mini-css-extract-plugin", [\
-        ["npm:2.6.1", {\
-          "packageLocation": "./.yarn/cache/mini-css-extract-plugin-npm-2.6.1-4e6d2beaf0-df60840404.zip/node_modules/mini-css-extract-plugin/",\
-          "packageDependencies": [\
-            ["mini-css-extract-plugin", "npm:2.6.1"]\
-          ],\
-          "linkType": "SOFT"\
-        }],\
         ["npm:2.7.1", {\
           "packageLocation": "./.yarn/cache/mini-css-extract-plugin-npm-2.7.1-2adc8f9a68-0da0db7bef.zip/node_modules/mini-css-extract-plugin/",\
           "packageDependencies": [\
@@ -11878,10 +11871,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:0fe8ae6be068d2f30e6e1c4ad9d0c715db41428fa3e9a2c42a5aa8d93fba288315271172dae737de2f4d34a9b38ebab987b8667f4cbf6aa1a2f33cbd30fb6c1b#npm:2.6.1", {\
-          "packageLocation": "./.yarn/__virtual__/mini-css-extract-plugin-virtual-0029f4dcc8/0/cache/mini-css-extract-plugin-npm-2.6.1-4e6d2beaf0-df60840404.zip/node_modules/mini-css-extract-plugin/",\
+        ["npm:2.7.2", {\
+          "packageLocation": "./.yarn/cache/mini-css-extract-plugin-npm-2.7.2-bc3d177aec-cd65611d6d.zip/node_modules/mini-css-extract-plugin/",\
           "packageDependencies": [\
-            ["mini-css-extract-plugin", "virtual:0fe8ae6be068d2f30e6e1c4ad9d0c715db41428fa3e9a2c42a5aa8d93fba288315271172dae737de2f4d34a9b38ebab987b8667f4cbf6aa1a2f33cbd30fb6c1b#npm:2.6.1"],\
+            ["mini-css-extract-plugin", "npm:2.7.2"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:0fe8ae6be068d2f30e6e1c4ad9d0c715db41428fa3e9a2c42a5aa8d93fba288315271172dae737de2f4d34a9b38ebab987b8667f4cbf6aa1a2f33cbd30fb6c1b#npm:2.7.2", {\
+          "packageLocation": "./.yarn/__virtual__/mini-css-extract-plugin-virtual-9d67edcd94/0/cache/mini-css-extract-plugin-npm-2.7.2-bc3d177aec-cd65611d6d.zip/node_modules/mini-css-extract-plugin/",\
+          "packageDependencies": [\
+            ["mini-css-extract-plugin", "virtual:0fe8ae6be068d2f30e6e1c4ad9d0c715db41428fa3e9a2c42a5aa8d93fba288315271172dae737de2f4d34a9b38ebab987b8667f4cbf6aa1a2f33cbd30fb6c1b#npm:2.7.2"],\
             ["@types/webpack", null],\
             ["schema-utils", "npm:4.0.0"],\
             ["webpack", "virtual:0fe8ae6be068d2f30e6e1c4ad9d0c715db41428fa3e9a2c42a5aa8d93fba288315271172dae737de2f4d34a9b38ebab987b8667f4cbf6aa1a2f33cbd30fb6c1b#npm:5.74.0"]\
