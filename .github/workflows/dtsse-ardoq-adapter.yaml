@@ -1,0 +1,31 @@
+name: Maintain Ardoq Tech Stack
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Clone settings
+        run: git clone https://github.com/CJSCommonPlatform/travis-settings.git target/travis-settings
+      - run: ln -sfT ${PWD}/target/travis-settings/settings.xml ${HOME}/.m2/settings.xml
+      - run: ln -sfT ${PWD}/target/travis-settings/mvnw mvnw
+      - run: ln -sft ${PWD} ${PWD}/target/travis-settings/.mvn
+      - run: ${PWD}/target/travis-settings/java/install.sh -e -DexcludeGroupIds=uk.gov.justice.service,uk.gov.justice.services
+      - name: Dump dependencies
+        run: ${PWD}/target/travis-settings/java/install.sh -e -DexcludeGroupIds=uk.gov.justice.service,uk.gov.justice.services dependency:tree > ${PWD}/deps.log
+      - run: echo {$PWD}/deps.log
+      - name: Send data to Ardoq adapter
+        env:
+          ARDOQ_ADAPTER_URL: ${{ secrets.ARDOQ_ADAPTER_URL }}
+        run: |
+          curl -X POST $ARDOQ_ADAPTER_URL/api/maven/cp-microservice-framework
+          -H 'Content-Type: plain/text'
+          -d @{$PWD}/deps.log
+      - run: echo "🍏 This job's status is ${{ job.status }}."
