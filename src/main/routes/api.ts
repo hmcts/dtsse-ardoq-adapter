@@ -20,9 +20,6 @@ export default function (app: Application): void {
   const requestProcessor = new RequestProcessor(client);
 
   app.post('/api/gradle/:repo', async (req, res) => {
-    if (String(req.body) === '') {
-      return res.status(400).send('No body');
-    }
     try {
       return requestProcessor.processRequest(res, GradleParser.fromDepString(String(req.body)));
     } catch (e) {
@@ -31,9 +28,6 @@ export default function (app: Application): void {
   });
 
   app.post('/api/maven/:repo', async (req, res) => {
-    if (String(req.body) === '') {
-      return res.status(400).send('No body');
-    }
     try {
       return requestProcessor.processRequest(res, MavenParser.fromDepString(String(req.body)));
     } catch (e) {
