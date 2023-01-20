@@ -20,10 +20,18 @@ export default function (app: Application): void {
   const requestProcessor = new RequestProcessor(client);
 
   app.post('/api/gradle/:repo', async (req, res) => {
-    return requestProcessor.processRequest(res, GradleParser.fromDepString(String(req.body)));
+    try {
+      return requestProcessor.processRequest(res, GradleParser.fromDepString(String(req.body)));
+    } catch (e) {
+      return res.status(400).contentType('text/plain').send(e.message);
+    }
   });
 
   app.post('/api/maven/:repo', async (req, res) => {
-    return requestProcessor.processRequest(res, MavenParser.fromDepString(String(req.body)));
+    try {
+      return requestProcessor.processRequest(res, MavenParser.fromDepString(String(req.body)));
+    } catch (e) {
+      return res.status(400).contentType('text/plain').send(e.message);
+    }
   });
 }
