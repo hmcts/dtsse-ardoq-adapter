@@ -1,10 +1,11 @@
 import { HTTPError } from '../../HttpError';
 
 import { Dependency } from './Dependency';
+import { IParser } from './IParser';
 
-export abstract class DependencyParser {
-  public fromDepString(depString: string): Map<string, Dependency> {
-    const deps = this.extractTopTierDeps(depString);
+export class DependencyParser {
+  public static fromDepString(parser: IParser, depString: string): Map<string, Dependency> {
+    const deps = parser.extractTopTierDeps(depString);
     if (deps.length === 0) {
       throw new HTTPError('No dependencies found in request', 400);
     }
@@ -14,6 +15,4 @@ export abstract class DependencyParser {
     });
     return parsedDeps;
   }
-
-  public abstract extractTopTierDeps(depString: string): Dependency[];
 }

@@ -1,6 +1,7 @@
 import { ArdoqClient } from '../modules/ardoq/ArdoqClient';
 import { DependencyParser } from '../modules/ardoq/DependencyParser';
 import { GradleParser } from '../modules/ardoq/GradleParser';
+import { IParser } from '../modules/ardoq/IParser';
 import { MavenParser } from '../modules/ardoq/MavenParser';
 import { RequestProcessor } from '../modules/ardoq/RequestProcessor';
 
@@ -20,9 +21,9 @@ export default function (app: Application): void {
   );
   const requestProcessor = new RequestProcessor(client);
 
-  const handleRequest = function (parser: DependencyParser, req: express.Request, res: express.Response) {
+  const handleRequest = function (parser: IParser, req: express.Request, res: express.Response) {
     const reqBody = Buffer.from(req.body, 'base64').toString('binary');
-    requestProcessor.processRequest(res, parser.fromDepString(reqBody));
+    requestProcessor.processRequest(res, DependencyParser.fromDepString(parser, reqBody));
   };
 
   app.post('/api/gradle/:repo', async (req, res, next) => {

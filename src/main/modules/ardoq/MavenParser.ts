@@ -1,7 +1,7 @@
 import { Dependency } from './Dependency';
-import { DependencyParser } from './DependencyParser';
+import { IParser } from './IParser';
 
-export class MavenParser extends DependencyParser {
+export class MavenParser implements IParser {
   public extractTopTierDeps(depString: string): Dependency[] {
     const rx = /^\[INFO] \+.+/gm;
     const mvnDepMatcher = /^[.\d\-a-z]+:[.\d\-a-z]+:[a-z]+:[.\d\-a-z]:[a-z]+\$/;

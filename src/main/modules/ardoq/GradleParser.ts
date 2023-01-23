@@ -1,17 +1,9 @@
 import { HTTPError } from '../../HttpError';
 
 import { Dependency } from './Dependency';
-import { DependencyParser } from './DependencyParser';
+import { IParser } from './IParser';
 
-export class GradleParser extends DependencyParser {
-  public getDependency(depString: string): Dependency {
-    const parts = depString.split(' -> ');
-    if (parts.length !== 2) {
-      throw new HTTPError('Dependency string ' + depString + ' is malformed. Should match <name> -> <version>', 400);
-    }
-    return new Dependency(parts[0].trim(), parts[1].trim());
-  }
-
+export class GradleParser implements IParser {
   public extractTopTierDeps(depString: string): Dependency[] {
     const rx = /^\+.+/gm;
     const res = depString.match(rx);
@@ -25,5 +17,13 @@ export class GradleParser extends DependencyParser {
       .map(d => d.replace(/^([.\d\-a-z:]+):/, '$1 -> '))
       .filter(d => d !== 'unspecified (n)')
       .map(d => this.getDependency(d.replace(/ \(\*\)/, '')));
+  }
+
+  public getDependency(depString: string): Dependency {
+    const parts = depString.split(' -> ');
+    if (parts.length !== 2) {
+      throw new HTTPError('Dependency string ' + depString + ' is malformed. Should match <name> -> <version>', 400);
+    }
+    return new Dependency(parts[0].trim(), parts[1].trim());
   }
 }
