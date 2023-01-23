@@ -1,11 +1,12 @@
 import { ArdoqClient } from '../modules/ardoq/ArdoqClient';
+import { DependencyParser } from '../modules/ardoq/DependencyParser';
 import { GradleParser } from '../modules/ardoq/GradleParser';
 import { MavenParser } from '../modules/ardoq/MavenParser';
 import { RequestProcessor } from '../modules/ardoq/RequestProcessor';
 
 import axios from 'axios';
 import config from 'config';
-import { Application } from 'express';
+import express, { Application } from 'express';
 
 export default function (app: Application): void {
   const client = new ArdoqClient(
@@ -19,19 +20,24 @@ export default function (app: Application): void {
   );
   const requestProcessor = new RequestProcessor(client);
 
-  app.post('/api/gradle/:repo', async (req, res) => {
+  const handleRequest = function (parser: DependencyParser, req: express.Request, res: express.Response) {
+    const reqBody = Buffer.from(req.body, 'base64').toString('binary');
+    requestProcessor.processRequest(res, parser.fromDepString(reqBody));
+  };
+
+  app.post('/api/gradle/:repo', async (req, res, next) => {
     try {
-      return requestProcessor.processRequest(res, GradleParser.fromDepString(String(req.body)));
-    } catch (e) {
-      return res.status(400).contentType('text/plain').send(e.message);
+      handleRequest(new GradleParser(), req, res);
+    } catch (err) {
+      next(err);
     }
   });
 
-  app.post('/api/maven/:repo', async (req, res) => {
+  app.post('/api/maven/:repo', async (req, res, next) => {
     try {
-      return requestProcessor.processRequest(res, MavenParser.fromDepString(String(req.body)));
-    } catch (e) {
-      return res.status(400).contentType('text/plain').send(e.message);
+      handleRequest(new MavenParser(), req, res);
+    } catch (err) {
+      next(err);
     }
   });
 }
