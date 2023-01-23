@@ -1,3 +1,4 @@
+import { HTTPError } from '../HttpError';
 import { ArdoqClient } from '../modules/ardoq/ArdoqClient';
 import { DependencyParser } from '../modules/ardoq/DependencyParser';
 import { GradleParser } from '../modules/ardoq/GradleParser';
@@ -26,17 +27,20 @@ export default function (app: Application): void {
     requestProcessor.processRequest(res, DependencyParser.fromDepString(parser, reqBody));
   };
 
-  app.post('/api/gradle/:repo', async (req, res, next) => {
-    try {
-      handleRequest(new GradleParser(), req, res);
-    } catch (err) {
-      next(err);
+  const getParser = function (req: express.Request): IParser {
+    const parser = req.query.parser;
+    if (parser === 'maven') {
+      return new MavenParser();
+    } else if (parser === 'gradle') {
+      return new GradleParser();
+    } else {
+      throw new HTTPError('Parser not supported', 400);
     }
-  });
+  };
 
-  app.post('/api/maven/:repo', async (req, res, next) => {
+  app.post('/api/:parser/:repo', async (req, res, next) => {
     try {
-      handleRequest(new MavenParser(), req, res);
+      handleRequest(getParser(req), req, res);
     } catch (err) {
       next(err);
     }
