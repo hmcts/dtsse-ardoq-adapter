@@ -4,8 +4,10 @@ import { Dependency } from './Dependency';
 import { IParser } from './IParser';
 
 export class DependencyParser {
-  public static fromDepString(parser: IParser, depString: string): Map<string, Dependency> {
-    const deps = parser.extractTopTierDeps(depString);
+  constructor(private readonly parser: IParser) {}
+
+  public fromDepString(depString: string): Map<string, Dependency> {
+    const deps = this.parser.extractTopTierDeps(depString);
     if (deps.length === 0) {
       throw new HTTPError('No dependencies found in request', 400);
     }

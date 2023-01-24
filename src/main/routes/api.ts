@@ -1,14 +1,14 @@
 import { HTTPError } from '../HttpError';
 import { ArdoqClient } from '../modules/ardoq/ArdoqClient';
+import { ArdoqComponentCreatedResponse } from '../modules/ardoq/ArdoqComponentCreatedResponse';
 import { DependencyParser } from '../modules/ardoq/DependencyParser';
 import { GradleParser } from '../modules/ardoq/GradleParser';
-import { IParser } from '../modules/ardoq/IParser';
 import { MavenParser } from '../modules/ardoq/MavenParser';
 import { RequestProcessor } from '../modules/ardoq/RequestProcessor';
 
 import axios from 'axios';
 import config from 'config';
-import express, { Application } from 'express';
+import { Application } from 'express';
 
 export default function (app: Application): void {
   const client = new ArdoqClient(
@@ -20,24 +20,30 @@ export default function (app: Application): void {
     }),
     config.get('ardoq.apiWorkspace')
   );
-  const requestProcessor = new RequestProcessor(client);
 
-  const getParser = function (req: express.Request): IParser {
-    const parser = req.params.parser;
-    if (parser === 'maven') {
-      return new MavenParser();
-    } else if (parser === 'gradle') {
-      return new GradleParser();
-    } else {
-      throw new HTTPError('Parser not supported', 400);
-    }
-  };
+  const parsers = {
+    gradle: new DependencyParser(new GradleParser()),
+    maven: new DependencyParser(new MavenParser()),
+  } as Record<string, DependencyParser>;
 
   app.post('/api/:parser/:repo', (req, res, next) => {
     try {
+      const parser: DependencyParser = parsers[req.params.parser];
+      if (parser === undefined) {
+        next(new HTTPError('Parser not supported', 400));
+      }
       const reqBody = Buffer.from(req.body, 'base64').toString('utf8');
+      const requestProcessor = new RequestProcessor(client);
       requestProcessor
-        .processRequest(res, DependencyParser.fromDepString(getParser(req), reqBody))
+        .processRequest(parser.fromDepString(reqBody))
+        .then(ardoqResult => {
+          res.statusCode = 200;
+          if ((ardoqResult.get(ArdoqComponentCreatedResponse.CREATED) ?? 0) > 0) {
+            res.statusCode = 201;
+          }
+          res.contentType('application/json');
+          res.send(JSON.stringify(Object.fromEntries(ardoqResult)));
+        })
         .catch(err => next(err));
     } catch (err) {
       next(err);
