@@ -1,6 +1,5 @@
 import request from 'supertest';
 import { describe, expect, jest, it, beforeEach } from '@jest/globals';
-import express from 'express';
 
 import { ArdoqComponentCreatedResponse } from '../../../main/modules/ardoq/ArdoqComponentCreatedResponse';
 
@@ -9,19 +8,13 @@ import { RequestProcessor } from '../../../main/modules/ardoq/RequestProcessor';
 jest.mock('../../../main/modules/ardoq/RequestProcessor', () => ({
   RequestProcessor: jest.fn().mockImplementation(() => ({
     constructor: (client: ArdoqClient) => {},
-    processRequest: (res: express.Response, deps: Map<string, Dependency>) =>
+    processRequest: (deps: Map<string, Dependency>) =>
       Promise.resolve(
-        res
-          .status(200)
-          .send(
-            '{"' +
-              ArdoqComponentCreatedResponse.EXISTING +
-              '":10,"' +
-              ArdoqComponentCreatedResponse.CREATED +
-              '":0,"' +
-              ArdoqComponentCreatedResponse.ERROR +
-              '":0}'
-          )
+        new Map<ArdoqComponentCreatedResponse, number>([
+          [ArdoqComponentCreatedResponse.EXISTING, 10],
+          [ArdoqComponentCreatedResponse.CREATED, 0],
+          [ArdoqComponentCreatedResponse.ERROR, 0],
+        ])
       ),
   })),
 }));

@@ -12,7 +12,7 @@ describe('Ardoq GradleParser', () => {
   const parser = new GradleParser();
 
   test('that the raw dependency string is parsed correctly', async () => {
-    const res = DependencyParser.fromDepString(parser, raw);
+    const res = new DependencyParser(parser).fromDepString(raw);
     expect(res.size).toBe(3);
   });
 
@@ -25,7 +25,7 @@ describe('Ardoq GradleParser', () => {
 
   test('error on no tests', async () => {
     try {
-      DependencyParser.fromDepString(parser, '');
+      new DependencyParser(parser).fromDepString('');
     } catch (e) {
       expect(e.message === 'No dependencies found');
     }

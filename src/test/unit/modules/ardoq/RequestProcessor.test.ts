@@ -1,6 +1,5 @@
 import { jest } from '@jest/globals';
 import { mocked } from 'jest-mock';
-import { Response } from 'express';
 import { ArdoqClient } from '../../../../main/modules/ardoq/ArdoqClient';
 import { RequestProcessor } from '../../../../main/modules/ardoq/RequestProcessor';
 import { describe, expect, it, beforeEach } from '@jest/globals';
@@ -28,15 +27,18 @@ jest.mock('../../../../main/modules/ardoq/ArdoqClient', () => {
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-const mockRes = {
-  // mock props, methods you use
-  setHeader: jest.fn(),
-  contentType: jest.fn(),
-  send: jest.fn(),
-} as unknown as Response;
-
 describe('RequestProcessor', () => {
   const mockedArdoqClient = mocked(ArdoqClient, { shallow: true });
+  const emptyResult: (
+    existing: number,
+    created: number,
+    error: number
+  ) => Map<ArdoqComponentCreatedResponse, number> = (existing: number, created: number, error: number) =>
+    new Map<ArdoqComponentCreatedResponse, number>([
+      [ArdoqComponentCreatedResponse.EXISTING, existing],
+      [ArdoqComponentCreatedResponse.CREATED, created],
+      [ArdoqComponentCreatedResponse.ERROR, error],
+    ]);
 
   beforeEach(() => {
     // Clears the record of calls to the mock constructor function and its methods
@@ -46,10 +48,9 @@ describe('RequestProcessor', () => {
   it('Returns a 200 with empty array', () => {
     const requestProcessor = new RequestProcessor(new mockedArdoqClient(mockedAxios, 'a'));
     // @ts-ignore
-    requestProcessor.processRequest(mockRes, new Map<string, Dependency>()).then(_ => {
+    requestProcessor.processRequest(new Map<string, Dependency>()).then(res => {
       expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
-      expect(mockRes.statusCode).toEqual(200);
-      expect(mockRes.send).toHaveBeenCalledTimes(1);
+      expect(res).toEqual(emptyResult(0, 0, 0));
     });
   });
 
@@ -57,11 +58,10 @@ describe('RequestProcessor', () => {
     const requestProcessor = new RequestProcessor(new mockedArdoqClient(mockedAxios, 'a'));
     // @ts-ignore
     requestProcessor
-      .processRequest(mockRes, new Map<string, Dependency>([['spring 1.1.1', new Dependency('spring', '1.1.1')]]))
-      .then(_ => {
+      .processRequest(new Map<string, Dependency>([['spring 1.1.1', new Dependency('spring', '1.1.1')]]))
+      .then(res => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
-        expect(mockRes.statusCode).toEqual(200);
-        expect(mockRes.send).toHaveBeenCalledTimes(2);
+        expect(res).toEqual(emptyResult(1, 0, 0));
       });
   });
 
@@ -69,11 +69,10 @@ describe('RequestProcessor', () => {
     const requestProcessor = new RequestProcessor(new mockedArdoqClient(mockedAxios, 'a'));
     // @ts-ignore
     requestProcessor
-      .processRequest(mockRes, new Map<string, Dependency>([['hot-tech 1.1.1', new Dependency('hot-tech', '1.1.1')]]))
-      .then(_ => {
+      .processRequest(new Map<string, Dependency>([['hot-tech 1.1.1', new Dependency('hot-tech', '1.1.1')]]))
+      .then(res => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
-        expect(mockRes.statusCode).toEqual(201);
-        expect(mockRes.send).toHaveBeenCalledTimes(3);
+        expect(res).toEqual(emptyResult(0, 1, 0));
       });
   });
 
@@ -81,11 +80,13 @@ describe('RequestProcessor', () => {
     const requestProcessor = new RequestProcessor(new mockedArdoqClient(mockedAxios, 'a'));
     // @ts-ignore
     requestProcessor
-      .processRequest(mockRes, new Map<string, Dependency>([['@!££$%^ 1.1.1', new Dependency('@!££$%^', '1.1.1')]]))
-      .then(_ => {
+      .processRequest(new Map<string, Dependency>([['@!££$%^ 1.1.1', new Dependency('@!££$%^', '1.1.1')]]))
+      .then(res => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
-        expect(mockRes.statusCode).toEqual(400);
-        expect(mockRes.send).toHaveBeenCalledTimes(4);
+        expect(res).toEqual(emptyResult(0, 0, 0));
+      })
+      .catch(err => {
+        expect(err.message).toBe('yoinks');
       });
   });
 
@@ -94,16 +95,14 @@ describe('RequestProcessor', () => {
     // @ts-ignore
     requestProcessor
       .processRequest(
-        mockRes,
         new Map<string, Dependency>([
           ['hot-tech 1.1.1', new Dependency('hot-tech', '1.1.1')],
           ['spring 1.1.1', new Dependency('spring', '1.1.1')],
         ])
       )
-      .then(_ => {
+      .then(res => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
-        expect(mockRes.statusCode).toEqual(201);
-        expect(mockRes.send).toHaveBeenCalledTimes(5);
+        expect(res).toEqual(emptyResult(1, 1, 0));
       });
   });
 
@@ -112,16 +111,14 @@ describe('RequestProcessor', () => {
     // @ts-ignore
     requestProcessor
       .processRequest(
-        mockRes,
         new Map<string, Dependency>([
           ['wow 1.1.1', new Dependency('wow', '1.1.1')],
           ['spring 1.1.1', new Dependency('spring', '1.1.1')],
         ])
       )
-      .then(_ => {
+      .then(res => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
-        expect(mockRes.statusCode).toEqual(200);
-        expect(mockRes.send).toHaveBeenCalledTimes(6);
+        expect(res).toEqual(emptyResult(2, 0, 0));
       });
   });
 });
