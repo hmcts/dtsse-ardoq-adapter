@@ -22,11 +22,6 @@ export default function (app: Application): void {
   );
   const requestProcessor = new RequestProcessor(client);
 
-  const handleRequest = function (parser: IParser, req: express.Request, res: express.Response) {
-    const reqBody = Buffer.from(req.body, 'base64').toString('utf8');
-    return requestProcessor.processRequest(res, DependencyParser.fromDepString(parser, reqBody));
-  };
-
   const getParser = function (req: express.Request): IParser {
     const parser = req.params.parser;
     if (parser === 'maven') {
@@ -38,9 +33,12 @@ export default function (app: Application): void {
     }
   };
 
-  app.post('/api/:parser/:repo', async (req, res, next) => {
+  app.post('/api/:parser/:repo', (req, res, next) => {
     try {
-      await handleRequest(getParser(req), req, res);
+      const reqBody = Buffer.from(req.body, 'base64').toString('utf8');
+      requestProcessor
+        .processRequest(res, DependencyParser.fromDepString(getParser(req), reqBody))
+        .catch(err => next(err));
     } catch (err) {
       next(err);
     }

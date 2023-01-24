@@ -9,7 +9,20 @@ import { RequestProcessor } from '../../../main/modules/ardoq/RequestProcessor';
 jest.mock('../../../main/modules/ardoq/RequestProcessor', () => ({
   RequestProcessor: jest.fn().mockImplementation(() => ({
     constructor: (client: ArdoqClient) => {},
-    processRequest: (res: express.Response, deps: Map<string, Dependency>) => Promise.resolve(res.status(200)),
+    processRequest: (res: express.Response, deps: Map<string, Dependency>) =>
+      Promise.resolve(
+        res
+          .status(200)
+          .send(
+            '{"' +
+              ArdoqComponentCreatedResponse.EXISTING +
+              '":10,"' +
+              ArdoqComponentCreatedResponse.CREATED +
+              '":0,"' +
+              ArdoqComponentCreatedResponse.ERROR +
+              '":0}'
+          )
+      ),
   })),
 }));
 
@@ -49,28 +62,25 @@ describe('Test api.ts', () => {
         '":0}'
     );
 
-    // const res2 = await request(app)
-    //   .post('/api/maven/foo-app')
-    //   .set({
-    //     'Content-Type': 'text/plain',
-    //     'Content-Encoding': 'gzip',
-    //     'Content-Length': bodyLen,
-    //     'Accept-Encoding': 'gzip',
-    //   })
-    //   .send(bodyContent)
-    //   .expect(res => expect(res.status).toEqual(200));
-    // expect(res2.text).toEqual('{"'+ArdoqComponentCreatedResponse.EXISTING+'":10,"'+ArdoqComponentCreatedResponse.CREATED+'":0,"'+ArdoqComponentCreatedResponse.ERROR+'":0}');
-    //
-    // const res3 = await request(app)
-    //   .post('/api/gradle/foo-app')
-    //   .set({
-    //     'Content-Type': 'text/plain',
-    //     'Content-Encoding': 'gzip',
-    //     'Content-Length': bodyLen,
-    //     'Accept-Encoding': 'gzip',
-    //   })
-    //   .send(bodyContent)
-    //   .expect(res => expect(res.status).toEqual(400));
-    // expect(res3.text).toEqual('{"'+ArdoqComponentCreatedResponse.EXISTING+'":10,"'+ArdoqComponentCreatedResponse.CREATED+'":0,"'+ArdoqComponentCreatedResponse.ERROR+'":0}');
+    // error as sending gradle to maven endpoint
+    const res2 = await request(app)
+      .post('/api/maven/foo-app')
+      .set({
+        'Content-Type': 'text/plain',
+        'Content-Length': bodyLen,
+      })
+      .send(bodyContent)
+      .expect(res => expect(res.status).toEqual(400));
+    expect(res2.text).toContain('No dependencies found in request');
+
+    const res3 = await request(app)
+      .post('/api/fake-parser/foo-app')
+      .set({
+        'Content-Type': 'text/plain',
+        'Content-Length': bodyLen,
+      })
+      .send(bodyContent)
+      .expect(res => expect(res.status).toEqual(400));
+    expect(res3.text).toContain('Error: Parser not supported');
   });
 });

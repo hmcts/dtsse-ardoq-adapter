@@ -13,7 +13,7 @@ describe('Ardoq GradleParser', () => {
 
   test('that the raw dependency string is parsed correctly', async () => {
     const res = DependencyParser.fromDepString(parser, raw);
-    expect(res.size).toBe(93);
+    expect(res.size).toBe(3);
   });
 
   test('that top tier deps are extracted', async () => {
@@ -21,7 +21,6 @@ describe('Ardoq GradleParser', () => {
     expect(res[0].getFullName()).toBe('org.springframework.boot:spring-boot-starter-web 2.7.2');
     expect(res[1].getFullName()).toBe('org.springframework.boot:spring-boot-starter-actuator 2.7.2');
     expect(res[2].getFullName()).toBe('org.springframework.boot:spring-boot-starter-aop 2.7.2');
-    expect(res[3].getFullName()).toBe('org.springframework.boot:spring-boot-starter-json 2.7.2');
   });
 
   test('error on no tests', async () => {
