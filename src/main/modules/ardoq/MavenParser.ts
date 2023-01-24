@@ -1,19 +1,8 @@
 import { Dependency } from './Dependency';
+import { IParser } from './IParser';
 
-export class MavenParser {
-  public static fromDepString(depString: string): Map<string, Dependency> {
-    const deps = MavenParser.extractTopTierDeps(depString);
-    if (deps.length === 0) {
-      throw new Error('No dependencies found');
-    }
-    const parsedDeps: Map<string, Dependency> = new Map<string, Dependency>();
-    deps.forEach(d => {
-      parsedDeps.set(d.getFullName(), d);
-    });
-    return parsedDeps;
-  }
-
-  public static extractTopTierDeps(depString: string): Dependency[] {
+export class MavenParser implements IParser {
+  public extractTopTierDeps(depString: string): Dependency[] {
     const rx = /^\[INFO] \+.+/gm;
     const mvnDepMatcher = /^[.\d\-a-z]+:[.\d\-a-z]+:[a-z]+:[.\d\-a-z]:[a-z]+\$/;
 

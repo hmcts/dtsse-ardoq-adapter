@@ -63,5 +63,5 @@ app.use((err: HTTPError, req: express.Request, res: express.Response) => {
   res.locals.message = err.message;
   res.locals.error = env === 'development' ? err : {};
   res.status(err.status || 500);
-  res.render('error');
+  res.send('error');
 });

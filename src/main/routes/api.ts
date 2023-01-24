@@ -1,11 +1,14 @@
+import { HTTPError } from '../HttpError';
 import { ArdoqClient } from '../modules/ardoq/ArdoqClient';
+import { DependencyParser } from '../modules/ardoq/DependencyParser';
 import { GradleParser } from '../modules/ardoq/GradleParser';
+import { IParser } from '../modules/ardoq/IParser';
 import { MavenParser } from '../modules/ardoq/MavenParser';
 import { RequestProcessor } from '../modules/ardoq/RequestProcessor';
 
 import axios from 'axios';
 import config from 'config';
-import { Application } from 'express';
+import express, { Application } from 'express';
 
 export default function (app: Application): void {
   const client = new ArdoqClient(
@@ -19,19 +22,25 @@ export default function (app: Application): void {
   );
   const requestProcessor = new RequestProcessor(client);
 
-  app.post('/api/gradle/:repo', async (req, res) => {
-    try {
-      return requestProcessor.processRequest(res, GradleParser.fromDepString(String(req.body)));
-    } catch (e) {
-      return res.status(400).contentType('text/plain').send(e.message);
+  const getParser = function (req: express.Request): IParser {
+    const parser = req.params.parser;
+    if (parser === 'maven') {
+      return new MavenParser();
+    } else if (parser === 'gradle') {
+      return new GradleParser();
+    } else {
+      throw new HTTPError('Parser not supported', 400);
     }
-  });
+  };
 
-  app.post('/api/maven/:repo', async (req, res) => {
+  app.post('/api/:parser/:repo', (req, res, next) => {
     try {
-      return requestProcessor.processRequest(res, MavenParser.fromDepString(String(req.body)));
-    } catch (e) {
-      return res.status(400).contentType('text/plain').send(e.message);
+      const reqBody = Buffer.from(req.body, 'base64').toString('utf8');
+      requestProcessor
+        .processRequest(res, DependencyParser.fromDepString(getParser(req), reqBody))
+        .catch(err => next(err));
+    } catch (err) {
+      next(err);
     }
   });
 }
