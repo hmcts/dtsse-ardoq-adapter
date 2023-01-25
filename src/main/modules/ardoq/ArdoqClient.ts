@@ -30,7 +30,7 @@ export class ArdoqClient {
 
   private createComponent(dependencyFullName: string) {
     return this.httpClient.post(
-      '/api/component/search',
+      '/api/component',
       {
         rootWorkspace: this.apiWorkspace,
         name: dependencyFullName,
