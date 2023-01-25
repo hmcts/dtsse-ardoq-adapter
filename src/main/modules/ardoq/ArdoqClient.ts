@@ -54,7 +54,7 @@ export class ArdoqClient {
     if (searchResponse.status === 200) {
       // Can now create a relationship between the application and this object
 
-      if (searchResponse.data !== '[]') {
+      if (searchResponse.data.length !== 0) {
         this.cacheResult(d);
         return ArdoqComponentCreatedResponse.EXISTING;
       }
