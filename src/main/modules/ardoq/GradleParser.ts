@@ -16,7 +16,7 @@ export class GradleParser implements IParser {
       .filter(d => !d.match(semverRx))
       .map(d => d.replace(/^([.\d\-a-z:]+):/, '$1 -> '))
       .filter(d => d !== 'unspecified (n)')
-      .map(d => this.getDependency(d.replace(/ \(\*\)/, '')));
+      .map(d => this.getDependency(d.replace(/ \(([*n])\)/, '')));
   }
 
   public getDependency(depString: string): Dependency {

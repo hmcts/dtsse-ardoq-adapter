@@ -34,7 +34,7 @@ checkstyle - The Checkstyle libraries to be used for this project.
      \--- net.sf.saxon:Saxon-HE:10.6
 
 compileClasspath - Compile classpath for source set 'main'.
-+--- org.springframework.boot:spring-boot-starter-web -> 2.7.2
++--- org.springframework.boot:spring-boot-starter-web -> 2.7.2 (n)
 |    +--- org.springframework.boot:spring-boot-starter:2.7.2
 |    |    +--- org.springframework.boot:spring-boot:2.7.2
 |    |    |    +--- org.springframework:spring-core:5.3.22

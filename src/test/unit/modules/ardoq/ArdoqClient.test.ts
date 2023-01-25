@@ -16,7 +16,7 @@ describe('ArdoqClient', () => {
     if (config.params.name === 'hot-tech 1.1.1' || config.params.name === 'hot-tech 2.0.0') {
       return Promise.resolve({
         status: 200,
-        data: '[]',
+        data: '',
       });
       // @ts-ignore
     } else if (config.params.name === '@!££$%^ 1.1.1') {
