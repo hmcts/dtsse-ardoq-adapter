@@ -10,5 +10,9 @@
     "apiKey": "",
     "apiUrl": "",
     "apiWorkspace": ""
+  },
+  "serverApiKey": {
+    "primary": "test1",
+    "secondary": "test2"
   }
 }

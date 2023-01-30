@@ -1,5 +1,6 @@
 import request from 'supertest';
 import { describe, expect, jest, it, beforeEach } from '@jest/globals';
+import config from 'config';
 
 import { ArdoqComponentCreatedResponse } from '../../../main/modules/ardoq/ArdoqComponentCreatedResponse';
 
@@ -30,6 +31,12 @@ describe('Test api.ts', () => {
     (RequestProcessor as jest.Mock).mockClear();
   });
 
+  it('should return 403', async () => {
+    await request(app)
+      .post('/api/gradle/foo-app')
+      .expect(res => expect(res.status).toEqual(403));
+  });
+
   it('/api/gradle/foo-app', async () => {
     const body = fs.readFileSync('src/test/resources/gradle-dependencies.log', 'utf8');
 
@@ -41,6 +48,7 @@ describe('Test api.ts', () => {
       .set({
         'Content-Type': 'text/plain',
         'Content-Length': bodyLen,
+        Authorization: 'Bearer ' + config.get('serverApiKey.primary'),
       })
       .send(bodyContent)
       .expect(res => expect(res.status).toEqual(200));
@@ -61,6 +69,7 @@ describe('Test api.ts', () => {
       .set({
         'Content-Type': 'text/plain',
         'Content-Length': bodyLen,
+        Authorization: 'Bearer ' + config.get('serverApiKey.primary'),
       })
       .send(bodyContent)
       .expect(res => expect(res.status).toEqual(400));
@@ -71,6 +80,7 @@ describe('Test api.ts', () => {
       .set({
         'Content-Type': 'text/plain',
         'Content-Length': bodyLen,
+        Authorization: 'Bearer ' + config.get('serverApiKey.secondary'),
       })
       .send(bodyContent)
       .expect(res => expect(res.status).toEqual(400));

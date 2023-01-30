@@ -1,4 +1,5 @@
 import { HTTPError } from '../HttpError';
+import { isAuthorised } from '../auth';
 import { ArdoqClient } from '../modules/ardoq/ArdoqClient';
 import { ArdoqComponentCreatedResponse } from '../modules/ardoq/ArdoqComponentCreatedResponse';
 import { DependencyParser } from '../modules/ardoq/DependencyParser';
@@ -26,7 +27,7 @@ export default function (app: Application): void {
     maven: new DependencyParser(new MavenParser()),
   } as Record<string, DependencyParser>;
 
-  app.post('/api/:parser/:repo', (req, res, next) => {
+  app.post('/api/:parser/:repo', isAuthorised, (req, res, next) => {
     try {
       const parser: DependencyParser = parsers[req.params.parser];
       if (parser === undefined) {
