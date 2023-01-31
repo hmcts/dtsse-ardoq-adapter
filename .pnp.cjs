@@ -86,7 +86,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["husky", "npm:8.0.2"],\
             ["jest", "virtual:0fe8ae6be068d2f30e6e1c4ad9d0c715db41428fa3e9a2c42a5aa8d93fba288315271172dae737de2f4d34a9b38ebab987b8667f4cbf6aa1a2f33cbd30fb6c1b#npm:29.3.1"],\
             ["jest-html-reporter", "virtual:0fe8ae6be068d2f30e6e1c4ad9d0c715db41428fa3e9a2c42a5aa8d93fba288315271172dae737de2f4d34a9b38ebab987b8667f4cbf6aa1a2f33cbd30fb6c1b#npm:3.7.0"],\
-            ["jest-junit", "npm:14.0.1"],\
+            ["jest-junit", "npm:15.0.0"],\
             ["jest-mock", "npm:29.3.1"],\
             ["jquery", "npm:3.6.3"],\
             ["lint", "npm:0.8.6"],\
@@ -4719,7 +4719,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["husky", "npm:8.0.2"],\
             ["jest", "virtual:0fe8ae6be068d2f30e6e1c4ad9d0c715db41428fa3e9a2c42a5aa8d93fba288315271172dae737de2f4d34a9b38ebab987b8667f4cbf6aa1a2f33cbd30fb6c1b#npm:29.3.1"],\
             ["jest-html-reporter", "virtual:0fe8ae6be068d2f30e6e1c4ad9d0c715db41428fa3e9a2c42a5aa8d93fba288315271172dae737de2f4d34a9b38ebab987b8667f4cbf6aa1a2f33cbd30fb6c1b#npm:3.7.0"],\
-            ["jest-junit", "npm:14.0.1"],\
+            ["jest-junit", "npm:15.0.0"],\
             ["jest-mock", "npm:29.3.1"],\
             ["jquery", "npm:3.6.3"],\
             ["lint", "npm:0.8.6"],\
@@ -10715,10 +10715,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["jest-junit", [\
-        ["npm:14.0.1", {\
-          "packageLocation": "./.yarn/cache/jest-junit-npm-14.0.1-8d0eb32da1-2a9ccfecbe.zip/node_modules/jest-junit/",\
+        ["npm:15.0.0", {\
+          "packageLocation": "./.yarn/cache/jest-junit-npm-15.0.0-6325674720-e8fe4d2f2a.zip/node_modules/jest-junit/",\
           "packageDependencies": [\
-            ["jest-junit", "npm:14.0.1"],\
+            ["jest-junit", "npm:15.0.0"],\
             ["mkdirp", "npm:1.0.4"],\
             ["strip-ansi", "npm:6.0.1"],\
             ["uuid", "npm:8.3.2"],\
