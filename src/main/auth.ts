@@ -7,10 +7,13 @@ export function isAuthorised(req: Request, res: Response, next: NextFunction): v
   const header = req.headers.authorization ?? 'undefined';
   const logger = Logger.getLogger('auth');
   const expected: string = config.get('serverApiKey.primary') ?? 'undefined';
+  const expected2: string = config.get('serverApiKey.secondary') ?? 'undefined';
   logger.info('Bearer ends with: ' + header.slice(-9));
   logger.info('Bearer is ' + header.length + ' characters long');
   logger.info('Expected to end with: ' + expected.slice(-9));
   logger.info('Bearer is ' + expected.length + ' characters long');
+  logger.info('Expected2 to end with: ' + expected2.slice(-9));
+  logger.info('Bearer2 is ' + expected2.length + ' characters long');
   if (
     req.headers.authorization === 'Bearer ' + config.get('serverApiKey.primary') ||
     req.headers.authorization === 'Bearer ' + config.get('serverApiKey.secondary')
