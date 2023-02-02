@@ -18,6 +18,9 @@ export class PropertiesVolume {
     if (server.locals.ENV !== 'development') {
       propertiesVolume.addTo(config);
 
+      logger.info(JSON.stringify(propertiesVolume));
+      logger.info(JSON.stringify(config));
+
       this.setSecret('secrets.dtsse.AppInsightsConnectionString', 'appInsights.instrumentationKey');
       this.setSecret('secrets.dtsse.ardoq-api-key', 'ardoq.apiKey');
       this.setSecret('secrets.dtsse.ardoq-api-url', 'ardoq.apiUrl');
