@@ -47,6 +47,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/express", "npm:4.17.15"],\
             ["@types/glob", "npm:8.0.0"],\
             ["@types/jest", "npm:29.2.6"],\
+            ["@types/js-yaml", "npm:4.0.5"],\
             ["@types/lodash", "npm:4.14.191"],\
             ["@types/mini-css-extract-plugin", "npm:2.5.1"],\
             ["@types/node", "npm:18.14.2"],\
@@ -89,6 +90,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest-junit", "npm:15.0.0"],\
             ["jest-mock", "npm:29.3.1"],\
             ["jquery", "npm:3.6.3"],\
+            ["js-yaml", "npm:4.1.0"],\
             ["lint", "npm:0.8.6"],\
             ["lint-staged", "npm:13.1.0"],\
             ["lodash", "npm:4.17.21"],\
@@ -3867,6 +3869,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/js-yaml", [\
+        ["npm:4.0.5", {\
+          "packageLocation": "./.yarn/cache/@types-js-yaml-npm-4.0.5-bb64d71397-7dcac8c50f.zip/node_modules/@types/js-yaml/",\
+          "packageDependencies": [\
+            ["@types/js-yaml", "npm:4.0.5"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/json-schema", [\
         ["npm:7.0.11", {\
           "packageLocation": "./.yarn/cache/@types-json-schema-npm-7.0.11-79462ae5ca-527bddfe62.zip/node_modules/@types/json-schema/",\
@@ -4680,6 +4691,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/express", "npm:4.17.15"],\
             ["@types/glob", "npm:8.0.0"],\
             ["@types/jest", "npm:29.2.6"],\
+            ["@types/js-yaml", "npm:4.0.5"],\
             ["@types/lodash", "npm:4.14.191"],\
             ["@types/mini-css-extract-plugin", "npm:2.5.1"],\
             ["@types/node", "npm:18.14.2"],\
@@ -4722,6 +4734,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest-junit", "npm:15.0.0"],\
             ["jest-mock", "npm:29.3.1"],\
             ["jquery", "npm:3.6.3"],\
+            ["js-yaml", "npm:4.1.0"],\
             ["lint", "npm:0.8.6"],\
             ["lint-staged", "npm:13.1.0"],\
             ["lodash", "npm:4.17.21"],\
