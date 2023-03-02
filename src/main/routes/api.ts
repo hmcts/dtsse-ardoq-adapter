@@ -2,7 +2,7 @@ import { HTTPError } from '../HttpError';
 import { isAuthorised } from '../auth';
 import { ArdoqClient } from '../modules/ardoq/ArdoqClient';
 import { ArdoqComponentCreatedResponse } from '../modules/ardoq/ArdoqComponentCreatedResponse';
-import { DependencyParser } from '../modules/ardoq/DependencyParser';
+import { DependencyParser, DependencyParserError } from '../modules/ardoq/DependencyParser';
 import { GradleParser } from '../modules/ardoq/GradleParser';
 import { MavenParser } from '../modules/ardoq/MavenParser';
 import { RequestProcessor } from '../modules/ardoq/RequestProcessor';
@@ -37,19 +37,20 @@ export default function (app: Application): void {
       }
       const reqBody = Buffer.from(req.body, 'base64').toString('utf8');
       const requestProcessor = new RequestProcessor(client);
-      requestProcessor
-        .processRequest(parser.fromDepString(reqBody))
-        .then(ardoqResult => {
-          res.statusCode = 200;
-          if ((ardoqResult.get(ArdoqComponentCreatedResponse.CREATED) ?? 0) > 0) {
-            res.statusCode = 201;
-          }
-          res.contentType('application/json');
-          res.send(JSON.stringify(Object.fromEntries(ardoqResult)));
-        })
-        .catch(err => next(err));
+      requestProcessor.processRequest(parser.fromDepString(reqBody)).then(ardoqResult => {
+        res.statusCode = 200;
+        if ((ardoqResult.get(ArdoqComponentCreatedResponse.CREATED) ?? 0) > 0) {
+          res.statusCode = 201;
+        }
+        res.contentType('application/json');
+        res.send(JSON.stringify(Object.fromEntries(ardoqResult)));
+      });
     } catch (err) {
-      next(err);
+      if (err instanceof DependencyParserError) {
+        next(new HTTPError(err.message, 400));
+      } else {
+        next(err);
+      }
     }
   });
 }

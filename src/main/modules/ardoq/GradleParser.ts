@@ -1,7 +1,7 @@
-import { HTTPError } from '../../HttpError';
-
 import { Dependency } from './Dependency';
 import { IParser } from './IParser';
+
+const { Logger } = require('@hmcts/nodejs-logging');
 
 export class GradleParser implements IParser {
   public extractTopTierDeps(depString: string): Dependency[] {
@@ -21,8 +21,9 @@ export class GradleParser implements IParser {
 
   public getDependency(depString: string): Dependency {
     const parts = depString.split(' -> ');
+    const logger = Logger.getLogger('GradleParser');
     if (parts.length !== 2) {
-      throw new HTTPError('Dependency string ' + depString + ' is malformed. Should match <name> -> <version>', 400);
+      logger.warn('Dependency string ' + depString + ' is malformed. Should match <name> -> <version>');
     }
     return new Dependency(parts[0].trim(), parts[1].trim());
   }

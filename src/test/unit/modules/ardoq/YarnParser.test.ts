@@ -19,7 +19,7 @@ describe('Ardoq YarnParser', () => {
 
   test('that an error is thrown for invalid yaml', async () => {
     expect(() => new DependencyParser(parser).fromDepString('{"json": "data"}')).toThrow(
-      'Failed to parse yarn.lock file. Failed parsing key: json value: data'
+      'No dependencies found in request'
     );
   });
 });
