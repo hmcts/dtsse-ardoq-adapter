@@ -6,6 +6,7 @@ import { DependencyParser } from '../modules/ardoq/DependencyParser';
 import { GradleParser } from '../modules/ardoq/GradleParser';
 import { MavenParser } from '../modules/ardoq/MavenParser';
 import { RequestProcessor } from '../modules/ardoq/RequestProcessor';
+import { YarnParser } from '../modules/ardoq/YarnParser';
 
 import axios from 'axios';
 import config from 'config';
@@ -25,6 +26,7 @@ export default function (app: Application): void {
   const parsers = {
     gradle: new DependencyParser(new GradleParser()),
     maven: new DependencyParser(new MavenParser()),
+    yarn: new DependencyParser(new YarnParser()),
   } as Record<string, DependencyParser>;
 
   app.post('/api/:parser/:repo', isAuthorised, (req, res, next) => {
