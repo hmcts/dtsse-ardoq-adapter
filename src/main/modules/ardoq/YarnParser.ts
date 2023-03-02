@@ -7,19 +7,23 @@ import yaml from 'js-yaml';
 
 export class YarnParser implements IParser {
   public extractTopTierDeps(depString: string): Dependency[] {
-    const deps: Dependency[] = [];
-    yaml.loadAll(depString, function (dep: unknown) {
-      for (const [key, value] of Object.entries(dep as Record<string, YamlDependency>)) {
-        if (key !== '__metadata') {
+    const doc = yaml.load(depString) as Record<string, YamlDependency>;
+
+    try {
+      return Object.entries(doc)
+        .filter(([key]) => key !== '__metadata')
+        .map(([key, value]) => {
           if (value.version === undefined) {
             throw new HTTPError(`Failed to parse yarn.lock file. Failed parsing key: ${key} value: ${value}`, 400);
           }
-          deps.push(new Dependency(key, value.version));
-        }
+          return new Dependency(key, value.version);
+        });
+    } catch (e) {
+      if (e.message === 'Cannot convert undefined or null to object') {
+        return [];
       }
-    });
-
-    return deps;
+      throw new HTTPError(`Failed to parse yarn.lock file. ${e.message}`, 400);
+    }
   }
 }
 
