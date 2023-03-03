@@ -5,9 +5,9 @@ import { IParser } from './IParser';
 
 export class NPMParser implements IParser {
   public extractTopTierDeps(depString: string): Dependency[] {
-    const json = JSON.parse(depString);
-
     try {
+      const json = JSON.parse(depString);
+
       return Object.entries(json.packages as Record<string, NPMDependency>)
         .filter(([key]) => key !== '')
         .map(([key, value]) => {
