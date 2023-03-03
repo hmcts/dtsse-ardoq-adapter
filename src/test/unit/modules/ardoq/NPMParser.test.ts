@@ -5,12 +5,18 @@ import { NPMParser } from '../../../../main/modules/ardoq/NPMParser';
 
 describe('Ardoq NPMParser', () => {
   const raw = readFileSync(__dirname + '/../../../resources/package-lock.json', 'utf-8');
+  const rawV1 = readFileSync(__dirname + '/../../../resources/package-lock-v1.json', 'utf-8');
 
   const parser = new NPMParser();
 
   test('that the raw dependency string is parsed correctly', async () => {
     const res = new DependencyParser(parser).fromDepString(raw);
     expect(res.size).toBe(18);
+  });
+
+  test('that the raw v1 dependency string is parsed correctly', async () => {
+    const res = new DependencyParser(parser).fromDepString(rawV1);
+    expect(res.size).toBe(7);
   });
 
   test('that an error is thrown for empty files', async () => {

@@ -8,7 +8,11 @@ export class NPMParser implements IParser {
     try {
       const json = JSON.parse(depString);
 
-      return Object.entries(json.packages as Record<string, NPMDependency>)
+      const deps = json.packages
+        ? (json.packages as Record<string, NPMDependency>)
+        : (json.dependencies as Record<string, NPMDependency>);
+
+      return Object.entries(deps as Record<string, NPMDependency>)
         .filter(([key]) => key !== '')
         .map(([key, value]) => {
           return new Dependency(key, value.version);
