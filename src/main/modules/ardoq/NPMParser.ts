@@ -14,9 +14,7 @@ export class NPMParser implements IParser {
 
       return Object.entries(deps as Record<string, NPMDependency>)
         .filter(([key]) => key !== '')
-        .map(([key, value]) => {
-          return new Dependency(key, value.version);
-        });
+        .map(([key, value]) => new Dependency(key, value.version));
     } catch (e) {
       if (e.message === 'Cannot convert undefined or null to object') {
         return [];
