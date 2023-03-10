@@ -24,12 +24,10 @@ export class DotnetParser implements IParser {
 type DotnetDependency = {
   projects: {
     frameworks: {
-      topLevelPackages: DotnetPackage[];
+      topLevelPackages: {
+        id: string;
+        resolvedVersion: string;
+      }[];
     }[];
   }[];
-};
-
-type DotnetPackage = {
-  id: string;
-  resolvedVersion: string;
 };
