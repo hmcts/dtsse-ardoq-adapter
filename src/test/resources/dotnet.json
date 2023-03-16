@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "parameters": "",
+  "problems": [
+    {
+      "level": "warning",
+      "text": "(A) : Auto-referenced package."
+    }
+  ],
+  "projects": [
+    {
+      "path": "/Users/jason/workspace/hmcts/dotnet-hello-world/hello-world-api/hello-world-api.csproj",
+      "frameworks": [
+        {
+          "framework": "netcoreapp2.0",
+          "topLevelPackages": [
+            {
+              "id": "Microsoft.AspNetCore.All",
+              "requestedVersion": "2.0.0",
+              "resolvedVersion": "2.0.0"
+            },
+            {
+              "id": "Microsoft.NETCore.App",
+              "requestedVersion": "[2.0.0, )",
+              "resolvedVersion": "2.0.0",
+              "autoReferenced": "true"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
