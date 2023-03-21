@@ -1,6 +1,13 @@
 # dtsse-ardoq-adapter
 
-Provides an integration to Ardoq in order to maintain the tech stack
+Provides an integration to Ardoq in order to maintain the tech stack. The relationship for Ardoq components is like so:
+
+```mermaid
+erDiagram
+    "VCS Platform" ||..|{ "Code Repositories" : hosts
+    "HMCTS Application" ||..o{ "Code Repositories" : maintains
+    "Software Dependency" }o..|{ "Code Repositories" : "depends upon version"
+```
 
 ## Getting Started
 
