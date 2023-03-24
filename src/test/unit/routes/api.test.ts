@@ -24,29 +24,33 @@ import { app } from '../../../main/app';
 import fs from 'fs';
 import { Dependency } from '../../../main/modules/ardoq/Dependency';
 import { ArdoqClient } from '../../../main/modules/ardoq/ArdoqClient';
+import { ardoqRequest } from '../modules/ardoq/TestUtility';
 
 describe('Test api.ts', () => {
+  const body = fs.readFileSync('src/test/resources/gradle-dependencies.log', 'utf8');
+
   beforeEach(() => {
     // Clear all instances and calls to constructor and all methods:
     (RequestProcessor as jest.Mock).mockClear();
   });
 
-  it('should return 403', async () => {
+  it('should return 401', async () => {
     await request(app)
-      .post('/api/gradle/foo-app')
-      .expect(res => expect(res.status).toEqual(403));
+      .post('/api/dependencies')
+      .set({
+        'Content-Type': 'application/json',
+      })
+      .expect(res => expect(res.status).toEqual(401));
   });
 
-  it('/api/gradle/foo-app', async () => {
-    const body = fs.readFileSync('src/test/resources/gradle-dependencies.log', 'utf8');
-
-    const bodyContent = Buffer.from(body, 'utf-8').toString('base64');
+  it('/api/dependencies ok', async () => {
+    const bodyContent = JSON.stringify(ardoqRequest(body));
     const bodyLen = Buffer.byteLength(bodyContent, 'utf-8');
 
     const res1 = await request(app)
-      .post('/api/gradle/foo-app')
+      .post('/api/dependencies')
       .set({
-        'Content-Type': 'text/plain',
+        'Content-Type': 'application/json',
         'Content-Length': bodyLen,
         Authorization: 'Bearer ' + config.get('serverApiKey.primary'),
       })
@@ -62,28 +66,38 @@ describe('Test api.ts', () => {
         ArdoqComponentCreatedResponse.ERROR +
         '":0}'
     );
+  });
+
+  it('/api/dependencies wrong parser', async () => {
+    const bodyContent = JSON.stringify(ardoqRequest(body, 'maven'));
+    const bodyLen = Buffer.byteLength(bodyContent, 'utf-8');
 
     // error as sending gradle to maven endpoint
     const res2 = await request(app)
-      .post('/api/maven/foo-app')
+      .post('/api/dependencies')
       .set({
-        'Content-Type': 'text/plain',
+        'Content-Type': 'application/json',
         'Content-Length': bodyLen,
         Authorization: 'Bearer ' + config.get('serverApiKey.primary'),
       })
       .send(bodyContent)
       .expect(res => expect(res.status).toEqual(400));
     expect(res2.text).toContain('No dependencies found in request');
+  });
+
+  it('/api/dependencies unsupported parser', async () => {
+    const bodyContent = JSON.stringify(ardoqRequest(body, 'foo-parser'));
+    const bodyLen = Buffer.byteLength(bodyContent, 'utf-8');
 
     const res3 = await request(app)
-      .post('/api/fake-parser/foo-app')
+      .post('/api/dependencies')
       .set({
-        'Content-Type': 'text/plain',
+        'Content-Type': 'application/json',
         'Content-Length': bodyLen,
         Authorization: 'Bearer ' + config.get('serverApiKey.secondary'),
       })
       .send(bodyContent)
       .expect(res => expect(res.status).toEqual(400));
-    expect(res3.text).toContain('Error: Parser not supported');
+    expect(res3.body.errors[0].message).toContain('must be equal to one of the allowed values:');
   });
 });

@@ -5,6 +5,7 @@ import { describe, expect, test } from '@jest/globals';
 
 import { GradleParser } from '../../../../main/modules/ardoq/GradleParser';
 import { DependencyParser } from '../../../../main/modules/ardoq/DependencyParser';
+import { ardoqRequest } from './TestUtility';
 
 describe('Ardoq GradleParser', () => {
   const raw = readFileSync(__dirname + '/../../../resources/gradle-dependencies.log', 'utf-8');
@@ -12,7 +13,7 @@ describe('Ardoq GradleParser', () => {
   const parser = new GradleParser();
 
   test('that the raw dependency string is parsed correctly', async () => {
-    const res = new DependencyParser(parser).fromDepRequest(raw);
+    const res = new DependencyParser(parser).fromDepRequest(ardoqRequest(raw));
     expect(res.size).toBe(3);
   });
 
@@ -25,7 +26,7 @@ describe('Ardoq GradleParser', () => {
 
   test('error on no tests', async () => {
     try {
-      new DependencyParser(parser).fromDepRequest('');
+      new DependencyParser(parser).fromDepRequest(ardoqRequest(''));
     } catch (e) {
       expect(e.message === 'No dependencies found');
     }

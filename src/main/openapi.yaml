@@ -9,6 +9,8 @@ info:
   license:
     name: MIT License
     url: 'https://github.com/hmcts/dtsse-ardoq-adapter/blob/master/LICENSE'
+security:
+  - BearerAuth: []
 paths:
   /dependencies:
     post:
@@ -30,6 +32,10 @@ paths:
             schema:
               $ref: '#/components/schemas/DependencyList'
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
   schemas:
     DependencyList:
       type: object

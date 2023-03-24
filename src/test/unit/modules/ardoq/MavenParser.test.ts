@@ -5,6 +5,7 @@ import { describe, expect, test } from '@jest/globals';
 
 import { MavenParser } from '../../../../main/modules/ardoq/MavenParser';
 import { DependencyParser } from '../../../../main/modules/ardoq/DependencyParser';
+import { ardoqRequest } from './TestUtility';
 
 describe('Ardoq MavenParser', () => {
   const raw = readFileSync(__dirname + '/../../../resources/maven-dependencies.log', 'utf-8');
@@ -12,7 +13,7 @@ describe('Ardoq MavenParser', () => {
   const parser = new MavenParser();
 
   test('that the raw dependency string is parsed correctly', async () => {
-    const res = new DependencyParser(parser).fromDepRequest(raw);
+    const res = new DependencyParser(parser).fromDepRequest(ardoqRequest(raw));
     expect(res.size).toBe(118);
   });
 
@@ -26,7 +27,7 @@ describe('Ardoq MavenParser', () => {
 
   test('error on no tests', async () => {
     try {
-      new DependencyParser(parser).fromDepRequest('');
+      new DependencyParser(parser).fromDepRequest(ardoqRequest(raw));
     } catch (e) {
       expect(e.message === 'No dependencies found');
     }
