@@ -2,9 +2,13 @@ import { HTTPError } from '../HttpError';
 import { isAuthorised } from '../auth';
 import { ArdoqClient } from '../modules/ardoq/ArdoqClient';
 import { ArdoqComponentCreatedResponse } from '../modules/ardoq/ArdoqComponentCreatedResponse';
+import { ArdoqRequest } from '../modules/ardoq/ArdoqRequest';
 import { DependencyParser, DependencyParserError } from '../modules/ardoq/DependencyParser';
+import { DotnetParser } from '../modules/ardoq/DotnetParser';
 import { GradleParser } from '../modules/ardoq/GradleParser';
 import { MavenParser } from '../modules/ardoq/MavenParser';
+import { NPMParser } from '../modules/ardoq/NPMParser';
+import { PipParser } from '../modules/ardoq/PipParser';
 import { RequestProcessor } from '../modules/ardoq/RequestProcessor';
 import { YarnParser } from '../modules/ardoq/YarnParser';
 
@@ -27,17 +31,20 @@ export default function (app: Application): void {
     gradle: new DependencyParser(new GradleParser()),
     maven: new DependencyParser(new MavenParser()),
     yarn: new DependencyParser(new YarnParser()),
+    dotnet: new DependencyParser(new DotnetParser()),
+    npm: new DependencyParser(new NPMParser()),
+    pip: new DependencyParser(new PipParser()),
   } as Record<string, DependencyParser>;
 
-  app.post('/api/:parser/:repo', isAuthorised, (req, res, next) => {
+  app.post('/api/dependencies', isAuthorised, (req, res, next) => {
     try {
-      const parser: DependencyParser = parsers[req.params.parser];
+      const request: ArdoqRequest = req.body;
+      const parser: DependencyParser = parsers[request.parser];
       if (parser === undefined) {
         next(new HTTPError('Parser not supported', 400));
       }
-      const reqBody = Buffer.from(req.body, 'base64').toString('utf8');
       const requestProcessor = new RequestProcessor(client);
-      requestProcessor.processRequest(parser.fromDepString(reqBody)).then(ardoqResult => {
+      requestProcessor.processRequest(parser.fromDepRequest(request)).then(ardoqResult => {
         res.statusCode = 200;
         if ((ardoqResult.get(ArdoqComponentCreatedResponse.CREATED) ?? 0) > 0) {
           res.statusCode = 201;

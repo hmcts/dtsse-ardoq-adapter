@@ -1,11 +1,12 @@
+import { ArdoqRequest } from './ArdoqRequest';
 import { Dependency } from './Dependency';
 import { IParser } from './IParser';
 
 export class DependencyParser {
   constructor(private readonly parser: IParser) {}
 
-  public fromDepString(depString: string): Map<string, Dependency> {
-    const deps = this.parser.extractTopTierDeps(depString);
+  public fromDepRequest(request: ArdoqRequest): Map<string, Dependency> {
+    const deps = this.parser.extractTopTierDeps(this.base64Decode(request.encodedDependecyList));
     if (deps.length === 0) {
       throw new DependencyParserError('No dependencies found in request');
     }
@@ -14,6 +15,10 @@ export class DependencyParser {
       parsedDeps.set(d.getFullName(), d);
     });
     return parsedDeps;
+  }
+
+  private base64Decode(encoded: string): string {
+    return Buffer.from(encoded, 'base64').toString('utf-8');
   }
 }
 

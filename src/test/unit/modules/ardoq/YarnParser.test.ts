@@ -9,16 +9,16 @@ describe('Ardoq YarnParser', () => {
   const parser = new YarnParser();
 
   test('that the raw dependency string is parsed correctly', async () => {
-    const res = new DependencyParser(parser).fromDepString(raw);
+    const res = new DependencyParser(parser).fromDepRequest(raw);
     expect(res.size).toBe(21);
   });
 
   test('that an error is thrown for empty files', async () => {
-    expect(() => new DependencyParser(parser).fromDepString('')).toThrow('No dependencies found');
+    expect(() => new DependencyParser(parser).fromDepRequest('')).toThrow('No dependencies found');
   });
 
   test('that an error is thrown for invalid yaml', async () => {
-    expect(() => new DependencyParser(parser).fromDepString('{"json": "data"}')).toThrow(
+    expect(() => new DependencyParser(parser).fromDepRequest('{"json": "data"}')).toThrow(
       'No dependencies found in request'
     );
   });

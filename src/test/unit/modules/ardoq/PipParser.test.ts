@@ -9,16 +9,16 @@ describe('Ardoq PipParser', () => {
   const parser = new PipParser();
 
   test('that the raw dependency string is parsed correctly', async () => {
-    const res = new DependencyParser(parser).fromDepString(raw);
+    const res = new DependencyParser(parser).fromDepRequest(raw);
     expect(res.size).toBe(3);
   });
 
   test('that an error is thrown for empty files', async () => {
-    expect(() => new DependencyParser(parser).fromDepString('')).toThrow('No dependencies found in request');
+    expect(() => new DependencyParser(parser).fromDepRequest('')).toThrow('No dependencies found in request');
   });
 
   test('that an error is thrown for invalid txt', async () => {
-    expect(() => new DependencyParser(parser).fromDepString('hello there!')).toThrow(
+    expect(() => new DependencyParser(parser).fromDepRequest('hello there!')).toThrow(
       'No dependencies found in request'
     );
   });

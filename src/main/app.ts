@@ -10,6 +10,8 @@ import * as bodyParser from 'body-parser';
 import config = require('config');
 import cookieParser from 'cookie-parser';
 import express from 'express';
+import * as OpenApiValidator from 'express-openapi-validator';
+import { ValidationError } from 'express-openapi-validator/dist/framework/types';
 import { glob } from 'glob';
 import favicon from 'serve-favicon';
 
@@ -38,6 +40,15 @@ app.use(bodyParser.text({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+const spec = path.join(__dirname, 'openapi.yaml');
+app.use('/api/docs', express.static(spec));
+app.use(
+  OpenApiValidator.middleware({
+    apiSpec: spec,
+    validateRequests: true, // (default)
+    validateResponses: false, // false by default
+  })
+);
 app.use((req, res, next) => {
   res.setHeader('Cache-Control', 'no-cache, max-age=0, must-revalidate, no-store');
   next();
@@ -55,13 +66,11 @@ app.use((req, res) => {
   res.render('not-found');
 });
 
-// error handler
-app.use((err: HTTPError, req: express.Request, res: express.Response) => {
-  logger.error(`${err.stack || err}`);
-
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = env === 'development' ? err : {};
-  res.status(err.status || 500);
-  res.send('error');
+app.use((err: HTTPError | ValidationError, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  logger.error(err.message);
+  res.status(err.status || 500).json({
+    message: err.message,
+    errors: err.errors,
+  });
+  next();
 });

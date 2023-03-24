@@ -1,0 +1,70 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://localhost:8506/api'
+    description: Local server
+info:
+  description: This is an API to manage software dependency records across multiple team within Ardoq
+  version: '1.0.0'
+  title: DTSSE Ardoq Adapter
+  license:
+    name: MIT License
+    url: 'https://github.com/hmcts/dtsse-ardoq-adapter/blob/master/LICENSE'
+paths:
+  /dependencies:
+    post:
+      tags:
+        - admins
+      summary: adds an inventory item
+      operationId: addInventory
+      description: Adds an item to the system
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing item already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DependencyList'
+components:
+  schemas:
+    DependencyList:
+      type: object
+      required:
+        - vcsHost
+        - hmctsApplication
+        - codeRepository
+        - encodedDependecyList
+        - parser
+      properties:
+        vcsHost:
+          type: string
+          enum:
+            [
+              'github.com/hmcts',
+              'cpp gerrit',
+              's drive',
+              'sharepoint',
+              'azure devops',
+              'github.com/ministryofjustice',
+              'github.com/cjscommonplatform',
+            ]
+          example: 'github.com/hmcts'
+        hmctsApplication:
+          type: string
+          format: uuid
+          example:
+        codeRepository:
+          type: string
+          example: 'dtsse-ardoq-adapter'
+        encodedDependecyList:
+          type: string
+          format: byte
+          example: U3dhZ2dlciByb2Nrcw==
+        parser:
+          type: string
+          enum: ['gradle', 'maven', 'npm', 'yarn', 'pip', 'dotnet']
+          example: 'gradle'
