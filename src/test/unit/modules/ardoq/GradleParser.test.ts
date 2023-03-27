@@ -19,9 +19,9 @@ describe('Ardoq GradleParser', () => {
 
   test('that top tier deps are extracted', async () => {
     const res = parser.extractTopTierDeps(raw);
-    expect(res[0].getFullName()).toBe('org.springframework.boot:spring-boot-starter-web 2.7.2');
-    expect(res[1].getFullName()).toBe('org.springframework.boot:spring-boot-starter-actuator 2.7.2');
-    expect(res[2].getFullName()).toBe('org.springframework.boot:spring-boot-starter-aop 2.7.2');
+    expect(res[0].name).toBe('org.springframework.boot:spring-boot-starter-web');
+    expect(res[1].name).toBe('org.springframework.boot:spring-boot-starter-actuator');
+    expect(res[2].name).toBe('org.springframework.boot:spring-boot-starter-aop');
   });
 
   test('error on no tests', async () => {

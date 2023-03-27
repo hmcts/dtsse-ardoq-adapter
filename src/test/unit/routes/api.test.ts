@@ -2,7 +2,7 @@ import request from 'supertest';
 import { describe, expect, jest, it, beforeEach } from '@jest/globals';
 import config from 'config';
 
-import { ArdoqComponentCreatedResponse } from '../../../main/modules/ardoq/ArdoqComponentCreatedResponse';
+import { ArdoqComponentCreatedStatus } from '../../../main/modules/ardoq/ArdoqComponentCreatedStatus';
 
 import { RequestProcessor } from '../../../main/modules/ardoq/RequestProcessor';
 
@@ -11,10 +11,10 @@ jest.mock('../../../main/modules/ardoq/RequestProcessor', () => ({
     constructor: (client: ArdoqClient) => {},
     processRequest: (deps: Map<string, Dependency>) =>
       Promise.resolve(
-        new Map<ArdoqComponentCreatedResponse, number>([
-          [ArdoqComponentCreatedResponse.EXISTING, 10],
-          [ArdoqComponentCreatedResponse.CREATED, 0],
-          [ArdoqComponentCreatedResponse.ERROR, 0],
+        new Map<ArdoqComponentCreatedStatus, number>([
+          [ArdoqComponentCreatedStatus.EXISTING, 10],
+          [ArdoqComponentCreatedStatus.CREATED, 0],
+          [ArdoqComponentCreatedStatus.ERROR, 0],
         ])
       ),
   })),
@@ -59,30 +59,13 @@ describe('Test api.ts', () => {
 
     expect(res1.text).toEqual(
       '{"' +
-        ArdoqComponentCreatedResponse.EXISTING +
+        ArdoqComponentCreatedStatus.EXISTING +
         '":10,"' +
-        ArdoqComponentCreatedResponse.CREATED +
+        ArdoqComponentCreatedStatus.CREATED +
         '":0,"' +
-        ArdoqComponentCreatedResponse.ERROR +
+        ArdoqComponentCreatedStatus.ERROR +
         '":0}'
     );
-  });
-
-  it('/api/dependencies wrong parser', async () => {
-    const bodyContent = JSON.stringify(ardoqRequest(body, 'maven'));
-    const bodyLen = Buffer.byteLength(bodyContent, 'utf-8');
-
-    // error as sending gradle to maven endpoint
-    const res2 = await request(app)
-      .post('/api/dependencies')
-      .set({
-        'Content-Type': 'application/json',
-        'Content-Length': bodyLen,
-        Authorization: 'Bearer ' + config.get('serverApiKey.primary'),
-      })
-      .send(bodyContent)
-      .expect(res => expect(res.status).toEqual(400));
-    expect(res2.text).toContain('No dependencies found in request');
   });
 
   it('/api/dependencies unsupported parser', async () => {

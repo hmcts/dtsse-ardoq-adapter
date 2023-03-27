@@ -12,7 +12,7 @@ export class DependencyParser {
     }
     const parsedDeps: Map<string, Dependency> = new Map<string, Dependency>();
     deps.forEach(d => {
-      parsedDeps.set(d.getFullName(), d);
+      parsedDeps.set(d.name, d);
     });
     return parsedDeps;
   }

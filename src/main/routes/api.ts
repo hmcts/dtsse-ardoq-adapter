@@ -1,7 +1,7 @@
 import { HTTPError } from '../HttpError';
 import { isAuthorised } from '../auth';
 import { ArdoqClient } from '../modules/ardoq/ArdoqClient';
-import { ArdoqComponentCreatedResponse } from '../modules/ardoq/ArdoqComponentCreatedResponse';
+import { ArdoqComponentCreatedStatus } from '../modules/ardoq/ArdoqComponentCreatedStatus';
 import { ArdoqRequest } from '../modules/ardoq/ArdoqRequest';
 import { DependencyParser, DependencyParserError } from '../modules/ardoq/DependencyParser';
 import { DotnetParser } from '../modules/ardoq/DotnetParser';
@@ -23,8 +23,7 @@ export default function (app: Application): void {
       headers: {
         Authorization: 'Token token=' + config.get('ardoq.apiKey'),
       },
-    }),
-    config.get('ardoq.apiWorkspace')
+    })
   );
 
   const parsers = {
@@ -43,10 +42,10 @@ export default function (app: Application): void {
       if (parser === undefined) {
         next(new HTTPError('Parser not supported', 400));
       }
-      const requestProcessor = new RequestProcessor(client);
-      requestProcessor.processRequest(parser.fromDepRequest(request)).then(ardoqResult => {
+      const requestProcessor = new RequestProcessor(client, parser);
+      requestProcessor.processRequest(request).then(ardoqResult => {
         res.statusCode = 200;
-        if ((ardoqResult.get(ArdoqComponentCreatedResponse.CREATED) ?? 0) > 0) {
+        if ((ardoqResult.get(ArdoqComponentCreatedStatus.CREATED) ?? 0) > 0) {
           res.statusCode = 201;
         }
         res.contentType('application/json');

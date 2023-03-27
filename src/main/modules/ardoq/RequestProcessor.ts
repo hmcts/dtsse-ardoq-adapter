@@ -1,25 +1,50 @@
 import { ArdoqClient } from './ArdoqClient';
-import { ArdoqComponentCreatedResponse } from './ArdoqComponentCreatedResponse';
+import { ArdoqComponentCreatedStatus } from './ArdoqComponentCreatedStatus';
+import { ArdoqRelationship } from './ArdoqRelationship';
+import { ArdoqRequest } from './ArdoqRequest';
 import { Dependency } from './Dependency';
+import { DependencyParser } from './DependencyParser';
 
 export class RequestProcessor {
   client: ArdoqClient;
+  parser: DependencyParser;
 
-  constructor(client: ArdoqClient) {
+  constructor(client: ArdoqClient, parser: DependencyParser) {
     this.client = client;
+    this.parser = parser;
   }
 
-  public async processRequest(deps: Map<string, Dependency>): Promise<Map<ArdoqComponentCreatedResponse, number>> {
-    const depUpdate: Promise<ArdoqComponentCreatedResponse>[] = [];
+  public async processRequest(request: ArdoqRequest): Promise<Map<ArdoqComponentCreatedStatus, number>> {
+    const depUpdate: Promise<ArdoqComponentCreatedStatus>[] = [];
+
+    const vcsHostingComponentId = await this.client.createVcsHostingComponent(request.vcsHost);
+    const codeRepoComponentId = await this.client.createCodeRepoComponent(request.codeRepository);
+
+    // create relationships
+    if (codeRepoComponentId) {
+      await this.client.referenceRequest(request.hmctsApplication, codeRepoComponentId, ArdoqRelationship.MAINTAINS);
+      if (vcsHostingComponentId) {
+        await this.client.referenceRequest(vcsHostingComponentId, codeRepoComponentId, ArdoqRelationship.HOSTS);
+      }
+    }
+
+    const deps = this.parser.fromDepRequest(request);
     deps.forEach((d: Dependency) => {
-      depUpdate.push(this.client.updateDep(d));
+      depUpdate.push(
+        this.client.updateDep(d).then(([status, componentId]) => {
+          if (componentId && codeRepoComponentId) {
+            this.client.referenceRequest(codeRepoComponentId, componentId, ArdoqRelationship.DEPENDS_ON_VERSION);
+          }
+          return status;
+        })
+      );
     });
 
     const up = await Promise.all(depUpdate);
-    const counts: Map<ArdoqComponentCreatedResponse, number> = new Map<ArdoqComponentCreatedResponse, number>([
-      [ArdoqComponentCreatedResponse.EXISTING, 0],
-      [ArdoqComponentCreatedResponse.CREATED, 0],
-      [ArdoqComponentCreatedResponse.ERROR, 0],
+    const counts: Map<ArdoqComponentCreatedStatus, number> = new Map<ArdoqComponentCreatedStatus, number>([
+      [ArdoqComponentCreatedStatus.EXISTING, 0],
+      [ArdoqComponentCreatedStatus.CREATED, 0],
+      [ArdoqComponentCreatedStatus.ERROR, 0],
     ]);
     up.forEach(response => counts.set(response, 1 + (counts.get(response) ?? 0)));
     return counts;

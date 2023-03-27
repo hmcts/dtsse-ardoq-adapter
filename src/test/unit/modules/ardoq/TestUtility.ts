@@ -9,3 +9,7 @@ export function ardoqRequest(body: string, parser: string = 'gradle', base64Enco
     encodedDependecyList: base64Encode ? Buffer.from(body).toString('base64') : body,
   };
 }
+
+export function base64Encode(str: string): string {
+  return Buffer.from(str, 'binary').toString('base64');
+}
