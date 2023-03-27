@@ -38,7 +38,7 @@
     "@types/js-yaml": "^4.0.5",
     "@types/lodash": "4.14.191",
     "@types/node": "18.14.2",
-    "@types/nunjucks": "3.2.1",
+    "@types/nunjucks": "3.2.2",
     "@types/require-directory": "2.1.2",
     "@types/serve-favicon": "2.5.3",
     "applicationinsights": "2.3.6",
