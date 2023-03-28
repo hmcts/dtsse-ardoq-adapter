@@ -61,7 +61,6 @@ components:
           example: 'github.com/hmcts'
         hmctsApplication:
           type: string
-          format: uuid
           example:
         codeRepository:
           type: string
