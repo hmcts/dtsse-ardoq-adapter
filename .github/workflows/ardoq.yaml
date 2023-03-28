@@ -17,22 +17,26 @@ jobs:
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - name: List dependencies
         run: |
-          echo 'DEPS<<EOF' >> $GITHUB_ENV
-          cat yarn.lock | base64 >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
+          cat yarn.lock | base64 > yarn.lock.b64
         id: deps
+
+      - name: Prepare request payload
+        run: |
+          echo '{
+            "vcsHost": "github.com/hmcts",
+            "hmctsApplication": "dtsse",
+            "codeRepository": "${{ github.repository }}",
+            "encodedDependecyList": "' > payload.json
+          cat yarn.lock.b64 >> payload.json
+          echo '",
+              "parser": "yarn"
+            }' >> payload.json
 
       - name: post deps to ardoq app
         run: |
           curl -X POST -v -H "Content-Type: application/json" \
             -H "Authorization: Bearer ${{ secrets.ARDOQ_ADAPTER_KEY }}" \
-            -d '{ \
-              "vcsHost": "github.com/hmcts", \
-              "hmctsApplication": "dtsse", \
-              "codeRepository": "${{ github.repository }}", \
-              "encodedDependecyList": "${{ env.DEPS }}", \
-              "parser": "yarn" \
-            }' \
+            -d @payload.json \
             ${{ secrets.ARDOQ_ADAPTER_URL }}
 
       - run: echo "🍏 This job's status is ${{ job.status }}."

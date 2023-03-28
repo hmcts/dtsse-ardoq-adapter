@@ -21,7 +21,7 @@ export default function (app: Application): void {
     axios.create({
       baseURL: config.get('ardoq.apiUrl'),
       headers: {
-        Authorization: 'Token token=' + config.get('ardoq.apiKey'),
+        Authorization: 'Bearer ' + config.get('ardoq.apiKey'),
       },
     })
   );

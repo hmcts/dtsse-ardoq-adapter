@@ -5,9 +5,12 @@ import { ArdoqRequest } from './ArdoqRequest';
 import { Dependency } from './Dependency';
 import { DependencyParser } from './DependencyParser';
 
+const { Logger } = require('@hmcts/nodejs-logging');
+
 export class RequestProcessor {
   client: ArdoqClient;
   parser: DependencyParser;
+  logger = Logger.getLogger('RequestProcessor');
 
   constructor(client: ArdoqClient, parser: DependencyParser) {
     this.client = client;
@@ -31,9 +34,10 @@ export class RequestProcessor {
     const deps = this.parser.fromDepRequest(request);
     deps.forEach((d: Dependency) => {
       depUpdate.push(
-        this.client.updateDep(d).then(([status, componentId]) => {
+        this.client.updateDep(d).then(async ([status, componentId]) => {
           if (componentId && codeRepoComponentId) {
-            this.client.referenceRequest(codeRepoComponentId, componentId, ArdoqRelationship.DEPENDS_ON_VERSION);
+            await this.client.referenceRequest(codeRepoComponentId, componentId, ArdoqRelationship.DEPENDS_ON_VERSION);
+            this.logger.debug('Created dependency reference: ' + codeRepoComponentId + ' -> ' + componentId);
           }
           return status;
         })

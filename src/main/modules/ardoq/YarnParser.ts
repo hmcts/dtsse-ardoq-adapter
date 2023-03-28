@@ -23,7 +23,7 @@ export class YarnParser implements IParser {
           }
           return true;
         })
-        .map(([key, value]) => new Dependency(key, value.version));
+        .map(([key, value]) => new Dependency(key.substring(0, key.indexOf(':')), value.version));
     } catch (e) {
       if (e.message === 'Cannot convert undefined or null to object') {
         return [];
