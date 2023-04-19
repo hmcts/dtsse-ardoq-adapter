@@ -59,21 +59,19 @@ export class ArdoqClient {
     );
   }
 
-  private createOrGetComponent(name: string, workspace: ArdoqWorkspace): Promise<string | null> {
-    return this.searchForComponent(name, workspace).then(searchRes => {
-      if (searchRes.status === 200 && searchRes.data.values.length > 0) {
-        this.logger.debug('Found component: ' + name);
-        return searchRes.data.values[0]._id;
-      }
-      return this.createComponent(name, workspace).then(createRes => {
-        if (createRes.status !== 201) {
-          this.logger.error('Unable to create component: ' + name);
-          return null;
-        }
-        this.logger.debug('Component created: ' + name);
-        return createRes.data._id;
-      });
-    });
+  private async createOrGetComponent(name: string, workspace: ArdoqWorkspace): Promise<string | null> {
+    const searchRes = await this.searchForComponent(name, workspace);
+    if (searchRes.status === 200 && searchRes.data.values.length > 0) {
+      this.logger.debug('Found component: ' + name);
+      return searchRes.data.values[0]._id;
+    }
+    const createRes = await this.createComponent(name, workspace);
+    if (createRes.status !== 201) {
+      this.logger.error('Unable to create component: ' + name);
+      return null;
+    }
+    this.logger.debug('Component created: ' + name);
+    return createRes.data._id;
   }
 
   public createVcsHostingComponent(name: string): Promise<string | null> {
