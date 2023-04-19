@@ -27,10 +27,7 @@ export class ArdoqClient {
 
   private isCached(d: Dependency): boolean {
     const found = this.cache.get(d.name);
-    if (found === undefined) {
-      return false;
-    }
-    return found.equals(d);
+    return found ? found.equals(d) : false;
   }
 
   private searchForComponent(componentName: string, workspace: ArdoqWorkspace) {
