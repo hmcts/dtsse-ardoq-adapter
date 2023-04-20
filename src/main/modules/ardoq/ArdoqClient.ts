@@ -8,6 +8,11 @@ import config from 'config';
 
 const { Logger } = require('@hmcts/nodejs-logging');
 
+type SearchReferenceResponse = {
+  id: string;
+  version: string | undefined;
+};
+
 export class ArdoqClient {
   readonly componentTypeLookup = new Map<ArdoqWorkspace, string>([
     [ArdoqWorkspace.ARDOQ_VCS_HOSTING_WORKSPACE, 'p1681283498700'],
@@ -82,10 +87,7 @@ export class ArdoqClient {
     return this.createOrGetComponent(name, ArdoqWorkspace.ARDOQ_CODE_REPOSITORY_WORKSPACE);
   }
 
-  private async searchForReference(
-    source: string,
-    target: string
-  ): Promise<undefined | { id: string; version: string | undefined }> {
+  private async searchForReference(source: string, target: string): Promise<undefined | SearchReferenceResponse> {
     const searchResponse = await this.httpClient.get('/api/v2/references', {
       params: {
         source,
