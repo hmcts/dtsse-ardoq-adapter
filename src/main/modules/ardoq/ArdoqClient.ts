@@ -85,23 +85,21 @@ export class ArdoqClient {
   private async searchForReference(
     source: string,
     target: string
-  ): Promise<undefined | { id: string; version?: string | undefined }> {
-    return this.httpClient
-      .get('/api/v2/references', {
-        params: {
-          source,
-          target,
-        },
-        responseType: 'json',
-      })
-      .then(res => {
-        if (res.status === 200 && res.data.values.length > 0) {
-          return {
-            id: res.data.values[0]._id,
-            version: res.data.values[0].customFields?.version,
-          };
-        }
-      });
+  ): Promise<undefined | { id: string; version: string | undefined }> {
+    const searchResponse = await this.httpClient.get('/api/v2/references', {
+      params: {
+        source,
+        target,
+      },
+      responseType: 'json',
+    });
+
+    if (searchResponse.status === 200 && searchResponse.data.values.length > 0) {
+      return {
+        id: searchResponse.data.values[0]._id,
+        version: searchResponse.data.values[0].customFields?.version,
+      };
+    }
   }
 
   private updateReferenceVersion(id: string, version: string): Promise<void> {
