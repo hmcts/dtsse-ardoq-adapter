@@ -5,6 +5,7 @@ import { describe, expect, test } from '@jest/globals';
 
 import { GradleParser } from '../../../../main/modules/ardoq/GradleParser';
 import { DependencyParser } from '../../../../main/modules/ardoq/DependencyParser';
+import { ardoqRequest } from './TestUtility';
 
 describe('Ardoq GradleParser', () => {
   const raw = readFileSync(__dirname + '/../../../resources/gradle-dependencies.log', 'utf-8');
@@ -12,20 +13,20 @@ describe('Ardoq GradleParser', () => {
   const parser = new GradleParser();
 
   test('that the raw dependency string is parsed correctly', async () => {
-    const res = new DependencyParser(parser).fromDepString(raw);
-    expect(res.size).toBe(3);
+    const res = new DependencyParser(parser).fromDepRequest(ardoqRequest(raw));
+    expect(Object.keys(res).length).toBe(3);
   });
 
   test('that top tier deps are extracted', async () => {
     const res = parser.extractTopTierDeps(raw);
-    expect(res[0].getFullName()).toBe('org.springframework.boot:spring-boot-starter-web 2.7.2');
-    expect(res[1].getFullName()).toBe('org.springframework.boot:spring-boot-starter-actuator 2.7.2');
-    expect(res[2].getFullName()).toBe('org.springframework.boot:spring-boot-starter-aop 2.7.2');
+    expect(res[0].name).toBe('org.springframework.boot:spring-boot-starter-web');
+    expect(res[1].name).toBe('org.springframework.boot:spring-boot-starter-actuator');
+    expect(res[2].name).toBe('org.springframework.boot:spring-boot-starter-aop');
   });
 
   test('error on no tests', async () => {
     try {
-      new DependencyParser(parser).fromDepString('');
+      new DependencyParser(parser).fromDepRequest(ardoqRequest(''));
     } catch (e) {
       expect(e.message === 'No dependencies found');
     }

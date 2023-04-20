@@ -2,7 +2,7 @@ import request from 'supertest';
 import { describe, expect, jest, it, beforeEach } from '@jest/globals';
 import config from 'config';
 
-import { ArdoqComponentCreatedResponse } from '../../../main/modules/ardoq/ArdoqComponentCreatedResponse';
+import { ArdoqComponentCreatedStatus } from '../../../main/modules/ardoq/ArdoqComponentCreatedStatus';
 
 import { RequestProcessor } from '../../../main/modules/ardoq/RequestProcessor';
 
@@ -11,10 +11,10 @@ jest.mock('../../../main/modules/ardoq/RequestProcessor', () => ({
     constructor: (client: ArdoqClient) => {},
     processRequest: (deps: Map<string, Dependency>) =>
       Promise.resolve(
-        new Map<ArdoqComponentCreatedResponse, number>([
-          [ArdoqComponentCreatedResponse.EXISTING, 10],
-          [ArdoqComponentCreatedResponse.CREATED, 0],
-          [ArdoqComponentCreatedResponse.ERROR, 0],
+        new Map<ArdoqComponentCreatedStatus, number>([
+          [ArdoqComponentCreatedStatus.EXISTING, 10],
+          [ArdoqComponentCreatedStatus.CREATED, 0],
+          [ArdoqComponentCreatedStatus.ERROR, 0],
         ])
       ),
   })),
@@ -24,29 +24,33 @@ import { app } from '../../../main/app';
 import fs from 'fs';
 import { Dependency } from '../../../main/modules/ardoq/Dependency';
 import { ArdoqClient } from '../../../main/modules/ardoq/ArdoqClient';
+import { ardoqRequest } from '../modules/ardoq/TestUtility';
 
 describe('Test api.ts', () => {
+  const body = fs.readFileSync('src/test/resources/gradle-dependencies.log', 'utf8');
+
   beforeEach(() => {
     // Clear all instances and calls to constructor and all methods:
     (RequestProcessor as jest.Mock).mockClear();
   });
 
-  it('should return 403', async () => {
+  it('should return 401', async () => {
     await request(app)
-      .post('/api/gradle/foo-app')
-      .expect(res => expect(res.status).toEqual(403));
+      .post('/api/dependencies')
+      .set({
+        'Content-Type': 'application/json',
+      })
+      .expect(res => expect(res.status).toEqual(401));
   });
 
-  it('/api/gradle/foo-app', async () => {
-    const body = fs.readFileSync('src/test/resources/gradle-dependencies.log', 'utf8');
-
-    const bodyContent = Buffer.from(body, 'utf-8').toString('base64');
+  it('/api/dependencies ok', async () => {
+    const bodyContent = JSON.stringify(ardoqRequest(body));
     const bodyLen = Buffer.byteLength(bodyContent, 'utf-8');
 
     const res1 = await request(app)
-      .post('/api/gradle/foo-app')
+      .post('/api/dependencies')
       .set({
-        'Content-Type': 'text/plain',
+        'Content-Type': 'application/json',
         'Content-Length': bodyLen,
         Authorization: 'Bearer ' + config.get('serverApiKey.primary'),
       })
@@ -55,35 +59,28 @@ describe('Test api.ts', () => {
 
     expect(res1.text).toEqual(
       '{"' +
-        ArdoqComponentCreatedResponse.EXISTING +
+        ArdoqComponentCreatedStatus.EXISTING +
         '":10,"' +
-        ArdoqComponentCreatedResponse.CREATED +
+        ArdoqComponentCreatedStatus.CREATED +
         '":0,"' +
-        ArdoqComponentCreatedResponse.ERROR +
+        ArdoqComponentCreatedStatus.ERROR +
         '":0}'
     );
+  });
 
-    // error as sending gradle to maven endpoint
-    const res2 = await request(app)
-      .post('/api/maven/foo-app')
-      .set({
-        'Content-Type': 'text/plain',
-        'Content-Length': bodyLen,
-        Authorization: 'Bearer ' + config.get('serverApiKey.primary'),
-      })
-      .send(bodyContent)
-      .expect(res => expect(res.status).toEqual(400));
-    expect(res2.text).toContain('No dependencies found in request');
+  it('/api/dependencies unsupported parser', async () => {
+    const bodyContent = JSON.stringify(ardoqRequest(body, 'foo-parser'));
+    const bodyLen = Buffer.byteLength(bodyContent, 'utf-8');
 
     const res3 = await request(app)
-      .post('/api/fake-parser/foo-app')
+      .post('/api/dependencies')
       .set({
-        'Content-Type': 'text/plain',
+        'Content-Type': 'application/json',
         'Content-Length': bodyLen,
         Authorization: 'Bearer ' + config.get('serverApiKey.secondary'),
       })
       .send(bodyContent)
       .expect(res => expect(res.status).toEqual(400));
-    expect(res3.text).toContain('Error: Parser not supported');
+    expect(res3.body.errors[0].message).toContain('must be equal to one of the allowed values:');
   });
 });

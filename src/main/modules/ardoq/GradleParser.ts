@@ -16,14 +16,16 @@ export class GradleParser implements IParser {
       .filter(d => !d.match(semverRx))
       .map(d => d.replace(/^([.\d\-a-z:]+):/, '$1 -> '))
       .filter(d => d !== 'unspecified (n)')
-      .map(d => this.getDependency(d.replace(/ \(([*n])\)/, '')));
+      .map(d => this.getDependency(d.replace(/ \(([*n])\)/, '')))
+      .filter(d => d !== undefined) as Dependency[];
   }
 
-  public getDependency(depString: string): Dependency {
+  public getDependency(depString: string): Dependency | undefined {
     const parts = depString.split(' -> ');
     const logger = Logger.getLogger('GradleParser');
     if (parts.length !== 2) {
       logger.warn('Dependency string ' + depString + ' is malformed. Should match <name> -> <version>');
+      return undefined;
     }
     return new Dependency(parts[0].trim(), parts[1].trim());
   }

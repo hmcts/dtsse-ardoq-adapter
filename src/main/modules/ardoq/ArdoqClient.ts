@@ -1,73 +1,177 @@
-import { ArdoqComponentCreatedResponse } from './ArdoqComponentCreatedResponse';
+import { ArdoqComponentCreatedStatus } from './ArdoqComponentCreatedStatus';
+import { ArdoqRelationship } from './ArdoqRelationship';
+import { ArdoqWorkspace } from './ArdoqWorkspace';
 import { Dependency } from './Dependency';
 
 import { AxiosInstance } from 'axios';
+import config from 'config';
+
+const { Logger } = require('@hmcts/nodejs-logging');
+
+type SearchReferenceResponse = {
+  id: string;
+  version: string | undefined;
+};
 
 export class ArdoqClient {
+  readonly componentTypeLookup = new Map<ArdoqWorkspace, string>([
+    [ArdoqWorkspace.ARDOQ_VCS_HOSTING_WORKSPACE, 'p1681283498700'],
+    [ArdoqWorkspace.ARDOQ_CODE_REPOSITORY_WORKSPACE, 'p1681283498700'],
+    [ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE, 'p1659003743296'],
+  ]);
+
   constructor(
     private httpClient: AxiosInstance,
-    private apiWorkspace: string,
-    private cache: Map<string, string> = new Map<string, string>()
+    private cache: Map<string, Dependency> = new Map<string, Dependency>(),
+    private logger = Logger.getLogger('ArdoqClient')
   ) {}
 
   private cacheResult(d: Dependency) {
-    this.cache.set(d.name, d.version);
+    this.cache.set(d.name, d);
   }
 
   private isCached(d: Dependency): boolean {
-    return this.cache.get(d.name) === d.version;
+    const found = this.cache.get(d.name);
+    return found ? found.equals(d) : false;
   }
 
-  private searchForComponent(dependencyFullName: string) {
-    return this.httpClient.get('/api/component/search', {
+  private searchForComponent(componentName: string, workspace: ArdoqWorkspace) {
+    return this.httpClient.get('/api/v2/components', {
       params: {
-        workspace: this.apiWorkspace,
-        name: dependencyFullName,
+        rootWorkspace: config.get(workspace),
+        name: componentName,
       },
       responseType: 'json',
     });
   }
 
-  private createComponent(dependencyFullName: string) {
+  private createComponent(componentName: string, workspace: ArdoqWorkspace) {
     return this.httpClient.post(
-      '/api/component',
+      '/api/v2/components',
       {
-        rootWorkspace: this.apiWorkspace,
-        name: dependencyFullName,
+        rootWorkspace: config.get(workspace),
+        name: componentName,
+        typeId: this.componentTypeLookup.get(workspace),
       },
       {
         params: {
-          workspace: this.apiWorkspace,
-          name: dependencyFullName,
+          rootWorkspace: config.get(workspace),
+          name: componentName,
+          typeId: this.componentTypeLookup.get(workspace),
         },
         responseType: 'json',
       }
     );
   }
 
-  async updateDep(d: Dependency): Promise<ArdoqComponentCreatedResponse> {
+  private async createOrGetComponent(name: string, workspace: ArdoqWorkspace): Promise<string | null> {
+    const searchRes = await this.searchForComponent(name, workspace);
+    if (searchRes.status === 200 && searchRes.data.values.length > 0) {
+      this.logger.debug('Found component: ' + name);
+      return searchRes.data.values[0]._id;
+    }
+    const createRes = await this.createComponent(name, workspace);
+    if (createRes.status !== 201) {
+      this.logger.error('Unable to create component: ' + name);
+      return null;
+    }
+    this.logger.debug('Component created: ' + name);
+    return createRes.data._id;
+  }
+
+  public createVcsHostingComponent(name: string): Promise<string | null> {
+    return this.createOrGetComponent(name, ArdoqWorkspace.ARDOQ_VCS_HOSTING_WORKSPACE);
+  }
+
+  public createCodeRepoComponent(name: string): Promise<string | null> {
+    return this.createOrGetComponent(name, ArdoqWorkspace.ARDOQ_CODE_REPOSITORY_WORKSPACE);
+  }
+
+  private async searchForReference(source: string, target: string): Promise<undefined | SearchReferenceResponse> {
+    const searchResponse = await this.httpClient.get('/api/v2/references', {
+      params: {
+        source,
+        target,
+      },
+      responseType: 'json',
+    });
+
+    if (searchResponse.status === 200 && searchResponse.data.values.length > 0) {
+      return {
+        id: searchResponse.data.values[0]._id,
+        version: searchResponse.data.values[0].customFields?.version,
+      };
+    }
+  }
+
+  private updateReferenceVersion(id: string, version: string): Promise<void> {
+    return this.httpClient.patch(
+      `/api/v2/references/${id}?ifVersionMatch=latest`,
+      {
+        customFields: {
+          version,
+        },
+      },
+      {
+        responseType: 'json',
+      }
+    );
+  }
+
+  private createReference(
+    source: string,
+    target: string,
+    relationship: ArdoqRelationship,
+    version?: string
+  ): Promise<unknown> {
+    const data = {
+      source,
+      target,
+      type: relationship,
+      customFields: version ? { version } : undefined,
+    };
+
+    return this.httpClient.post('/api/v2/references', data, {
+      responseType: 'json',
+    });
+  }
+
+  public async referenceRequest(
+    source: string,
+    target: string,
+    relationship: ArdoqRelationship,
+    version?: string
+  ): Promise<void> {
+    const existingReference = await this.searchForReference(source, target);
+    if (!existingReference) {
+      await this.createReference(source, target, relationship, version);
+    } else if (version && existingReference.version !== version) {
+      await this.updateReferenceVersion(existingReference.id, version);
+    }
+  }
+
+  public async updateDep(d: Dependency): Promise<[ArdoqComponentCreatedStatus, string | null]> {
     if (this.isCached(d)) {
-      return ArdoqComponentCreatedResponse.EXISTING;
+      this.logger.debug('Found cached result for: ' + d.name + ' - ' + d.componentId);
+      return [ArdoqComponentCreatedStatus.EXISTING, d.componentId];
     }
 
-    const searchResponse = await this.searchForComponent(d.getFullName());
-    if (searchResponse.status === 200) {
-      // Can now create a relationship between the application and this object
-
-      if (searchResponse.data.length !== 0) {
-        this.cacheResult(d);
-        return ArdoqComponentCreatedResponse.EXISTING;
-      }
-
-      // create a new object
-      const createResponse = await this.createComponent(d.getFullName());
-      if (createResponse.status === 201) {
-        // Can now create a relationship between the application and this object
-        this.cacheResult(d);
-        return ArdoqComponentCreatedResponse.CREATED;
-      }
-      return ArdoqComponentCreatedResponse.ERROR;
+    const searchResponse = await this.searchForComponent(d.name, ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE);
+    if (searchResponse.status === 200 && searchResponse.data.values.length > 0) {
+      d.componentId = searchResponse.data.values[0]._id;
+      this.logger.debug('Found component: ' + d.name + ' - ' + d.componentId);
+      this.cacheResult(d);
+      return [ArdoqComponentCreatedStatus.EXISTING, d.componentId];
     }
-    return ArdoqComponentCreatedResponse.ERROR;
+
+    // create a new object
+    const createResponse = await this.createComponent(d.name, ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE);
+    if (createResponse.status === 201) {
+      d.componentId = createResponse.data._id;
+      this.logger.debug('Created component: ' + d.name + ' - ' + d.componentId);
+      this.cacheResult(d);
+      return [ArdoqComponentCreatedStatus.CREATED, d.componentId];
+    }
+    return [ArdoqComponentCreatedStatus.ERROR, null];
   }
 }
