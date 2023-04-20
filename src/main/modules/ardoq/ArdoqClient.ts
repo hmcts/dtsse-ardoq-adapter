@@ -143,14 +143,11 @@ export class ArdoqClient {
     version?: string
   ): Promise<void> {
     const existingReference = await this.searchForReference(source, target);
-    if (existingReference) {
-      if (version && existingReference.version !== version) {
-        await this.updateReferenceVersion(existingReference.id, version);
-      }
-      return;
+    if (!existingReference) {
+      await this.createReference(source, target, relationship, version);
+    } else if (version && existingReference.version !== version) {
+      await this.updateReferenceVersion(existingReference.id, version);
     }
-    await this.createReference(source, target, relationship, version);
-    return;
   }
 
   public async updateDep(d: Dependency): Promise<[ArdoqComponentCreatedStatus, string | null]> {
