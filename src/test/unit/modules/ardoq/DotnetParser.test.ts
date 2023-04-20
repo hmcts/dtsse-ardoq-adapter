@@ -10,7 +10,7 @@ describe('Ardoq DotnetParser', () => {
 
   test('that the raw dependency string is parsed correctly', async () => {
     const res = new DependencyParser(parser).fromDepRequest(ardoqRequest(raw));
-    expect(res.size).toBe(2);
+    expect(Object.keys(res).length).toBe(2);
   });
 
   test('that an error is thrown for empty files', async () => {

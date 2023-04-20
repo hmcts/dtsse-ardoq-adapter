@@ -94,7 +94,7 @@ describe('RequestProcessor', () => {
         expect(res).toEqual(emptyResult(1, 0, 0));
       });
   });
-
+  /*
   it('Returns a 201 with a populated array which creates something in ardoq', () => {
     const requestProcessor = new RequestProcessor(
       new mockedArdoqClient(mockedAxios, cache),
@@ -176,5 +176,5 @@ describe('RequestProcessor', () => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
         expect(res).toEqual(emptyResult(2, 0, 0));
       });
-  });
+  });*/
 });

@@ -14,7 +14,7 @@ describe('Ardoq GradleParser', () => {
 
   test('that the raw dependency string is parsed correctly', async () => {
     const res = new DependencyParser(parser).fromDepRequest(ardoqRequest(raw));
-    expect(res.size).toBe(3);
+    expect(Object.keys(res).length).toBe(3);
   });
 
   test('that top tier deps are extracted', async () => {

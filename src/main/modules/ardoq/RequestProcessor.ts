@@ -18,8 +18,6 @@ export class RequestProcessor {
   }
 
   public async processRequest(request: ArdoqRequest): Promise<Map<ArdoqComponentCreatedStatus, number>> {
-    const depUpdate: Promise<ArdoqComponentCreatedStatus>[] = [];
-
     const vcsHostingComponentId = await this.client.createVcsHostingComponent(request.vcsHost);
     const codeRepoComponentId = await this.client.createCodeRepoComponent(request.codeRepository);
 
@@ -31,26 +29,25 @@ export class RequestProcessor {
       }
     }
 
-    const deps = this.parser.fromDepRequest(request);
-    deps.forEach((d: Dependency) => {
-      depUpdate.push(
-        this.client.updateDep(d).then(async ([status, componentId]) => {
-          if (componentId && codeRepoComponentId) {
-            await this.client.referenceRequest(codeRepoComponentId, componentId, ArdoqRelationship.DEPENDS_ON_VERSION);
-            this.logger.debug('Created dependency reference: ' + codeRepoComponentId + ' -> ' + componentId);
-          }
-          return status;
-        })
-      );
-    });
-
-    const up = await Promise.all(depUpdate);
     const counts: Map<ArdoqComponentCreatedStatus, number> = new Map<ArdoqComponentCreatedStatus, number>([
       [ArdoqComponentCreatedStatus.EXISTING, 0],
       [ArdoqComponentCreatedStatus.CREATED, 0],
       [ArdoqComponentCreatedStatus.ERROR, 0],
     ]);
-    up.forEach(response => counts.set(response, 1 + (counts.get(response) ?? 0)));
+
+    const deps = this.parser.fromDepRequest(request);
+    await Promise.all(
+      Object.values(deps).map(async (d: Dependency) => {
+        const [status, componentId] = await this.client.updateDep(d);
+        if (componentId && codeRepoComponentId) {
+          await this.client.referenceRequest(codeRepoComponentId, componentId, ArdoqRelationship.DEPENDS_ON_VERSION);
+          this.logger.debug('Created dependency reference: ' + codeRepoComponentId + ' -> ' + componentId);
+        }
+        counts.set(status, 1 + (counts.get(status) ?? 0));
+        return status;
+      })
+    );
+
     return counts;
   }
 }

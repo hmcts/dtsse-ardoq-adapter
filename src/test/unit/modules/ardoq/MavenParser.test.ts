@@ -14,7 +14,7 @@ describe('Ardoq MavenParser', () => {
 
   test('that the raw dependency string is parsed correctly', async () => {
     const res = new DependencyParser(parser).fromDepRequest(ardoqRequest(raw, 'maven'));
-    expect(res.size).toBe(116);
+    expect(Object.keys(res).length).toBe(116);
   });
 
   test('that top tier deps are extracted', async () => {

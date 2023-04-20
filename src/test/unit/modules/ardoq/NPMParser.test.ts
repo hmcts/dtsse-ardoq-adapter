@@ -12,12 +12,12 @@ describe('Ardoq NPMParser', () => {
 
   test('that the raw dependency string is parsed correctly', async () => {
     const res = new DependencyParser(parser).fromDepRequest(ardoqRequest(raw));
-    expect(res.size).toBe(18);
+    expect(Object.keys(res).length).toBe(18);
   });
 
   test('that the raw v1 dependency string is parsed correctly', async () => {
     const res = new DependencyParser(parser).fromDepRequest(ardoqRequest(rawV1));
-    expect(res.size).toBe(7);
+    expect(Object.keys(res).length).toBe(7);
   });
 
   test('that an error is thrown for empty files', async () => {

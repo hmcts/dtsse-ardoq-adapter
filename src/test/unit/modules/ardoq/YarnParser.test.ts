@@ -11,7 +11,7 @@ describe('Ardoq YarnParser', () => {
 
   test('that the raw dependency string is parsed correctly', async () => {
     const res = new DependencyParser(parser).fromDepRequest(ardoqRequest(raw));
-    expect(res.size).toBe(21);
+    expect(Object.keys(res).length).toBe(21);
   });
 
   test('that an error is thrown for empty files', async () => {
