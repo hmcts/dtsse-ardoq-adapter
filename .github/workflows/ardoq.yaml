@@ -32,11 +32,16 @@ jobs:
               "parser": "yarn"
             }' >> payload.json
 
+      - name: compress body
+        run: |
+          gzip payload.json
+
       - name: post deps to ardoq app
         run: |
           curl -X POST -v -H "Content-Type: application/json" \
             -H "Authorization: Bearer ${{ secrets.ARDOQ_ADAPTER_KEY }}" \
-            -d @payload.json \
+            -H "Content-Encoding: gzip" \
+            -d @payload.json.gz \
             ${{ secrets.ARDOQ_ADAPTER_URL }}
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
