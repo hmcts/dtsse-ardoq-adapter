@@ -13,7 +13,6 @@ import express from 'express';
 import * as OpenApiValidator from 'express-openapi-validator';
 import { ValidationError } from 'express-openapi-validator/dist/framework/types';
 import { glob } from 'glob';
-import favicon from 'serve-favicon';
 
 const { setupDev } = require('./development');
 
@@ -34,11 +33,9 @@ new Nunjucks(developmentMode).enableFor(app);
 // secure the application by adding various HTTP headers to its responses
 new Helmet(config.get('security')).enableFor(app);
 
-app.use(favicon(path.join(__dirname, '/public/assets/images/favicon.ico')));
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 const spec = path.join(__dirname, 'openapi.yaml');
 app.use('/api/docs', express.static(spec));
 app.use(

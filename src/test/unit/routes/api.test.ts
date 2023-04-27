@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { describe, expect, jest, it, beforeEach } from '@jest/globals';
 import config from 'config';
+import * as zlib from 'zlib';
 
 import { ArdoqComponentCreatedStatus } from '../../../main/modules/ardoq/ArdoqComponentCreatedStatus';
 
@@ -82,5 +83,29 @@ describe('Test api.ts', () => {
       .send(bodyContent)
       .expect(res => expect(res.status).toEqual(400));
     expect(res3.body.errors[0].message).toContain('must be equal to one of the allowed values:');
+  });
+
+  it('/api/dependencies gzip body', async () => {
+    const bodyContent = JSON.stringify(ardoqRequest(body, 'gradle'));
+    const gzipBody = zlib.gzipSync(bodyContent);
+
+    const req = request(app).post('/api/dependencies');
+    req.set({
+      'Content-Encoding': 'gzip',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + config.get('serverApiKey.primary'),
+    });
+    req.write(gzipBody);
+    const res = await req;
+    expect(res.status).toEqual(200);
+    expect(res.text).toEqual(
+      '{"' +
+        ArdoqComponentCreatedStatus.EXISTING +
+        '":10,"' +
+        ArdoqComponentCreatedStatus.CREATED +
+        '":0,"' +
+        ArdoqComponentCreatedStatus.ERROR +
+        '":0}'
+    );
   });
 });
