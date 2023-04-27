@@ -2,6 +2,9 @@ import { ArdoqComponentCreatedStatus } from './ArdoqComponentCreatedStatus';
 import { ArdoqRelationship } from './ArdoqRelationship';
 import { ArdoqWorkspace } from './ArdoqWorkspace';
 import { Dependency } from './Dependency';
+import { BatchActionResult, BatchResult } from './batch/BatchModel';
+import { BatchRequest } from './batch/BatchRequest';
+import { Component } from './batch/Component';
 
 import { AxiosInstance } from 'axios';
 import config from 'config';
@@ -23,7 +26,8 @@ export class ArdoqClient {
   constructor(
     private httpClient: AxiosInstance,
     private cache: Map<string, Dependency> = new Map<string, Dependency>(),
-    private logger = Logger.getLogger('ArdoqClient')
+    private logger = Logger.getLogger('ArdoqClient'),
+
   ) {}
 
   private cacheResult(d: Dependency) {
@@ -150,13 +154,14 @@ export class ArdoqClient {
     }
   }
 
-  public async updateDep(d: Dependency): Promise<[ArdoqComponentCreatedStatus, string | null]> {
+  public async updateDep(d: Dependency, batchRequest: BatchRequest): Promise<[ArdoqComponentCreatedStatus, string | null]> {
     if (this.isCached(d)) {
       this.logger.debug('Found cached result for: ' + d.name + ' - ' + d.componentId);
       return [ArdoqComponentCreatedStatus.EXISTING, d.componentId];
     }
 
     const searchResponse = await this.searchForComponent(d.name, ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE);
+
     if (searchResponse.status === 200 && searchResponse.data.values.length > 0) {
       d.componentId = searchResponse.data.values[0]._id;
       this.logger.debug('Found component: ' + d.name + ' - ' + d.componentId);
@@ -165,13 +170,45 @@ export class ArdoqClient {
     }
 
     // create a new object
-    const createResponse = await this.createComponent(d.name, ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE);
-    if (createResponse.status === 201) {
-      d.componentId = createResponse.data._id;
-      this.logger.debug('Created component: ' + d.name + ' - ' + d.componentId);
-      this.cacheResult(d);
-      return [ArdoqComponentCreatedStatus.CREATED, d.componentId];
+    batchRequest.component.addCreate({
+      batchId: '',
+      body: new Component(
+        ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE,
+        d.name,
+        this.componentTypeLookup.get(ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE) ?? ''
+      )
+    });
+    return [ArdoqComponentCreatedStatus.PENDING, null];
+  }
+
+  public async processBatchRequest(batchRequest: BatchRequest, counts: Map<ArdoqComponentCreatedStatus, number>): Promise<Map<ArdoqComponentCreatedStatus, number>> {
+    const response = await this.httpClient.post('/api/v2/batch', batchRequest.toJson(), {
+      responseType: 'json',
+    });
+    if (response.status === 200) {
+      this.processBatchResponse(counts, response.data.components, response.data.references);
+    } else {
+      this.logger.error('Batch request failed: ' + JSON.stringify(response.data));
+      counts.set(ArdoqComponentCreatedStatus.ERROR, (counts.get(ArdoqComponentCreatedStatus.ERROR) ?? 0) + batchRequest.getTotalNumberOfRecords());
     }
-    return [ArdoqComponentCreatedStatus.ERROR, null];
+
+    return counts;
+  }
+
+  private processBatchResponse(counts: Map<ArdoqComponentCreatedStatus, number>, components?: BatchResult, references?: BatchResult) {
+
+    const process = (res: BatchActionResult, isCreation: boolean) => {
+      const status = isCreation ? ArdoqComponentCreatedStatus.CREATED : ArdoqComponentCreatedStatus.EXISTING;
+      const logText = isCreation ? 'Component created: ' : 'Component updated: ';
+      if (res.body instanceof Component) {
+        this.logger.debug(logText + res.body.name + ' - ' + res.id);
+      } else {
+        this.logger.debug(logText + res.body.source + ' - ' + res.body.target);
+      }
+      counts.set(status, (counts.get(status) ?? 0) + 1);
+    };
+
+    [...components?.created ?? [], ...references?.created ?? []].map((u) => process(u, true));
+    [...components?.updated ?? [], ...references?.updated ?? []].map((u) => process(u, false));
   }
 }

@@ -3,6 +3,7 @@ import { jest } from '@jest/globals';
 import { describe, expect, it } from '@jest/globals';
 
 import { ArdoqClient } from '../../../../main/modules/ardoq/ArdoqClient';
+import { BatchRequest } from '../../../../main/modules/ardoq/batch/BatchRequest';
 import { Dependency } from '../../../../main/modules/ardoq/Dependency';
 import { ArdoqComponentCreatedStatus } from '../../../../main/modules/ardoq/ArdoqComponentCreatedStatus';
 import { PropertiesVolume } from '../../../../main/modules/properties-volume';
@@ -26,11 +27,11 @@ describe('ArdoqClient', () => {
     }
     // @ts-ignore
     const paramName = config.params.name;
-    if (paramName === 'hot-tech') {
+    if (paramName === 'hot-tech2') {
       return Promise.resolve({
         status: 200,
         data: {
-          values: [],
+          values: [{_id: '1234'}],
         },
       });
     }
@@ -88,7 +89,30 @@ describe('ArdoqClient', () => {
     });
   });
   // @ts-ignore
-  mockedAxios.post.mockImplementation((url: string, data: object, config: object) => {
+  mockedAxios.post.mockImplementation((url: string, data: string, config: object) => {
+    if (url === '/api/v2/batch') {
+      const d = JSON.parse(data);
+      if (d['component']['create'][0]['body']['name'] == '@!££$%^') {
+        return Promise.resolve({
+          status: 500
+        });
+      }
+      if (d['component']['create'][0]['body']['name'] == 'hot-tech') {
+        return Promise.resolve({
+          status: 200,
+          data: {
+            components: {
+              created: [{
+                id: '1234',
+                body: {
+                  name: 'hot-tech',
+                }
+              }]
+            }
+          }
+        });
+      }
+    }
     // @ts-ignore
     const paramName = config.params.name;
     if (paramName === 'hot-tech') {
@@ -113,28 +137,47 @@ describe('ArdoqClient', () => {
   });
 
   const cache = new Map<string, Dependency>();
+  const counts = () => {
+    return new Map<ArdoqComponentCreatedStatus, number>([
+      [ArdoqComponentCreatedStatus.EXISTING, 0],
+      [ArdoqComponentCreatedStatus.CREATED, 0],
+      [ArdoqComponentCreatedStatus.ERROR, 0],
+    ]);
+  }
 
   it('Returns a CREATED response', () => {
     const client = new ArdoqClient(mockedAxios, cache);
-    client.updateDep(new Dependency('hot-tech', '1.1.1')).then(result => {
-      expect(result[0]).toEqual(ArdoqComponentCreatedStatus.CREATED);
+    const br = new BatchRequest();
+    client.updateDep(new Dependency('hot-tech', '1.1.1'), br).then(result => {
+      expect(result[0]).toEqual(ArdoqComponentCreatedStatus.PENDING);
+      expect(br.component.getCreateLength()).toEqual(1);
+      const c = counts();
+      client.processBatchRequest(br, c).then(result => {
+        expect(c.get(ArdoqComponentCreatedStatus.CREATED)).toEqual(1);
+      });
     });
   });
 
   it('Returns an ERROR response', () => {
     const client = new ArdoqClient(mockedAxios, cache);
-    client.updateDep(new Dependency('@!££$%^', '1.1.1')).then(result => {
-      expect(result[0]).toEqual(ArdoqComponentCreatedStatus.ERROR);
+    const br = new BatchRequest();
+    client.updateDep(new Dependency('@!££$%^', '1.1.1'), br).then(result => {
+      expect(result[0]).toEqual(ArdoqComponentCreatedStatus.PENDING);
+      expect(br.component.getCreateLength()).toEqual(1);
+      const c = counts();
+      client.processBatchRequest(br, c).then(result => {
+        expect(c.get(ArdoqComponentCreatedStatus.ERROR)).toEqual(1);
+      });
     });
   });
 
   it('Returns an EXISTING response', () => {
     const client = new ArdoqClient(mockedAxios, cache);
-    client.updateDep(new Dependency('hot-tech', '2.2.2')).then(result => {
+    client.updateDep(new Dependency('hot-tech2', '2.2.2'), new BatchRequest()).then(result => {
       expect(result[0]).toEqual(ArdoqComponentCreatedStatus.EXISTING);
 
       // should now use a cached result
-      client.updateDep(new Dependency('hot-tech', '2.2.2')).then(result => {
+      client.updateDep(new Dependency('hot-tech2', '2.2.2'), new BatchRequest()).then(result => {
         expect(result[0]).toEqual(ArdoqComponentCreatedStatus.EXISTING);
       });
     });
@@ -163,7 +206,7 @@ describe('ArdoqClient', () => {
 
   it('updateDep exists but not cached', () => {
     const client = new ArdoqClient(mockedAxios, cache);
-    client.updateDep(new Dependency('known-but-not-cached', '1.1.1')).then(result => {
+    client.updateDep(new Dependency('known-but-not-cached', '1.1.1'), new BatchRequest()).then(result => {
       expect(result[0]).toEqual(ArdoqComponentCreatedStatus.EXISTING);
       expect(result[1]).toEqual('91011');
     });
