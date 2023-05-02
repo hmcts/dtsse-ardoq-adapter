@@ -219,7 +219,7 @@ export class ArdoqClient {
       counts.set(status, (counts.get(status) ?? 0) + 1);
     };
 
-    [...(components?.created ?? []), ...(references?.created ?? [])].map(u => process(u, true));
-    [...(components?.updated ?? []), ...(references?.updated ?? [])].map(u => process(u, false));
+    [...(components?.created ?? []), ...(references?.created ?? [])].forEach(u => process(u, true));
+    [...(components?.updated ?? []), ...(references?.updated ?? [])].forEach(u => process(u, false));
   }
 }
