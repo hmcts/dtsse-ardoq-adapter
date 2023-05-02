@@ -32,7 +32,10 @@ jest.mock('../../../../main/modules/ardoq/ArdoqClient', () => {
           return Promise.resolve('def');
         },
         referenceRequest(source: string, target: string, relationship: ArdoqRelationship, version?: string): void {},
-        processBatchRequest(batchRequest: BatchRequest, counts: Map<ArdoqComponentCreatedStatus, number>): Promise<Map<ArdoqComponentCreatedStatus, number>> {
+        processBatchRequest(
+          batchRequest: BatchRequest,
+          counts: Map<ArdoqComponentCreatedStatus, number>
+        ): Promise<Map<ArdoqComponentCreatedStatus, number>> {
           return Promise.resolve(counts);
         },
       };

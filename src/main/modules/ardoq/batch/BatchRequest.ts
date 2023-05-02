@@ -4,7 +4,7 @@ export class BatchRequest {
   constructor(
     public readonly component: BatchModel = new BatchModel(),
     public readonly references: BatchModel = new BatchModel(),
-    public readonly respondWithEntities: boolean = false,
+    public readonly respondWithEntities: boolean = false
   ) {}
 
   public toJson(): string {
@@ -12,9 +12,11 @@ export class BatchRequest {
   }
 
   public getTotalNumberOfRecords(): number {
-    return this.component.getCreateLength() +
+    return (
+      this.component.getCreateLength() +
       this.component.getUpdateLength() +
       this.references.getCreateLength() +
-      this.references.getUpdateLength();
+      this.references.getUpdateLength()
+    );
   }
 }

@@ -26,8 +26,7 @@ export class ArdoqClient {
   constructor(
     private httpClient: AxiosInstance,
     private cache: Map<string, Dependency> = new Map<string, Dependency>(),
-    private logger = Logger.getLogger('ArdoqClient'),
-
+    private logger = Logger.getLogger('ArdoqClient')
   ) {}
 
   private cacheResult(d: Dependency) {
@@ -154,7 +153,10 @@ export class ArdoqClient {
     }
   }
 
-  public async updateDep(d: Dependency, batchRequest: BatchRequest): Promise<[ArdoqComponentCreatedStatus, string | null]> {
+  public async updateDep(
+    d: Dependency,
+    batchRequest: BatchRequest
+  ): Promise<[ArdoqComponentCreatedStatus, string | null]> {
     if (this.isCached(d)) {
       this.logger.debug('Found cached result for: ' + d.name + ' - ' + d.componentId);
       return [ArdoqComponentCreatedStatus.EXISTING, d.componentId];
@@ -176,12 +178,15 @@ export class ArdoqClient {
         ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE,
         d.name,
         this.componentTypeLookup.get(ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE) ?? ''
-      )
+      ),
     });
     return [ArdoqComponentCreatedStatus.PENDING, null];
   }
 
-  public async processBatchRequest(batchRequest: BatchRequest, counts: Map<ArdoqComponentCreatedStatus, number>): Promise<Map<ArdoqComponentCreatedStatus, number>> {
+  public async processBatchRequest(
+    batchRequest: BatchRequest,
+    counts: Map<ArdoqComponentCreatedStatus, number>
+  ): Promise<Map<ArdoqComponentCreatedStatus, number>> {
     const response = await this.httpClient.post('/api/v2/batch', batchRequest.toJson(), {
       responseType: 'json',
     });
@@ -189,14 +194,20 @@ export class ArdoqClient {
       this.processBatchResponse(counts, response.data.components, response.data.references);
     } else {
       this.logger.error('Batch request failed: ' + JSON.stringify(response.data));
-      counts.set(ArdoqComponentCreatedStatus.ERROR, (counts.get(ArdoqComponentCreatedStatus.ERROR) ?? 0) + batchRequest.getTotalNumberOfRecords());
+      counts.set(
+        ArdoqComponentCreatedStatus.ERROR,
+        (counts.get(ArdoqComponentCreatedStatus.ERROR) ?? 0) + batchRequest.getTotalNumberOfRecords()
+      );
     }
 
     return counts;
   }
 
-  private processBatchResponse(counts: Map<ArdoqComponentCreatedStatus, number>, components?: BatchResult, references?: BatchResult) {
-
+  private processBatchResponse(
+    counts: Map<ArdoqComponentCreatedStatus, number>,
+    components?: BatchResult,
+    references?: BatchResult
+  ) {
     const process = (res: BatchActionResult, isCreation: boolean) => {
       const status = isCreation ? ArdoqComponentCreatedStatus.CREATED : ArdoqComponentCreatedStatus.EXISTING;
       const logText = isCreation ? 'Component created: ' : 'Component updated: ';
@@ -208,7 +219,7 @@ export class ArdoqClient {
       counts.set(status, (counts.get(status) ?? 0) + 1);
     };
 
-    [...components?.created ?? [], ...references?.created ?? []].map((u) => process(u, true));
-    [...components?.updated ?? [], ...references?.updated ?? []].map((u) => process(u, false));
+    [...(components?.created ?? []), ...(references?.created ?? [])].map(u => process(u, true));
+    [...(components?.updated ?? []), ...(references?.updated ?? [])].map(u => process(u, false));
   }
 }

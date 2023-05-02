@@ -31,7 +31,7 @@ describe('ArdoqClient', () => {
       return Promise.resolve({
         status: 200,
         data: {
-          values: [{_id: '1234'}],
+          values: [{ _id: '1234' }],
         },
       });
     }
@@ -94,7 +94,7 @@ describe('ArdoqClient', () => {
       const d = JSON.parse(data);
       if (d['component']['create'][0]['body']['name'] == '@!££$%^') {
         return Promise.resolve({
-          status: 500
+          status: 500,
         });
       }
       if (d['component']['create'][0]['body']['name'] == 'hot-tech') {
@@ -102,14 +102,16 @@ describe('ArdoqClient', () => {
           status: 200,
           data: {
             components: {
-              created: [{
-                id: '1234',
-                body: {
-                  name: 'hot-tech',
-                }
-              }]
-            }
-          }
+              created: [
+                {
+                  id: '1234',
+                  body: {
+                    name: 'hot-tech',
+                  },
+                },
+              ],
+            },
+          },
         });
       }
     }
@@ -143,7 +145,7 @@ describe('ArdoqClient', () => {
       [ArdoqComponentCreatedStatus.CREATED, 0],
       [ArdoqComponentCreatedStatus.ERROR, 0],
     ]);
-  }
+  };
 
   it('Returns a CREATED response', () => {
     const client = new ArdoqClient(mockedAxios, cache);
