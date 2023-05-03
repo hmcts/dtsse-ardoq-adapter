@@ -1,3 +1,5 @@
-export class Component {
-  constructor(public rootWorkspace: string, public name: string, public typeId: string) {}
+export interface Component {
+  rootWorkspace: string;
+  name: string;
+  typeId: string;
 }

@@ -1,10 +1,11 @@
 import { ArdoqComponentCreatedStatus } from './ArdoqComponentCreatedStatus';
 import { ArdoqRelationship } from './ArdoqRelationship';
 import { ArdoqWorkspace } from './ArdoqWorkspace';
+import { Component } from './batch/Component';
+import { Reference } from './batch/Reference';
 import { Dependency } from './Dependency';
 import { BatchActionResult, BatchResult } from './batch/BatchModel';
 import { BatchRequest } from './batch/BatchRequest';
-import { Component } from './batch/Component';
 
 import { AxiosInstance } from 'axios';
 import config from 'config';
@@ -174,11 +175,11 @@ export class ArdoqClient {
     // create a new object
     batchRequest.component.addCreate({
       batchId: '',
-      body: new Component(
-        ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE,
-        dependency.name,
-        this.componentTypeLookup.get(ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE) ?? ''
-      ),
+      body: {
+        rootWorkspace: ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE,
+        name:dependency.name,
+        typeId: this.componentTypeLookup.get(ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE) ?? ''
+      }
     });
     return [ArdoqComponentCreatedStatus.PENDING, null];
   }
@@ -209,10 +210,10 @@ export class ArdoqClient {
     const process = (res: BatchActionResult, isCreation: boolean) => {
       const status = isCreation ? ArdoqComponentCreatedStatus.CREATED : ArdoqComponentCreatedStatus.EXISTING;
       const logText = isCreation ? 'Component created: ' : 'Component updated: ';
-      if (res.body instanceof Component) {
-        this.logger.debug(logText + res.body.name + ' - ' + res.id);
+      if ((res.body as Component).typeId !== undefined) {
+        this.logger.debug(logText + (res.body as Component).name + ' - ' + res.id);
       } else {
-        this.logger.debug(logText + res.body.source + ' - ' + res.body.target);
+        this.logger.debug(logText + (res.body as Reference).source + ' - ' + (res.body as Reference).target);
       }
       counts.set(status, (counts.get(status) ?? 0) + 1);
     };
