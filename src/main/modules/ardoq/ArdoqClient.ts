@@ -187,7 +187,7 @@ export class ArdoqClient {
     batchRequest: BatchRequest,
     counts: Map<ArdoqComponentCreatedStatus, number>
   ): Promise<Map<ArdoqComponentCreatedStatus, number>> {
-    const response = await this.httpClient.post('/api/v2/batch', JSON.stringify(batchRequest));
+    const response = await this.httpClient.post('/api/v2/batch', batchRequest);
     if (response.status === 200) {
       this.processBatchResponse(counts, response.data.components, response.data.references);
     } else {
