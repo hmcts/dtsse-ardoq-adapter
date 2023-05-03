@@ -4,6 +4,7 @@ import { ArdoqRelationship } from './ArdoqRelationship';
 import { ArdoqRequest } from './ArdoqRequest';
 import { Dependency } from './Dependency';
 import { DependencyParser } from './DependencyParser';
+import { BatchRequest } from './batch/BatchRequest';
 
 const { Logger } = require('@hmcts/nodejs-logging');
 
@@ -36,9 +37,11 @@ export class RequestProcessor {
     ]);
 
     const deps = this.parser.fromDepRequest(request);
+
+    const batchRequest = new BatchRequest();
     await Promise.all(
       Object.values(deps).map(async (d: Dependency) => {
-        const [status, componentId] = await this.client.updateDep(d);
+        const [status, componentId] = await this.client.updateDep(d, batchRequest);
         if (componentId && codeRepoComponentId) {
           await this.client.referenceRequest(codeRepoComponentId, componentId, ArdoqRelationship.DEPENDS_ON_VERSION);
           this.logger.debug('Created dependency reference: ' + codeRepoComponentId + ' -> ' + componentId);
@@ -48,6 +51,7 @@ export class RequestProcessor {
       })
     );
 
-    return counts;
+    // process the batch request
+    return this.client.processBatchRequest(batchRequest, counts);
   }
 }

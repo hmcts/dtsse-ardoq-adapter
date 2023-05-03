@@ -1,6 +1,7 @@
 import { jest } from '@jest/globals';
 import { mocked } from 'jest-mock';
 import { ArdoqClient } from '../../../../main/modules/ardoq/ArdoqClient';
+import { BatchRequest } from '../../../../main/modules/ardoq/batch/BatchRequest';
 import { RequestProcessor } from '../../../../main/modules/ardoq/RequestProcessor';
 import { describe, expect, it, beforeEach } from '@jest/globals';
 import { Dependency } from '../../../../main/modules/ardoq/Dependency';
@@ -31,6 +32,12 @@ jest.mock('../../../../main/modules/ardoq/ArdoqClient', () => {
           return Promise.resolve('def');
         },
         referenceRequest(source: string, target: string, relationship: ArdoqRelationship, version?: string): void {},
+        processBatchRequest(
+          batchRequest: BatchRequest,
+          counts: Map<ArdoqComponentCreatedStatus, number>
+        ): Promise<Map<ArdoqComponentCreatedStatus, number>> {
+          return Promise.resolve(counts);
+        },
       };
     }),
   };
