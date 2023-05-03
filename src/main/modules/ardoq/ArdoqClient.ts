@@ -154,21 +154,21 @@ export class ArdoqClient {
   }
 
   public async updateDep(
-    d: Dependency,
+    dependency: Dependency,
     batchRequest: BatchRequest
   ): Promise<[ArdoqComponentCreatedStatus, string | null]> {
-    if (this.isCached(d)) {
-      this.logger.debug('Found cached result for: ' + d.name + ' - ' + d.componentId);
-      return [ArdoqComponentCreatedStatus.EXISTING, d.componentId];
+    if (this.isCached(dependency)) {
+      this.logger.debug('Found cached result for: ' + dependency.name + ' - ' + dependency.componentId);
+      return [ArdoqComponentCreatedStatus.EXISTING, dependency.componentId];
     }
 
-    const searchResponse = await this.searchForComponent(d.name, ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE);
+    const searchResponse = await this.searchForComponent(dependency.name, ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE);
 
     if (searchResponse.status === 200 && searchResponse.data.values.length > 0) {
-      d.componentId = searchResponse.data.values[0]._id;
-      this.logger.debug('Found component: ' + d.name + ' - ' + d.componentId);
-      this.cacheResult(d);
-      return [ArdoqComponentCreatedStatus.EXISTING, d.componentId];
+      dependency.componentId = searchResponse.data.values[0]._id;
+      this.logger.debug('Found component: ' + dependency.name + ' - ' + dependency.componentId);
+      this.cacheResult(dependency);
+      return [ArdoqComponentCreatedStatus.EXISTING, dependency.componentId];
     }
 
     // create a new object
@@ -176,7 +176,7 @@ export class ArdoqClient {
       batchId: '',
       body: new Component(
         ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE,
-        d.name,
+        dependency.name,
         this.componentTypeLookup.get(ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE) ?? ''
       ),
     });
@@ -187,9 +187,7 @@ export class ArdoqClient {
     batchRequest: BatchRequest,
     counts: Map<ArdoqComponentCreatedStatus, number>
   ): Promise<Map<ArdoqComponentCreatedStatus, number>> {
-    const response = await this.httpClient.post('/api/v2/batch', batchRequest.toJson(), {
-      responseType: 'json',
-    });
+    const response = await this.httpClient.post('/api/v2/batch', JSON.stringify(batchRequest));
     if (response.status === 200) {
       this.processBatchResponse(counts, response.data.components, response.data.references);
     } else {

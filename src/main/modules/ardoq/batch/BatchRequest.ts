@@ -7,10 +7,6 @@ export class BatchRequest {
     public readonly respondWithEntities: boolean = false
   ) {}
 
-  public toJson(): string {
-    return JSON.stringify(this);
-  }
-
   public getTotalNumberOfRecords(): number {
     return (
       this.component.getCreateLength() +
