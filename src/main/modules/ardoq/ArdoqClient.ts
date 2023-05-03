@@ -210,18 +210,26 @@ export class ArdoqClient {
     components?: BatchResult,
     references?: BatchResult
   ) {
-    const process = (res: BatchActionResult, isCreation: boolean) => {
-      const status = isCreation ? ArdoqComponentCreatedStatus.CREATED : ArdoqComponentCreatedStatus.EXISTING;
-      const logText = isCreation ? 'Component created: ' : 'Component updated: ';
-      if ((res.body as Component).typeId !== undefined) {
-        this.logger.debug(logText + (res.body as Component).name + ' - ' + res.id);
-      } else {
-        this.logger.debug(logText + (res.body as Reference).source + ' - ' + (res.body as Reference).target);
-      }
-      counts.set(status, (counts.get(status) ?? 0) + 1);
-    };
+    [...(components?.created ?? []), ...(references?.created ?? [])].forEach(u =>
+      this.processBatchActionResult(u, true, counts)
+    );
+    [...(components?.updated ?? []), ...(references?.updated ?? [])].forEach(u =>
+      this.processBatchActionResult(u, false, counts)
+    );
+  }
 
-    [...(components?.created ?? []), ...(references?.created ?? [])].forEach(u => process(u, true));
-    [...(components?.updated ?? []), ...(references?.updated ?? [])].forEach(u => process(u, false));
+  private processBatchActionResult(
+    res: BatchActionResult,
+    isCreation: boolean,
+    counts: Map<ArdoqComponentCreatedStatus, number>
+  ) {
+    const status = isCreation ? ArdoqComponentCreatedStatus.CREATED : ArdoqComponentCreatedStatus.EXISTING;
+    const logText = isCreation ? 'Component created: ' : 'Component updated: ';
+    if ((res.body as Component).typeId !== undefined) {
+      this.logger.debug(logText + (res.body as Component).name + ' - ' + res.id);
+    } else {
+      this.logger.debug(logText + (res.body as Reference).source + ' - ' + (res.body as Reference).target);
+    }
+    counts.set(status, (counts.get(status) ?? 0) + 1);
   }
 }
