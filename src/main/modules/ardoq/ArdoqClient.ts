@@ -1,11 +1,11 @@
 import { ArdoqComponentCreatedStatus } from './ArdoqComponentCreatedStatus';
 import { ArdoqRelationship } from './ArdoqRelationship';
 import { ArdoqWorkspace } from './ArdoqWorkspace';
-import { Component } from './batch/Component';
-import { Reference } from './batch/Reference';
 import { Dependency } from './Dependency';
 import { BatchActionResult, BatchResult } from './batch/BatchModel';
 import { BatchRequest } from './batch/BatchRequest';
+import { Component } from './batch/Component';
+import { Reference } from './batch/Reference';
 
 import { AxiosInstance } from 'axios';
 import config from 'config';
