@@ -163,7 +163,10 @@ export class ArdoqClient {
       return [ArdoqComponentCreatedStatus.EXISTING, dependency.componentId];
     }
 
-    const searchResponse = await this.searchForComponent(dependency.name, ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE);
+    const searchResponse = await this.searchForComponent(
+      dependency.name,
+      ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE
+    );
 
     if (searchResponse.status === 200 && searchResponse.data.values.length > 0) {
       dependency.componentId = searchResponse.data.values[0]._id;
@@ -177,9 +180,9 @@ export class ArdoqClient {
       batchId: '',
       body: {
         rootWorkspace: ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE,
-        name:dependency.name,
-        typeId: this.componentTypeLookup.get(ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE) ?? ''
-      }
+        name: dependency.name,
+        typeId: this.componentTypeLookup.get(ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE) ?? '',
+      },
     });
     return [ArdoqComponentCreatedStatus.PENDING, null];
   }

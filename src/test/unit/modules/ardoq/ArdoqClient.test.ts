@@ -91,7 +91,7 @@ describe('ArdoqClient', () => {
   // @ts-ignore
   mockedAxios.post.mockImplementation((url: string, data: string | object, config: object) => {
     if (url === '/api/v2/batch') {
-      const d = typeof (data) === 'string' ? JSON.parse(data) : data;
+      const d = typeof data === 'string' ? JSON.parse(data) : data;
       if (d['component']['create'][0]['body']['name'] == '@!££$%^') {
         return Promise.resolve({
           status: 500,

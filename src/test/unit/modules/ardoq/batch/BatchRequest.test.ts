@@ -8,42 +8,58 @@ describe('Ardoq Batch Request', () => {
     const r = new BatchRequest();
     expect(r).toBeDefined();
 
-    r.component.addCreate({ batchId: '1', body: {rootWorkspace: 'componentWS1', name:'componentName1', typeId:'componentType'}});
-    r.component.addCreate({ batchId: '2', body: {rootWorkspace: 'componentWS2', name:'componentName2', typeId:'componentType'}});
+    r.component.addCreate({
+      batchId: '1',
+      body: { rootWorkspace: 'componentWS1', name: 'componentName1', typeId: 'componentType' },
+    });
+    r.component.addCreate({
+      batchId: '2',
+      body: { rootWorkspace: 'componentWS2', name: 'componentName2', typeId: 'componentType' },
+    });
 
     r.component.addUpdate({
       id: '3',
       ifVersionMatch: 1,
-      body: {rootWorkspace: 'componentWS3', name:'componentName3', typeId:'componentType'},
+      body: { rootWorkspace: 'componentWS3', name: 'componentName3', typeId: 'componentType' },
     });
     r.component.addUpdate({
       id: '4',
       ifVersionMatch: 1,
-      body: {rootWorkspace: 'componentWS4', name:'componentName4', typeId:'componentType'},
+      body: { rootWorkspace: 'componentWS4', name: 'componentName4', typeId: 'componentType' },
     });
 
     r.references.addCreate({
       batchId: '1',
-      body: {source: 'referencesSource1', target: 'referencesTarget', type: ArdoqRelationship.HOSTS},
+      body: { source: 'referencesSource1', target: 'referencesTarget', type: ArdoqRelationship.HOSTS },
     });
     r.references.addCreate({
       batchId: '2',
-      body: {source: 'referencesSource2', target: 'referencesTarget', type: ArdoqRelationship.DEPENDS_ON_VERSION, customFields: {
-        version: '1.1.1',
-      }},
+      body: {
+        source: 'referencesSource2',
+        target: 'referencesTarget',
+        type: ArdoqRelationship.DEPENDS_ON_VERSION,
+        customFields: {
+          version: '1.1.1',
+        },
+      },
     });
 
     r.references.addUpdate({
       id: '3',
       ifVersionMatch: 'latest',
-      body: {source: 'referencesSource3', target: 'referencesTarget', type: ArdoqRelationship.HOSTS},
+      body: { source: 'referencesSource3', target: 'referencesTarget', type: ArdoqRelationship.HOSTS },
     });
     r.references.addUpdate({
       id: '4',
       ifVersionMatch: 'latest',
-      body: {source: 'referencesSource4', target: 'referencesTarget', type: ArdoqRelationship.DEPENDS_ON_VERSION, customFields: {
+      body: {
+        source: 'referencesSource4',
+        target: 'referencesTarget',
+        type: ArdoqRelationship.DEPENDS_ON_VERSION,
+        customFields: {
           version: '2.2.2',
-        }},
+        },
+      },
     });
 
     const json = JSON.stringify(r);
