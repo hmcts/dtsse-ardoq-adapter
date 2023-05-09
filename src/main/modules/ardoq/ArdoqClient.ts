@@ -28,7 +28,15 @@ export class ArdoqClient {
     private httpClient: AxiosInstance,
     private cache: Map<string, Dependency> = new Map<string, Dependency>(),
     private logger = Logger.getLogger('ArdoqClient')
-  ) {}
+  ) {
+
+    this.httpClient.interceptors.response.use(
+      r => r,
+      error => {
+        this.logger.error(JSON.stringify(error));
+      }
+    );
+  }
 
   private cacheResult(d: Dependency) {
     this.cache.set(d.name, d);

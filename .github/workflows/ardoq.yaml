@@ -24,7 +24,7 @@ jobs:
         run: |
           echo -n '{
             "vcsHost": "github.com/hmcts",
-            "hmctsApplication": "dtsse",
+            "hmctsApplication": "25c6b7b80c1ad97c3a2ad0f8",
             "codeRepository": "dtsse-ardoq-adapter",
             "encodedDependecyList": "' > payload.json
           cat yarn.lock.b64 | tr -d '\n' >> payload.json
