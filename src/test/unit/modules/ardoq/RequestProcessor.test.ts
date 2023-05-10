@@ -1,29 +1,32 @@
 import { jest } from '@jest/globals';
 import { mocked } from 'jest-mock';
+import { app } from '../../../../main/app';
 import { ArdoqClient } from '../../../../main/modules/ardoq/ArdoqClient';
+import { ArdoqRelationship } from '../../../../main/modules/ardoq/ArdoqRelationship';
+import { BatchCreate, BatchUpdate } from '../../../../main/modules/ardoq/batch/BatchModel';
 import { BatchRequest } from '../../../../main/modules/ardoq/batch/BatchRequest';
+import { SearchReferenceResponse } from '../../../../main/modules/ardoq/repositories/ArdoqReferenceRepository';
 import { RequestProcessor } from '../../../../main/modules/ardoq/RequestProcessor';
 import { describe, expect, it, beforeEach } from '@jest/globals';
-import { Dependency } from '../../../../main/modules/ardoq/Dependency';
 import { ArdoqComponentCreatedStatus } from '../../../../main/modules/ardoq/ArdoqComponentCreatedStatus';
 import axios from 'axios';
 import { DependencyParser } from '../../../../main/modules/ardoq/DependencyParser';
 import { GradleParser } from '../../../../main/modules/ardoq/GradleParser';
-import { ArdoqRelationship } from '../../../../main/modules/ardoq/ArdoqRelationship';
+import { PropertiesVolume } from '../../../../main/modules/properties-volume';
 import { base64Encode } from './TestUtility';
 
 jest.mock('../../../../main/modules/ardoq/ArdoqClient', () => {
   return {
     ArdoqClient: jest.fn().mockImplementation(() => {
       return {
-        updateDep: (d: Dependency) => {
-          if (d.name === 'hot-tech') {
-            return Promise.resolve([ArdoqComponentCreatedStatus.CREATED, '123']);
+        getComponentIdIfExists: (name: string) => {
+          if (name === 'hot-tech') {
+            return Promise.resolve(null);
           }
-          if (d.name === '@!££$%^') {
+          if (name === '@!££$%^') {
             throw new Error('yoinks');
           }
-          return Promise.resolve([ArdoqComponentCreatedStatus.EXISTING, '456']);
+          return Promise.resolve('456');
         },
         createVcsHostingComponent(name: string): Promise<string | null> {
           return Promise.resolve('abc');
@@ -31,12 +34,31 @@ jest.mock('../../../../main/modules/ardoq/ArdoqClient', () => {
         createCodeRepoComponent(name: string): Promise<string | null> {
           return Promise.resolve('def');
         },
-        referenceRequest(source: string, target: string, relationship: ArdoqRelationship, version?: string): void {},
-        processBatchRequest(
-          batchRequest: BatchRequest,
-          counts: Map<ArdoqComponentCreatedStatus, number>
-        ): Promise<Map<ArdoqComponentCreatedStatus, number>> {
-          return Promise.resolve(counts);
+        searchForReference(source: string, target: string): Promise<undefined | SearchReferenceResponse> {
+          if (source === 'def' && target === '456') {
+            return Promise.resolve({
+              id: '123',
+              version: '0.0.1',
+            });
+          }
+          if (source === 'e' && target === '456') {
+            return Promise.resolve({
+              id: '456',
+              version: '1.1.1',
+            });
+          }
+          return Promise.resolve(undefined);
+        },
+        processBatchRequest(batchRequest: BatchRequest): Promise<Map<ArdoqComponentCreatedStatus, number>> {
+          return Promise.resolve(new Map<ArdoqComponentCreatedStatus, number>([]));
+        },
+        getCreateOrUpdateReferenceModel(
+          source: string,
+          target: string,
+          relationship: ArdoqRelationship,
+          version?: string
+        ): Promise<BatchCreate | BatchUpdate | undefined> {
+          return Promise.resolve(undefined);
         },
       };
     }),
@@ -46,17 +68,20 @@ jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('RequestProcessor', () => {
-  const cache = new Map<string, Dependency>();
+  new PropertiesVolume().enableFor(app);
+  const cache = new Map<string, string>();
   const mockedArdoqClient = mocked(ArdoqClient, { shallow: true });
-  const emptyResult: (existing: number, created: number, error: number) => Map<ArdoqComponentCreatedStatus, number> = (
+  const emptyResult: (
     existing: number,
     created: number,
-    error: number
-  ) =>
+    error: number,
+    pending: number
+  ) => Map<ArdoqComponentCreatedStatus, number> = (existing: number, created: number, error: number, pending: number) =>
     new Map<ArdoqComponentCreatedStatus, number>([
       [ArdoqComponentCreatedStatus.EXISTING, existing],
       [ArdoqComponentCreatedStatus.CREATED, created],
       [ArdoqComponentCreatedStatus.ERROR, error],
+      [ArdoqComponentCreatedStatus.PENDING, pending],
     ]);
 
   beforeEach(() => {
@@ -81,7 +106,6 @@ describe('RequestProcessor', () => {
         expect(err.message).toBe('No dependencies found in request');
       });
   });
-
   it('Returns a 200 with existing item', () => {
     const requestProcessor = new RequestProcessor(
       new mockedArdoqClient(mockedAxios, cache),
@@ -98,7 +122,7 @@ describe('RequestProcessor', () => {
       })
       .then(res => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
-        expect(res).toEqual(emptyResult(1, 0, 0));
+        expect(res).toEqual(emptyResult(1, 0, 0, 0));
       });
   });
 
@@ -118,7 +142,7 @@ describe('RequestProcessor', () => {
       })
       .then(res => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
-        expect(res).toEqual(emptyResult(0, 1, 0));
+        expect(res).toEqual(emptyResult(0, 0, 0, 1));
       });
   });
 
@@ -138,14 +162,14 @@ describe('RequestProcessor', () => {
       })
       .then(res => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
-        expect(res).toEqual(emptyResult(0, 0, 0));
+        expect(res).toEqual(emptyResult(0, 0, 0, 0));
       })
       .catch(err => {
         expect(err.message).toBe('No dependencies found in request');
       });
   });
 
-  it('Returns a 201 when multiple items with 1 created', () => {
+  it('Returns a 201 when at least 1 item created', () => {
     const requestProcessor = new RequestProcessor(
       new mockedArdoqClient(mockedAxios, cache),
       new DependencyParser(new GradleParser())
@@ -161,7 +185,7 @@ describe('RequestProcessor', () => {
       })
       .then(res => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
-        expect(res).toEqual(emptyResult(1, 1, 0));
+        expect(res).toEqual(emptyResult(1, 0, 0, 1));
       });
   });
 
@@ -181,7 +205,7 @@ describe('RequestProcessor', () => {
       })
       .then(res => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
-        expect(res).toEqual(emptyResult(2, 0, 0));
+        expect(res).toEqual(emptyResult(2, 0, 0, 0));
       });
   });
 });

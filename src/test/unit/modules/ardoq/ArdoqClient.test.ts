@@ -1,16 +1,15 @@
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import axios from 'axios';
-import { jest } from '@jest/globals';
-import { describe, expect, it } from '@jest/globals';
-
-import { ArdoqClient } from '../../../../main/modules/ardoq/ArdoqClient';
-import { BatchRequest } from '../../../../main/modules/ardoq/batch/BatchRequest';
-import { Dependency } from '../../../../main/modules/ardoq/Dependency';
-import { ArdoqComponentCreatedStatus } from '../../../../main/modules/ardoq/ArdoqComponentCreatedStatus';
-import { PropertiesVolume } from '../../../../main/modules/properties-volume';
 import { app } from '../../../../main/app';
 
-jest.mock('axios');
+import { ArdoqClient } from '../../../../main/modules/ardoq/ArdoqClient';
+import { ArdoqComponentCreatedStatus } from '../../../../main/modules/ardoq/ArdoqComponentCreatedStatus';
+import { ArdoqRelationship } from '../../../../main/modules/ardoq/ArdoqRelationship';
+import { BatchUpdate } from '../../../../main/modules/ardoq/batch/BatchModel';
+import { BatchRequest } from '../../../../main/modules/ardoq/batch/BatchRequest';
+import { PropertiesVolume } from '../../../../main/modules/properties-volume';
 
+jest.mock('axios');
 describe('ArdoqClient', () => {
   new PropertiesVolume().enableFor(app);
 
@@ -18,6 +17,32 @@ describe('ArdoqClient', () => {
   // @ts-ignore
   mockedAxios.get.mockImplementation((url: string, config: object) => {
     if (url.startsWith('/api/v2/references')) {
+      // @ts-ignore
+      if (config.params.source === 'refSource' && config.params.target === 'refTarget') {
+        return Promise.resolve({
+          status: 200,
+          data: {
+            values: [
+              {
+                _id: '1234',
+                customFields: {
+                  version: '1.0.0',
+                },
+              },
+            ],
+          },
+        });
+      }
+      // @ts-ignore
+      if (config.params.source === 'refSource2' && config.params.target === 'refTarget2') {
+        return Promise.resolve({
+          status: 404,
+        });
+      }
+      // @ts-ignore
+      if (config.params.source === 'refSource3' && config.params.target === 'refTarget3') {
+        throw new Error('Network Error');
+      }
       return Promise.resolve({
         status: 200,
         data: {
@@ -27,26 +52,6 @@ describe('ArdoqClient', () => {
     }
     // @ts-ignore
     const paramName = config.params.name;
-    if (paramName === 'hot-tech2') {
-      return Promise.resolve({
-        status: 200,
-        data: {
-          values: [{ _id: '1234' }],
-        },
-      });
-    }
-    if (paramName === '@!££$%^') {
-      return Promise.resolve({
-        status: 500,
-        data: '',
-      });
-    }
-    if (paramName === 'dtsse-ardoq-adapter') {
-      return Promise.resolve({
-        status: 404,
-        data: '',
-      });
-    }
     if (paramName === 'github.com/hmcts') {
       return Promise.resolve({
         status: 200,
@@ -92,47 +97,22 @@ describe('ArdoqClient', () => {
   mockedAxios.post.mockImplementation((url: string, data: string | object, config: object) => {
     if (url === '/api/v2/batch') {
       const d = typeof data === 'string' ? JSON.parse(data) : data;
-      if (d['components']['create'][0]['body']['name'] == '@!££$%^') {
-        return Promise.resolve({
-          status: 500,
-        });
-      }
-      if (d['components']['create'][0]['body']['name'] == 'hot-tech') {
-        return Promise.resolve({
-          status: 200,
-          data: {
-            components: {
-              created: [
-                {
-                  id: '1234',
-                  body: {
-                    name: 'hot-tech',
-                  },
-                },
-              ],
-            },
-          },
-        });
+      if (d.components.update[0].id == 'foo') {
+        throw new Error('Network Error');
       }
     }
     // @ts-ignore
     const paramName = config.params.name;
-    if (paramName === 'hot-tech') {
+
+    if (paramName === 'github.com/new-created') {
       return Promise.resolve({
         status: 201,
         data: {
-          _id: '1234',
+          _id: '121314',
         },
       });
     }
-    if (paramName === 'dtsse-ardoq-adapter') {
-      return Promise.resolve({
-        status: 201,
-        data: {
-          _id: '1234',
-        },
-      });
-    }
+
     return Promise.resolve({
       status: 500,
     });
@@ -146,79 +126,177 @@ describe('ArdoqClient', () => {
     },
   };
 
-  const cache = new Map<string, Dependency>();
-  const counts = () => {
-    return new Map<ArdoqComponentCreatedStatus, number>([
-      [ArdoqComponentCreatedStatus.EXISTING, 0],
-      [ArdoqComponentCreatedStatus.CREATED, 0],
-      [ArdoqComponentCreatedStatus.ERROR, 0],
-    ]);
-  };
+  const cache = new Map<string, string>();
 
-  it('Returns a CREATED response', () => {
-    const client = new ArdoqClient(mockedAxios, cache);
-    const br = new BatchRequest();
-    client.updateDep(new Dependency('hot-tech', '1.1.1'), br).then(result => {
-      expect(result[0]).toEqual(ArdoqComponentCreatedStatus.PENDING);
-      expect(br.components.getCreateLength()).toEqual(1);
-      const c = counts();
-      client.processBatchRequest(br, c).then(result => {
-        expect(c.get(ArdoqComponentCreatedStatus.CREATED)).toEqual(1);
-      });
-    });
+  beforeEach(() => {
+    cache.clear();
   });
 
-  it('Returns an ERROR response', () => {
-    const client = new ArdoqClient(mockedAxios, cache);
-    const br = new BatchRequest();
-    client.updateDep(new Dependency('@!££$%^', '1.1.1'), br).then(result => {
-      expect(result[0]).toEqual(ArdoqComponentCreatedStatus.PENDING);
-      expect(br.components.getCreateLength()).toEqual(1);
-      const c = counts();
-      client.processBatchRequest(br, c).then(result => {
-        expect(c.get(ArdoqComponentCreatedStatus.ERROR)).toEqual(1);
-      });
-    });
-  });
-
-  it('Returns an EXISTING response', () => {
-    const client = new ArdoqClient(mockedAxios, cache);
-    client.updateDep(new Dependency('hot-tech2', '2.2.2'), new BatchRequest()).then(result => {
-      expect(result[0]).toEqual(ArdoqComponentCreatedStatus.EXISTING);
-
-      // should now use a cached result
-      client.updateDep(new Dependency('hot-tech2', '2.2.2'), new BatchRequest()).then(result => {
-        expect(result[0]).toEqual(ArdoqComponentCreatedStatus.EXISTING);
-      });
-    });
-  });
-
-  it('createCodeRepoComponent creates', () => {
-    const client = new ArdoqClient(mockedAxios, cache);
-    client.createCodeRepoComponent('dtsse-ardoq-adapter').then(result => {
-      expect(result).toEqual('1234');
-    });
-  });
-
-  it('createVcsHostingComponent exists', () => {
+  it('createVcsHostingComponent exists', async () => {
     const client = new ArdoqClient(mockedAxios, cache);
     client.createCodeRepoComponent('github.com/hmcts').then(result => {
-      expect(result).toEqual('5678');
+      expect(result).toEqual([ArdoqComponentCreatedStatus.EXISTING, '5678']);
     });
   });
 
-  it('createVcsHostingComponent err', () => {
+  it('createVcsHostingComponent cache exists', async () => {
+    cache.set('github.com/jp', '91011');
+    const client = new ArdoqClient(mockedAxios, cache);
+    client.createVcsHostingComponent('github.com/jp').then(result => {
+      expect(result).toEqual([ArdoqComponentCreatedStatus.EXISTING, '91011']);
+    });
+  });
+
+  it('createVcsHostingComponent err', async () => {
+    const client = new ArdoqClient(mockedAxios, cache);
+    client.createVcsHostingComponent('github.com/blah').then(result => {
+      expect(result).toEqual([ArdoqComponentCreatedStatus.ERROR, null]);
+    });
+  });
+
+  it('createVcsHostingComponent created', async () => {
+    const client = new ArdoqClient(mockedAxios, cache);
+    client.createVcsHostingComponent('github.com/new-created').then(result => {
+      expect(result).toEqual([ArdoqComponentCreatedStatus.CREATED, '121314']);
+    });
+  });
+
+  it('createCodeRepoComponent exists', async () => {
+    const client = new ArdoqClient(mockedAxios, cache);
+    client.createCodeRepoComponent('github.com/hmcts').then(result => {
+      expect(result).toEqual([ArdoqComponentCreatedStatus.EXISTING, '5678']);
+    });
+  });
+
+  it('createCodeRepoComponent cache exists', async () => {
+    cache.set('github.com/jp', '91011');
+    const client = new ArdoqClient(mockedAxios, cache);
+    client.createCodeRepoComponent('github.com/jp').then(result => {
+      expect(result).toEqual([ArdoqComponentCreatedStatus.EXISTING, '91011']);
+    });
+  });
+
+  it('createCodeRepoComponent err', async () => {
     const client = new ArdoqClient(mockedAxios, cache);
     client.createCodeRepoComponent('github.com/blah').then(result => {
-      expect(result).toEqual(null);
+      expect(result).toEqual([ArdoqComponentCreatedStatus.ERROR, null]);
     });
   });
 
-  it('updateDep exists but not cached', () => {
+  it('createCodeRepoComponent created', async () => {
     const client = new ArdoqClient(mockedAxios, cache);
-    client.updateDep(new Dependency('known-but-not-cached', '1.1.1'), new BatchRequest()).then(result => {
-      expect(result[0]).toEqual(ArdoqComponentCreatedStatus.EXISTING);
-      expect(result[1]).toEqual('91011');
+    client.createCodeRepoComponent('github.com/new-created').then(result => {
+      expect(result).toEqual([ArdoqComponentCreatedStatus.CREATED, '121314']);
     });
+  });
+
+  it('searchForReference found', async () => {
+    const client = new ArdoqClient(mockedAxios, cache);
+    client.searchForReference('refSource', 'refTarget').then(result => {
+      expect(result?.id).toEqual('1234');
+      expect(result?.version).toEqual('1.0.0');
+    });
+  });
+
+  it('searchForReference not found', async () => {
+    const client = new ArdoqClient(mockedAxios, cache);
+    client.searchForReference('refSource2', 'refTarget2').then(result => {
+      expect(result).toEqual(undefined);
+    });
+  });
+
+  it('processBatchRequest error', async () => {
+    const client = new ArdoqClient(mockedAxios, cache);
+    const br = new BatchRequest();
+    br.components.addUpdate({
+      id: 'foo',
+      ifVersionMatch: 'latest',
+      body: {
+        rootWorkspace: 'bar',
+        name: 'biz',
+        typeId: 'baz',
+      },
+    } as BatchUpdate);
+    const r = await client.processBatchRequest(br);
+    expect(r.get(ArdoqComponentCreatedStatus.ERROR)).toEqual(1);
+  });
+
+  it('getComponentIdIfExists cached', async () => {
+    cache.set('fooComponent', '1234');
+    const client = new ArdoqClient(mockedAxios, cache);
+    const r = await client.getComponentIdIfExists('fooComponent');
+    expect(r).toEqual('1234');
+  });
+
+  it('getComponentIdIfExists known', async () => {
+    const client = new ArdoqClient(mockedAxios, cache);
+    const r = await client.getComponentIdIfExists('known-but-not-cached');
+    expect(r).toEqual('91011');
+  });
+
+  it('getComponentIdIfExists unknown', async () => {
+    const client = new ArdoqClient(mockedAxios, cache);
+    const r = await client.getComponentIdIfExists('unknown');
+    expect(r).toEqual(null);
+  });
+
+  it('getCreateOrUpdateReferenceModel undefined', async () => {
+    const client = new ArdoqClient(mockedAxios, cache);
+    const result = await client.getCreateOrUpdateReferenceModel(
+      'refSource',
+      'refTarget',
+      ArdoqRelationship.HOSTS,
+      '1.0.0'
+    );
+
+    expect(result).toEqual(undefined);
+  });
+
+  it('getCreateOrUpdateReferenceModel create', async () => {
+    const client = new ArdoqClient(mockedAxios, cache);
+    const result = await client.getCreateOrUpdateReferenceModel('refSource2', 'refTarget2', ArdoqRelationship.HOSTS);
+
+    expect(result).toEqual({
+      body: {
+        source: 'refSource2',
+        target: 'refTarget2',
+        type: ArdoqRelationship.HOSTS,
+        customFields: undefined,
+      },
+    });
+  });
+
+  it('getCreateOrUpdateReferenceModel update', async () => {
+    const client = new ArdoqClient(mockedAxios, cache);
+    const result = await client.getCreateOrUpdateReferenceModel(
+      'refSource',
+      'refTarget',
+      ArdoqRelationship.MAINTAINS,
+      '1.1.1'
+    );
+
+    expect(result).toEqual({
+      id: '1234',
+      ifVersionMatch: 'latest',
+      body: {
+        source: 'refSource',
+        target: 'refTarget',
+        type: ArdoqRelationship.MAINTAINS,
+        customFields: {
+          version: '1.1.1',
+        },
+      },
+    });
+  });
+
+  it('getCreateOrUpdateReferenceModel undefined error', async () => {
+    const client = new ArdoqClient(mockedAxios, cache);
+    const result = await client.getCreateOrUpdateReferenceModel(
+      'refSource3',
+      'refTarget3',
+      ArdoqRelationship.MAINTAINS
+    );
+
+    expect(result).toEqual(undefined);
   });
 });
