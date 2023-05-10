@@ -2,15 +2,15 @@ import { BatchModel } from './BatchModel';
 
 export class BatchRequest {
   constructor(
-    public readonly component: BatchModel = new BatchModel(),
+    public readonly components: BatchModel = new BatchModel(),
     public readonly references: BatchModel = new BatchModel(),
-    public readonly respondWithEntities: boolean = false
+    public readonly options: Record<string, boolean> = { respondWithEntities: false }
   ) {}
 
   public getTotalNumberOfRecords(): number {
     return (
-      this.component.getCreateLength() +
-      this.component.getUpdateLength() +
+      this.components.getCreateLength() +
+      this.components.getUpdateLength() +
       this.references.getCreateLength() +
       this.references.getUpdateLength()
     );

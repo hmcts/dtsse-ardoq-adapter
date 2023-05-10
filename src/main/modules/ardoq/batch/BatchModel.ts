@@ -1,11 +1,11 @@
 import { Component } from './Component';
 import { Reference } from './Reference';
 
-type BatchCreate = {
-  batchId: string;
+export type BatchCreate = {
+  batchId?: string;
   body: Component | Reference;
 };
-type BatchUpdate = {
+export type BatchUpdate = {
   id: string;
   ifVersionMatch: number | 'latest';
   body: Component | Reference;

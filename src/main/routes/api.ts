@@ -26,6 +26,13 @@ export default function (app: Application): void {
     })
   );
 
+  axios.interceptors.response.use(
+    r => r,
+    error => {
+      this.logger.error(JSON.stringify(error.message));
+    }
+  );
+
   const parsers = {
     gradle: new DependencyParser(new GradleParser()),
     maven: new DependencyParser(new MavenParser()),

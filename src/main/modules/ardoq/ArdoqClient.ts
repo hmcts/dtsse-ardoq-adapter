@@ -2,7 +2,7 @@ import { ArdoqComponentCreatedStatus } from './ArdoqComponentCreatedStatus';
 import { ArdoqRelationship } from './ArdoqRelationship';
 import { ArdoqWorkspace } from './ArdoqWorkspace';
 import { Dependency } from './Dependency';
-import { BatchActionResult, BatchResult } from './batch/BatchModel';
+import { BatchActionResult, BatchCreate, BatchResult, BatchUpdate } from './batch/BatchModel';
 import { BatchRequest } from './batch/BatchRequest';
 import { Component } from './batch/Component';
 import { Reference } from './batch/Reference';
@@ -28,15 +28,7 @@ export class ArdoqClient {
     private httpClient: AxiosInstance,
     private cache: Map<string, Dependency> = new Map<string, Dependency>(),
     private logger = Logger.getLogger('ArdoqClient')
-  ) {
-
-    this.httpClient.interceptors.response.use(
-      r => r,
-      error => {
-        this.logger.error(JSON.stringify(error));
-      }
-    );
-  }
+  ) {}
 
   private cacheResult(d: Dependency) {
     this.cache.set(d.name, d);
@@ -116,49 +108,38 @@ export class ArdoqClient {
     }
   }
 
-  private updateReferenceVersion(id: string, version: string): Promise<void> {
-    return this.httpClient.patch(
-      `/api/v2/references/${id}?ifVersionMatch=latest`,
-      {
-        customFields: {
-          version,
-        },
-      },
-      {
-        responseType: 'json',
-      }
-    );
-  }
-
-  private createReference(
-    source: string,
-    target: string,
-    relationship: ArdoqRelationship,
-    version?: string
-  ): Promise<unknown> {
-    const data = {
-      source,
-      target,
-      type: relationship,
-      customFields: version ? { version } : undefined,
-    };
-
-    return this.httpClient.post('/api/v2/references', data, {
-      responseType: 'json',
-    });
-  }
-
   public async referenceRequest(
     source: string,
     target: string,
     relationship: ArdoqRelationship,
     version?: string
-  ): Promise<void> {
-    const existingReference = await this.searchForReference(source, target);
-    if (!existingReference) {
-      await this.createReference(source, target, relationship, version);
-    } else if (version && existingReference.version !== version) {
-      await this.updateReferenceVersion(existingReference.id, version);
+  ): Promise<BatchCreate | BatchUpdate | undefined> {
+    try {
+      const existingReference = await this.searchForReference(source, target);
+
+      if (!existingReference) {
+        return {
+          body: {
+            source,
+            target,
+            type: relationship,
+            customFields: version ? { version } : undefined,
+          },
+        } as BatchCreate;
+      } else if (version && existingReference.version !== version) {
+        return {
+          id: existingReference.id,
+          ifVersionMatch: 'latest',
+          body: {
+            source,
+            target,
+            type: relationship,
+            customFields: { version },
+          },
+        } as BatchUpdate;
+      }
+    } catch (e) {
+      this.logger.error('Error finding reference: ' + source + ' -> ' + target + ' : ' + e.message);
     }
   }
 
@@ -176,7 +157,7 @@ export class ArdoqClient {
       ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE
     );
 
-    if (searchResponse.status === 200 && searchResponse.data.values.length > 0) {
+    if (searchResponse?.status === 200 && searchResponse.data.values.length > 0) {
       dependency.componentId = searchResponse.data.values[0]._id;
       this.logger.debug('Found component: ' + dependency.name + ' - ' + dependency.componentId);
       this.cacheResult(dependency);
@@ -184,14 +165,13 @@ export class ArdoqClient {
     }
 
     // create a new object
-    batchRequest.component.addCreate({
-      batchId: '',
+    batchRequest.components.addCreate({
       body: {
-        rootWorkspace: ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE,
+        rootWorkspace: config.get(ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE),
         name: dependency.name,
         typeId: this.componentTypeLookup.get(ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE) ?? '',
       },
-    });
+    } as BatchCreate);
     return [ArdoqComponentCreatedStatus.PENDING, null];
   }
 
@@ -199,11 +179,21 @@ export class ArdoqClient {
     batchRequest: BatchRequest,
     counts: Map<ArdoqComponentCreatedStatus, number>
   ): Promise<Map<ArdoqComponentCreatedStatus, number>> {
-    const response = await this.httpClient.post('/api/v2/batch', batchRequest);
-    if (response.status === 200) {
-      this.processBatchResponse(counts, response.data.components, response.data.references);
-    } else {
-      this.logger.error('Batch request failed: ' + JSON.stringify(response.data));
+    this.logger.debug(JSON.stringify(batchRequest));
+    try {
+      const response = await this.httpClient.post('/api/v2/batch', batchRequest);
+      if (response.status === 200) {
+        this.processBatchResponse(counts, response.data.components, response.data.references);
+      } else {
+        this.logger.error('Batch request failed status: ' + response.status);
+        counts.set(
+          ArdoqComponentCreatedStatus.ERROR,
+          (counts.get(ArdoqComponentCreatedStatus.ERROR) ?? 0) + batchRequest.getTotalNumberOfRecords()
+        );
+      }
+    } catch (e) {
+      this.logger.error('Batch request failed: ' + e.message);
+      this.logger.error(e);
       counts.set(
         ArdoqComponentCreatedStatus.ERROR,
         (counts.get(ArdoqComponentCreatedStatus.ERROR) ?? 0) + batchRequest.getTotalNumberOfRecords()
