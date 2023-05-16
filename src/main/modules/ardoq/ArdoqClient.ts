@@ -111,7 +111,6 @@ export class ArdoqClient {
   }
 
   public async processBatchRequest(batchRequest: BatchRequest): Promise<ArdoqStatusCounts> {
-    console.log('################################');
     return this.batchRepository.create(batchRequest);
   }
 }
