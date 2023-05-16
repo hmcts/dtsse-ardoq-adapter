@@ -5,7 +5,7 @@ on:
     branches:
       - master
       - main
-      - DTSSE-2973/component-relationships
+      - fix-github-action
 jobs:
   Maintain-Ardoq-Tech-Stack:
     runs-on: ubuntu-latest
@@ -22,13 +22,13 @@ jobs:
 
       - name: Prepare request payload
         run: |
-          echo '{
+          echo -n '{
             "vcsHost": "github.com/hmcts",
-            "hmctsApplication": "dtsse",
-            "codeRepository": "${{ github.repository }}",
+            "hmctsApplication": "25c6b7b80c1ad97c3a2ad0f8",
+            "codeRepository": "dtsse-ardoq-adapter",
             "encodedDependecyList": "' > payload.json
-          cat yarn.lock.b64 >> payload.json
-          echo '",
+          cat yarn.lock.b64 | tr -d '\n' >> payload.json
+          echo -n '",
               "parser": "yarn"
             }' >> payload.json
 
@@ -36,12 +36,16 @@ jobs:
         run: |
           gzip payload.json
 
+      - name: debug compression
+        run: |
+          ls -lah payload.json.gz
+
       - name: post deps to ardoq app
         run: |
-          curl -X POST -v -H "Content-Type: application/json" \
-            -H "Authorization: Bearer ${{ secrets.ARDOQ_ADAPTER_KEY }}" \
-            -H "Content-Encoding: gzip" \
-            -d @payload.json.gz \
-            ${{ secrets.ARDOQ_ADAPTER_URL }}
+          curl --location --request POST '${{ secrets.ARDOQ_ADAPTER_URL }}' \
+            --header 'Authorization: Bearer ${{ secrets.ARDOQ_ADAPTER_KEY }}' \
+            --header 'Content-Type: application/json' \
+            --header 'content-encoding: gzip' \
+            --data-binary '@payload.json.gz'
 
       - run: echo "🍏 This job's status is ${{ job.status }}."

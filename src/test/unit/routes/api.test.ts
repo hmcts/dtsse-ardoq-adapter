@@ -4,6 +4,7 @@ import config from 'config';
 import * as zlib from 'zlib';
 
 import { ArdoqComponentCreatedStatus } from '../../../main/modules/ardoq/ArdoqComponentCreatedStatus';
+import { ArdoqStatusCounts } from '../../../main/modules/ardoq/ArdoqStatusCounts';
 
 import { RequestProcessor } from '../../../main/modules/ardoq/RequestProcessor';
 
@@ -11,13 +12,7 @@ jest.mock('../../../main/modules/ardoq/RequestProcessor', () => ({
   RequestProcessor: jest.fn().mockImplementation(() => ({
     constructor: (client: ArdoqClient) => {},
     processRequest: (deps: Map<string, Dependency>) =>
-      Promise.resolve(
-        new Map<ArdoqComponentCreatedStatus, number>([
-          [ArdoqComponentCreatedStatus.EXISTING, 10],
-          [ArdoqComponentCreatedStatus.CREATED, 0],
-          [ArdoqComponentCreatedStatus.ERROR, 0],
-        ])
-      ),
+      Promise.resolve(new ArdoqStatusCounts().add(ArdoqComponentCreatedStatus.EXISTING, 10)),
   })),
 }));
 
@@ -65,6 +60,8 @@ describe('Test api.ts', () => {
         ArdoqComponentCreatedStatus.CREATED +
         '":0,"' +
         ArdoqComponentCreatedStatus.ERROR +
+        '":0,"' +
+        ArdoqComponentCreatedStatus.PENDING +
         '":0}'
     );
   });
@@ -105,6 +102,8 @@ describe('Test api.ts', () => {
         ArdoqComponentCreatedStatus.CREATED +
         '":0,"' +
         ArdoqComponentCreatedStatus.ERROR +
+        '":0,"' +
+        ArdoqComponentCreatedStatus.PENDING +
         '":0}'
     );
   });
