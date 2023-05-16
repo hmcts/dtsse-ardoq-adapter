@@ -64,10 +64,12 @@ describe('RequestProcessor', () => {
     const repo = new ArdoqBatchRespository(mockedAxios);
     const br = new BatchRequest();
     const result = await repo.create(br);
-    expect(result).toEqual(
+    expect(result.counts).toEqual(
       new Map([
-        [ArdoqComponentCreatedStatus.CREATED, 0],
         [ArdoqComponentCreatedStatus.EXISTING, 0],
+        [ArdoqComponentCreatedStatus.CREATED, 0],
+        [ArdoqComponentCreatedStatus.ERROR, 0],
+        [ArdoqComponentCreatedStatus.PENDING, 0],
       ])
     );
   });
@@ -102,10 +104,12 @@ describe('RequestProcessor', () => {
       },
     });
     const result = await repo.create(br);
-    expect(result).toEqual(
+    expect(result.counts).toEqual(
       new Map([
-        [ArdoqComponentCreatedStatus.CREATED, 1],
         [ArdoqComponentCreatedStatus.EXISTING, 0],
+        [ArdoqComponentCreatedStatus.CREATED, 1],
+        [ArdoqComponentCreatedStatus.ERROR, 0],
+        [ArdoqComponentCreatedStatus.PENDING, 0],
       ])
     );
   });
@@ -128,6 +132,13 @@ describe('RequestProcessor', () => {
       },
     });
     const result = await repo.create(br);
-    expect(result).toEqual(new Map([[ArdoqComponentCreatedStatus.ERROR, 2]]));
+    expect(result.counts).toEqual(
+      new Map([
+        [ArdoqComponentCreatedStatus.EXISTING, 0],
+        [ArdoqComponentCreatedStatus.CREATED, 0],
+        [ArdoqComponentCreatedStatus.ERROR, 2],
+        [ArdoqComponentCreatedStatus.PENDING, 0],
+      ])
+    );
   });
 });

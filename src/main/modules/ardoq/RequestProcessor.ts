@@ -2,6 +2,7 @@ import { ArdoqClient } from './ArdoqClient';
 import { ArdoqComponentCreatedStatus } from './ArdoqComponentCreatedStatus';
 import { ArdoqRelationship } from './ArdoqRelationship';
 import { ArdoqRequest } from './ArdoqRequest';
+import { ArdoqStatusCounts } from './ArdoqStatusCounts';
 import { ArdoqWorkspace } from './ArdoqWorkspace';
 import { Dependency } from './Dependency';
 import { DependencyParser } from './DependencyParser';
@@ -23,7 +24,7 @@ export class RequestProcessor {
     this.parser = parser;
   }
 
-  public async processRequest(request: ArdoqRequest): Promise<Map<ArdoqComponentCreatedStatus, number>> {
+  public async processRequest(request: ArdoqRequest): Promise<ArdoqStatusCounts> {
     const vcsHostingComponentId = (await this.client.createVcsHostingComponent(request.vcsHost))[1];
     const codeRepoComponentId = (await this.client.createCodeRepoComponent(request.codeRepository))[1];
 
@@ -48,13 +49,7 @@ export class RequestProcessor {
       }
     }
 
-    const counts: Map<ArdoqComponentCreatedStatus, number> = new Map<ArdoqComponentCreatedStatus, number>([
-      [ArdoqComponentCreatedStatus.EXISTING, 0],
-      [ArdoqComponentCreatedStatus.CREATED, 0],
-      [ArdoqComponentCreatedStatus.ERROR, 0],
-      [ArdoqComponentCreatedStatus.PENDING, 0],
-    ]);
-
+    const counts = new ArdoqStatusCounts();
     const deps = this.parser.fromDepRequest(request);
 
     const batchRequest = new BatchRequest();
@@ -86,21 +81,15 @@ export class RequestProcessor {
           this.addReferences([depRefs], batchRequest);
           this.logger.debug('Created dependency reference: ' + codeRepoComponentId + ' -> ' + componentId);
         }
-        counts.set(status, 1 + (counts.get(status) ?? 0));
+        counts.add(status, 1);
         return status;
       })
     );
 
     // process the batch request
-    const batchCounts = await this.client.processBatchRequest(batchRequest);
-
-    batchCounts.forEach((v, k) => {
-      counts.set(k, v + (counts.get(k) ?? 0));
-    });
+    return counts.merge(await this.client.processBatchRequest(batchRequest));
 
     // @todo need to delete references which are no longer relevant
-
-    return counts;
   }
 
   private addReferences(references: (BatchCreate | BatchUpdate | undefined)[], batchRequest: BatchRequest) {

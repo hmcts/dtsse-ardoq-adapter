@@ -42,7 +42,7 @@ export default function (app: Application): void {
     pip: new DependencyParser(new PipParser()),
   } as Record<string, DependencyParser>;
 
-  app.post('/api/dependencies', isAuthorised, (req, res, next) => {
+  app.post('/api/dependencies', isAuthorised, async (req, res, next) => {
     try {
       const request: ArdoqRequest = req.body;
       const parser: DependencyParser = parsers[request.parser];
@@ -50,14 +50,13 @@ export default function (app: Application): void {
         next(new HTTPError('Parser not supported', 400));
       }
       const requestProcessor = new RequestProcessor(client, parser);
-      requestProcessor.processRequest(request).then(ardoqResult => {
-        res.statusCode = 200;
-        if ((ardoqResult.get(ArdoqComponentCreatedStatus.CREATED) ?? 0) > 0) {
-          res.statusCode = 201;
-        }
-        res.contentType('application/json');
-        res.send(JSON.stringify(Object.fromEntries(ardoqResult)));
-      });
+      const ardoqResult = await requestProcessor.processRequest(request);
+      res.statusCode = 200;
+      if ((ardoqResult.counts.get(ArdoqComponentCreatedStatus.CREATED) ?? 0) > 0) {
+        res.statusCode = 201;
+      }
+      res.contentType('application/json');
+      res.send(JSON.stringify(Object.fromEntries(ardoqResult.counts)));
     } catch (err) {
       if (err instanceof DependencyParserError) {
         next(new HTTPError(err.message, 400));

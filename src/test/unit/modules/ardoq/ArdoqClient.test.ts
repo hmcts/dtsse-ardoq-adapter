@@ -218,7 +218,7 @@ describe('ArdoqClient', () => {
       },
     } as BatchUpdate);
     const r = await client.processBatchRequest(br);
-    expect(r.get(ArdoqComponentCreatedStatus.ERROR)).toEqual(1);
+    expect(r.counts.get(ArdoqComponentCreatedStatus.ERROR)).toEqual(1);
   });
 
   it('getComponentIdIfExists cached', async () => {

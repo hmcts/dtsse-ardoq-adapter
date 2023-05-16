@@ -3,6 +3,7 @@ import { mocked } from 'jest-mock';
 import { app } from '../../../../main/app';
 import { ArdoqClient } from '../../../../main/modules/ardoq/ArdoqClient';
 import { ArdoqRelationship } from '../../../../main/modules/ardoq/ArdoqRelationship';
+import { ArdoqStatusCounts } from '../../../../main/modules/ardoq/ArdoqStatusCounts';
 import { BatchCreate, BatchUpdate } from '../../../../main/modules/ardoq/batch/BatchModel';
 import { BatchRequest } from '../../../../main/modules/ardoq/batch/BatchRequest';
 import { SearchReferenceResponse } from '../../../../main/modules/ardoq/repositories/ArdoqReferenceRepository';
@@ -49,8 +50,8 @@ jest.mock('../../../../main/modules/ardoq/ArdoqClient', () => {
           }
           return Promise.resolve(undefined);
         },
-        processBatchRequest(batchRequest: BatchRequest): Promise<Map<ArdoqComponentCreatedStatus, number>> {
-          return Promise.resolve(new Map<ArdoqComponentCreatedStatus, number>([]));
+        processBatchRequest(batchRequest: BatchRequest): Promise<ArdoqStatusCounts> {
+          return Promise.resolve(new ArdoqStatusCounts());
         },
         getCreateOrUpdateReferenceModel(
           source: string,
@@ -106,6 +107,7 @@ describe('RequestProcessor', () => {
         expect(err.message).toBe('No dependencies found in request');
       });
   });
+
   it('Returns a 200 with existing item', () => {
     const requestProcessor = new RequestProcessor(
       new mockedArdoqClient(mockedAxios, cache),
@@ -122,7 +124,7 @@ describe('RequestProcessor', () => {
       })
       .then(res => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
-        expect(res).toEqual(emptyResult(1, 0, 0, 0));
+        expect(res.counts).toEqual(emptyResult(1, 0, 0, 0));
       });
   });
 
@@ -142,7 +144,7 @@ describe('RequestProcessor', () => {
       })
       .then(res => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
-        expect(res).toEqual(emptyResult(0, 0, 0, 1));
+        expect(res.counts).toEqual(emptyResult(0, 0, 0, 1));
       });
   });
 
@@ -162,7 +164,7 @@ describe('RequestProcessor', () => {
       })
       .then(res => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
-        expect(res).toEqual(emptyResult(0, 0, 0, 0));
+        expect(res.counts).toEqual(emptyResult(0, 0, 0, 0));
       })
       .catch(err => {
         expect(err.message).toBe('No dependencies found in request');
@@ -185,7 +187,7 @@ describe('RequestProcessor', () => {
       })
       .then(res => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
-        expect(res).toEqual(emptyResult(1, 0, 0, 1));
+        expect(res.counts).toEqual(emptyResult(1, 0, 0, 1));
       });
   });
 
@@ -205,7 +207,7 @@ describe('RequestProcessor', () => {
       })
       .then(res => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
-        expect(res).toEqual(emptyResult(2, 0, 0, 0));
+        expect(res.counts).toEqual(emptyResult(2, 0, 0, 0));
       });
   });
 });

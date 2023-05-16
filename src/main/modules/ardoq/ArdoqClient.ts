@@ -1,5 +1,6 @@
 import { ArdoqComponentCreatedStatus } from './ArdoqComponentCreatedStatus';
 import { ArdoqRelationship } from './ArdoqRelationship';
+import { ArdoqStatusCounts } from './ArdoqStatusCounts';
 import { ArdoqWorkspace } from './ArdoqWorkspace';
 import { BatchCreate, BatchUpdate } from './batch/BatchModel';
 import { BatchRequest } from './batch/BatchRequest';
@@ -109,7 +110,8 @@ export class ArdoqClient {
     return null;
   }
 
-  public async processBatchRequest(batchRequest: BatchRequest): Promise<Map<ArdoqComponentCreatedStatus, number>> {
+  public async processBatchRequest(batchRequest: BatchRequest): Promise<ArdoqStatusCounts> {
+    console.log('################################');
     return this.batchRepository.create(batchRequest);
   }
 }

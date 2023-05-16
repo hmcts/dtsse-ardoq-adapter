@@ -1,4 +1,5 @@
 import { ArdoqComponentCreatedStatus } from '../ArdoqComponentCreatedStatus';
+import { ArdoqStatusCounts } from '../ArdoqStatusCounts';
 import { BatchActionResult, BatchResult } from '../batch/BatchModel';
 import { BatchRequest } from '../batch/BatchRequest';
 import { Component } from '../batch/Component';
@@ -9,9 +10,12 @@ import { AxiosInstance } from 'axios';
 const { Logger } = require('@hmcts/nodejs-logging');
 
 export class ArdoqBatchRespository {
-  constructor(private httpClient: AxiosInstance, private logger = Logger.getLogger('ArdoqBatchRespository')) {}
+  constructor(
+    private readonly httpClient: AxiosInstance,
+    private readonly logger = Logger.getLogger('ArdoqBatchRespository')
+  ) {}
 
-  public async create(batchRequest: BatchRequest): Promise<Map<ArdoqComponentCreatedStatus, number>> {
+  public async create(batchRequest: BatchRequest): Promise<ArdoqStatusCounts> {
     this.logger.debug('Calling POST /api/v2/batch');
 
     try {
@@ -26,27 +30,25 @@ export class ArdoqBatchRespository {
       this.logger.error(e);
     }
 
-    return new Map<ArdoqComponentCreatedStatus, number>([
-      [ArdoqComponentCreatedStatus.ERROR, batchRequest.getTotalNumberOfRecords()],
-    ]);
+    const counts = new ArdoqStatusCounts();
+    return counts.add(ArdoqComponentCreatedStatus.ERROR, batchRequest.getTotalNumberOfRecords());
   }
 
-  private processBatchResponse(
-    components?: BatchResult,
-    references?: BatchResult
-  ): Map<ArdoqComponentCreatedStatus, number> {
-    const counts: Map<ArdoqComponentCreatedStatus, number> = new Map<ArdoqComponentCreatedStatus, number>([
-      [ArdoqComponentCreatedStatus.EXISTING, 0],
-      [ArdoqComponentCreatedStatus.CREATED, 0],
-    ]);
+  private processBatchResponse(components?: BatchResult, references?: BatchResult): ArdoqStatusCounts {
+    const counts = this.processCreatedAndUpdated(components?.created, references?.created, true);
+    return counts.merge(this.processCreatedAndUpdated(components?.updated, references?.updated, false));
+  }
 
-    [...(components?.created ?? []), ...(references?.created ?? [])].forEach(u => {
-      const status = this.getBatchActionResultStatus(u, true);
-      counts.set(status, (counts.get(status) ?? 0) + 1);
-    });
-    [...(components?.updated ?? []), ...(references?.updated ?? [])].forEach(u => {
-      const status = this.getBatchActionResultStatus(u, false);
-      counts.set(status, (counts.get(status) ?? 0) + 1);
+  processCreatedAndUpdated(
+    components: BatchActionResult[] | undefined,
+    references: BatchActionResult[] | undefined,
+    isCreation: boolean
+  ): ArdoqStatusCounts {
+    const counts = new ArdoqStatusCounts();
+
+    [...(components ?? []), ...(references ?? [])].forEach(u => {
+      const status = this.getBatchActionResultStatus(u, isCreation);
+      counts.add(status, 1);
     });
 
     return counts;
