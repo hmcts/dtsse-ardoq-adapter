@@ -2,7 +2,7 @@ import { ArdoqRelationship } from '../ArdoqRelationship';
 import { ArdoqWorkspace } from '../ArdoqWorkspace';
 import { BatchCreate, BatchUpdate } from '../batch/BatchModel';
 
-import { AxiosInstance } from 'axios';
+import { AxiosInstance, AxiosResponse } from 'axios';
 
 const { Logger } = require('@hmcts/nodejs-logging');
 
@@ -76,7 +76,7 @@ export class ArdoqReferenceRepository {
     const references: SearchReferenceResponse[] = [];
     let response;
     do {
-      response = await this.getNextPageOfReferences(sourceComponentId, rootWorkspace, targetWorkspace);
+      response = await this.getNextPageOfReferences(sourceComponentId, rootWorkspace, targetWorkspace, response);
       if (response.status === 200) {
         references.push(
           ...response.data.values.map((r: { _id: string; customFields?: Record<string, string> }) => ({
@@ -85,7 +85,7 @@ export class ArdoqReferenceRepository {
           }))
         );
       }
-    } while (response.status === 200 && response.data._links.next.href !== undefined);
+    } while (response.status === 200 && response.data._links?.next?.href !== undefined);
 
     return references;
   }
@@ -93,7 +93,8 @@ export class ArdoqReferenceRepository {
   private getNextPageOfReferences(
     sourceComponentId: string,
     rootWorkspace: ArdoqWorkspace,
-    targetWorkspace: ArdoqWorkspace
+    targetWorkspace: ArdoqWorkspace,
+    response: AxiosResponse | undefined
   ) {
     this.logger.debug(
       'Calling GET /api/v2/references source:' +
@@ -103,7 +104,8 @@ export class ArdoqReferenceRepository {
         ' targetWorkspace:' +
         targetWorkspace
     );
-    return this.httpClient.get('/api/v2/references', {
+    const url = response?.data._links?.next?.href || '/api/v2/references';
+    return this.httpClient.get(url, {
       params: {
         source: sourceComponentId,
         rootWorkspace,
