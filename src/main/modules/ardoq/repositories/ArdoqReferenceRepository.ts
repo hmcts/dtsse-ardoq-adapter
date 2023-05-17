@@ -67,4 +67,49 @@ export class ArdoqReferenceRepository {
       } as BatchUpdate;
     }
   }
+
+  public async getAllReferences(
+    sourceComponentId: string,
+    rootWorkspace: ArdoqWorkspace,
+    targetWorkspace: ArdoqWorkspace
+  ): Promise<SearchReferenceResponse[]> {
+    const references: SearchReferenceResponse[] = [];
+    let response;
+    do {
+      response = await this.getNextPageOfReferences(sourceComponentId, rootWorkspace, targetWorkspace);
+      if (response.status === 200) {
+        references.push(
+          ...response.data.values.map((r: { _id: string; customFields?: Record<string, string> }) => ({
+            id: r._id,
+            version: r.customFields?.version,
+          }))
+        );
+      }
+    } while (response.status === 200 && response.data._links.next.href !== undefined);
+
+    return references;
+  }
+
+  private getNextPageOfReferences(
+    sourceComponentId: string,
+    rootWorkspace: ArdoqWorkspace,
+    targetWorkspace: ArdoqWorkspace
+  ) {
+    this.logger.debug(
+      'Calling GET /api/v2/references source:' +
+        sourceComponentId +
+        'rootWorkspace: ' +
+        rootWorkspace +
+        ' targetWorkspace:' +
+        targetWorkspace
+    );
+    return this.httpClient.get('/api/v2/references', {
+      params: {
+        source: sourceComponentId,
+        rootWorkspace,
+        targetWorkspace,
+      },
+      responseType: 'json',
+    });
+  }
 }

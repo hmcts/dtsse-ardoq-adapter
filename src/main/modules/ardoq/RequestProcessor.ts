@@ -86,10 +86,13 @@ export class RequestProcessor {
       })
     );
 
+    if (codeRepoComponentId) {
+      const allReferences = await this.client.getAllReferencesForRepository(codeRepoComponentId);
+      batchRequest.compareAndDeleteReferences(allReferences);
+    }
+
     // process the batch request
     return counts.merge(await this.client.processBatchRequest(batchRequest));
-
-    // @todo need to delete references which are no longer relevant
   }
 
   private addReferences(references: (BatchCreate | BatchUpdate | undefined)[], batchRequest: BatchRequest) {

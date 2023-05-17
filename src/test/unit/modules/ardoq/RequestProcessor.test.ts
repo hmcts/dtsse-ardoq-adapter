@@ -61,6 +61,9 @@ jest.mock('../../../../main/modules/ardoq/ArdoqClient', () => {
         ): Promise<BatchCreate | BatchUpdate | undefined> {
           return Promise.resolve(undefined);
         },
+        getAllReferencesForRepository(repo: string): Promise<SearchReferenceResponse[]> {
+          return Promise.resolve([]);
+        },
       };
     }),
   };
