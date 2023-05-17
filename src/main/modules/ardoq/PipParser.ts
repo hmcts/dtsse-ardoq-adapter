@@ -3,7 +3,7 @@ import { IParser } from './IParser';
 
 export class PipParser implements IParser {
   public extractTopTierDeps(depString: string): Dependency[] {
-    const pipReqsMatcher = /^([a-zA-z].+)==(\d+\.\d+\.\d+)$/gm;
+    const pipReqsMatcher = /^([a-zA-Z].+)==(\d+\.\d+\.\d+)$/gm;
 
     const res = depString.match(pipReqsMatcher);
     if (res === null) {
