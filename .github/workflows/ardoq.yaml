@@ -32,6 +32,9 @@ jobs:
               "parser": "yarn"
             }' >> payload.json
 
+      - name: debug payload
+        run: cat payload.json
+
       - name: compress body
         run: |
           gzip payload.json
