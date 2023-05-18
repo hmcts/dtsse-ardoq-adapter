@@ -8,7 +8,7 @@ import { Dependency } from './Dependency';
 import { DependencyParser } from './DependencyParser';
 import { BatchCreate, BatchUpdate } from './batch/BatchModel';
 import { BatchRequest } from './batch/BatchRequest';
-import { ArdoqReferenceRepository } from './repositories/ArdoqReferenceRepository';
+import { ArdoqReferenceRepository, SearchReferenceResponse } from './repositories/ArdoqReferenceRepository';
 
 import config from 'config';
 
@@ -28,34 +28,30 @@ export class RequestProcessor {
     const vcsHostingComponentId = (await this.client.createVcsHostingComponent(request.vcsHost))[1];
     const codeRepoComponentId = (await this.client.createCodeRepoComponent(request.codeRepository))[1];
 
-    const references = [];
-    // create relationships
-    if (codeRepoComponentId) {
-      references.push(
-        this.client.getCreateOrUpdateReferenceModel(
-          request.hmctsApplication,
-          codeRepoComponentId,
-          ArdoqRelationship.MAINTAINS
-        )
-      );
-      if (vcsHostingComponentId) {
-        references.push(
-          this.client.getCreateOrUpdateReferenceModel(
-            vcsHostingComponentId,
-            codeRepoComponentId,
-            ArdoqRelationship.HOSTS
-          )
-        );
-      }
-    }
+    const references = this.initialiseBaseReferences(
+      request.hmctsApplication,
+      vcsHostingComponentId,
+      codeRepoComponentId
+    );
 
     const counts = new ArdoqStatusCounts();
     const deps = this.parser.fromDepRequest(request);
+    const batchRequest = await this.buildBatchRequest(deps, references, counts, codeRepoComponentId);
 
+    // cleanup any references that are no longer required
+    batchRequest.compareAndDeleteReferences(await this.getAllCurrentReferences(codeRepoComponentId));
+
+    // process the batch request
+    return counts.merge(await this.client.processBatchRequest(batchRequest));
+  }
+
+  private async buildBatchRequest(
+    deps: Record<string, Dependency>,
+    references: Promise<BatchCreate | BatchUpdate | undefined>[],
+    counts: ArdoqStatusCounts,
+    codeRepoComponentId: string | null
+  ) {
     const batchRequest = new BatchRequest();
-    await Promise.all(references).then(r => {
-      this.addReferences(r, batchRequest);
-    });
     await Promise.all(
       Object.values(deps).map(async (d: Dependency) => {
         const componentId = d.componentId ?? (await this.client.getComponentIdIfExists(d.name));
@@ -86,10 +82,34 @@ export class RequestProcessor {
       })
     );
 
-    // process the batch request
-    return counts.merge(await this.client.processBatchRequest(batchRequest));
+    await Promise.all(references).then(r => {
+      this.addReferences(r, batchRequest);
+    });
 
-    // @todo need to delete references which are no longer relevant
+    return batchRequest;
+  }
+
+  private initialiseBaseReferences(
+    hmctsApplication: string,
+    codeRepoComponentId: string | null,
+    vcsHostingComponentId: string | null
+  ) {
+    const references = [];
+    if (codeRepoComponentId) {
+      references.push(
+        this.client.getCreateOrUpdateReferenceModel(hmctsApplication, codeRepoComponentId, ArdoqRelationship.MAINTAINS)
+      );
+      if (vcsHostingComponentId) {
+        references.push(
+          this.client.getCreateOrUpdateReferenceModel(
+            vcsHostingComponentId,
+            codeRepoComponentId,
+            ArdoqRelationship.HOSTS
+          )
+        );
+      }
+    }
+    return references;
   }
 
   private addReferences(references: (BatchCreate | BatchUpdate | undefined)[], batchRequest: BatchRequest) {
@@ -100,5 +120,13 @@ export class RequestProcessor {
         batchRequest.references.addCreate(r);
       }
     });
+  }
+
+  private async getAllCurrentReferences(codeRepoComponentId: string | null) {
+    const allReferences: SearchReferenceResponse[] = [];
+    if (codeRepoComponentId) {
+      allReferences.push(...(await this.client.getAllReferencesForRepository(codeRepoComponentId)));
+    }
+    return allReferences;
   }
 }

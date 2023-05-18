@@ -70,6 +70,14 @@ export class ArdoqClient {
     return this.referenceRepository.search(source, target);
   }
 
+  getAllReferencesForRepository(sourceComponentId: string): Promise<SearchReferenceResponse[]> {
+    return this.referenceRepository.getAllReferences(
+      sourceComponentId,
+      ArdoqWorkspace.ARDOQ_HMCTS_APPLICATIONS_WORKSPACE,
+      ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE
+    );
+  }
+
   public async getCreateOrUpdateReferenceModel(
     source: string,
     target: string,

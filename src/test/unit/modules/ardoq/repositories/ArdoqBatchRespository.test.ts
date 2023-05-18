@@ -9,7 +9,7 @@ import { ArdoqBatchRespository } from '../../../../../main/modules/ardoq/reposit
 import { PropertiesVolume } from '../../../../../main/modules/properties-volume';
 
 jest.mock('axios');
-describe('RequestProcessor', () => {
+describe('ArdoqBatchRespository', () => {
   new PropertiesVolume().enableFor(app);
   const mockedAxios = axios as jest.Mocked<typeof axios>;
   // @ts-ignore
