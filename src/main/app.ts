@@ -64,7 +64,7 @@ app.use((req, res) => {
 
 app.use((err: HTTPError | ValidationError, req: express.Request, res: express.Response, next: express.NextFunction) => {
   logger.error(err.message);
-  logger.debug(JSON.stringify(err));
+  logger.error(JSON.stringify(err));
   res.status(err.status || 500).json({
     message: err.message,
     errors: err.errors,
