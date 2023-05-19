@@ -67,6 +67,12 @@ app.use((err: HTTPError | ValidationError, req: express.Request, res: express.Re
   res.status(err.status || 500).json({
     message: err.message,
     errors: err.errors,
+    request: {
+      baseUrl: req.baseUrl,
+      body: req.body,
+      query: req.query,
+      params: req.params,
+    },
   });
   next();
 });
