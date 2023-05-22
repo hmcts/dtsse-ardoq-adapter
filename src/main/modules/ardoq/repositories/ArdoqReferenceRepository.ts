@@ -33,7 +33,7 @@ export class ArdoqReferenceRepository {
     if (searchResponse.status === 200 && searchResponse.data.values.length > 0) {
       return {
         id: searchResponse.data.values[0]._id,
-        version: searchResponse.data.values[0].customFields?.version,
+        version: searchResponse.data.values[0].customFields?.sf_version,
       };
     }
   }
@@ -51,7 +51,7 @@ export class ArdoqReferenceRepository {
           source,
           target,
           type: relationship,
-          customFields: version ? { version } : undefined,
+          customFields: version ? { sf_version: version } : undefined,
         },
       } as BatchCreate;
     } else if (version && existingReference.version !== version) {
@@ -62,7 +62,7 @@ export class ArdoqReferenceRepository {
           source,
           target,
           type: relationship,
-          customFields: { version },
+          customFields: { sf_version: version },
         },
       } as BatchUpdate;
     }
@@ -81,7 +81,7 @@ export class ArdoqReferenceRepository {
         references.push(
           ...response.data.values.map((r: { _id: string; customFields?: Record<string, string> }) => ({
             id: r._id,
-            version: r.customFields?.version,
+            version: r.customFields?.sf_version,
           }))
         );
       }
