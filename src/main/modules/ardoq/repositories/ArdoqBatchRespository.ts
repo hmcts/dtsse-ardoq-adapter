@@ -57,7 +57,7 @@ export class ArdoqBatchRespository {
   private getBatchActionResultStatus(res: BatchActionResult, isCreation: boolean): ArdoqComponentCreatedStatus {
     const status = isCreation ? ArdoqComponentCreatedStatus.CREATED : ArdoqComponentCreatedStatus.EXISTING;
     const logText = isCreation ? 'Component created: ' : 'Component updated: ';
-    if ((res.body as Component).typeId !== undefined) {
+    if ('typeId' in res.body) {
       this.logger.debug(logText + (res.body as Component).name + ' - ' + res.id);
     } else {
       this.logger.debug(logText + (res.body as Reference).source + ' - ' + (res.body as Reference).target);
