@@ -30,8 +30,8 @@ export class RequestProcessor {
 
     const references = this.initialiseBaseReferences(
       request.hmctsApplication,
-      vcsHostingComponentId,
-      codeRepoComponentId
+      codeRepoComponentId,
+      vcsHostingComponentId
     );
 
     const counts = new ArdoqStatusCounts();
