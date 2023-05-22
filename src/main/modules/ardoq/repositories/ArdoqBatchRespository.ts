@@ -27,7 +27,7 @@ export class ArdoqBatchRespository {
       this.logger.error('Batch request failed status: ' + response.status);
     } catch (e) {
       this.logger.error('Batch request failed: ' + e.message);
-      this.logger.error(e);
+      this.logger.error(e.response?.data);
     }
 
     const counts = new ArdoqStatusCounts();

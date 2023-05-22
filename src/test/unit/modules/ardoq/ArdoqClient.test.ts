@@ -26,7 +26,7 @@ describe('ArdoqClient', () => {
               {
                 _id: '1234',
                 customFields: {
-                  version: '1.0.0',
+                  sf_version: '1.0.0',
                 },
               },
             ],
@@ -283,7 +283,7 @@ describe('ArdoqClient', () => {
         target: 'refTarget',
         type: ArdoqRelationship.MAINTAINS,
         customFields: {
-          version: '1.1.1',
+          sf_version: '1.1.1',
         },
       },
     });
