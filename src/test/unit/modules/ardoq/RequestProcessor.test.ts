@@ -4,6 +4,7 @@ import { app } from '../../../../main/app';
 import { ArdoqClient } from '../../../../main/modules/ardoq/ArdoqClient';
 import { ArdoqRelationship } from '../../../../main/modules/ardoq/ArdoqRelationship';
 import { ArdoqStatusCounts } from '../../../../main/modules/ardoq/ArdoqStatusCounts';
+import { ArdoqWorkspace } from '../../../../main/modules/ardoq/ArdoqWorkspace';
 import { BatchCreate, BatchUpdate } from '../../../../main/modules/ardoq/batch/BatchModel';
 import { BatchRequest } from '../../../../main/modules/ardoq/batch/BatchRequest';
 import { SearchReferenceResponse } from '../../../../main/modules/ardoq/repositories/ArdoqReferenceRepository';
@@ -35,6 +36,15 @@ jest.mock('../../../../main/modules/ardoq/ArdoqClient', () => {
         createCodeRepoComponent(name: string): Promise<string | null> {
           return Promise.resolve('def');
         },
+        getOrCreateComponent(
+          name: string,
+          ardoqWorkspace: ArdoqWorkspace
+        ): Promise<[ArdoqComponentCreatedStatus, string | null]> {
+          if (name === 'java') {
+            return Promise.resolve([ArdoqComponentCreatedStatus.EXISTING, 'java123']);
+          }
+          return Promise.resolve([ArdoqComponentCreatedStatus.EXISTING, 'java123']);
+        },
         searchForReference(source: string, target: string): Promise<undefined | SearchReferenceResponse> {
           if (source === 'def' && target === '456') {
             return Promise.resolve({
@@ -59,6 +69,27 @@ jest.mock('../../../../main/modules/ardoq/ArdoqClient', () => {
           relationship: ArdoqRelationship,
           version?: string
         ): Promise<BatchCreate | BatchUpdate | undefined> {
+          if (source == 'def') {
+            return Promise.resolve({
+              body: {
+                source,
+                target,
+                type: relationship,
+                customFields: version ? { sf_version: version } : undefined,
+              },
+            } as BatchCreate);
+          } else if (source === 'java123') {
+            return Promise.resolve({
+              id: 'ref123',
+              ifVersionMatch: 'latest',
+              body: {
+                source,
+                target,
+                type: relationship,
+                customFields: { sf_version: version },
+              },
+            } as BatchUpdate);
+          }
           return Promise.resolve(undefined);
         },
         getAllReferencesForRepository(repo: string): Promise<SearchReferenceResponse[]> {
@@ -119,6 +150,8 @@ describe('RequestProcessor', () => {
 
     requestProcessor
       .processRequest({
+        language: 'java',
+        languageVersion: '17-distroless',
         vcsHost: 'github.com/hmcts',
         parser: 'gradle',
         hmctsApplication: 'dtsse',

@@ -31,7 +31,7 @@ export class ArdoqClient {
     this.cache.set(name, componentId);
   }
 
-  private async getOrCreateComponent(
+  public async getOrCreateComponent(
     name: string,
     workspace: ArdoqWorkspace
   ): Promise<[ArdoqComponentCreatedStatus, string | null]> {

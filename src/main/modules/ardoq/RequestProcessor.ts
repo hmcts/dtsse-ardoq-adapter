@@ -28,7 +28,9 @@ export class RequestProcessor {
     const vcsHostingComponentId = (await this.client.createVcsHostingComponent(request.vcsHost))[1];
     const codeRepoComponentId = (await this.client.createCodeRepoComponent(request.codeRepository))[1];
     const languageComponentId = request.language
-      ? (await this.client.createCodeRepoComponent(request.language))[1]
+      ? (
+          await this.client.getOrCreateComponent(request.language, ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE)
+        )[1]
       : null;
 
     const references = this.initialiseBaseReferences(
