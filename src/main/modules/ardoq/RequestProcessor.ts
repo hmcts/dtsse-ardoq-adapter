@@ -41,6 +41,10 @@ export class RequestProcessor {
     // cleanup any references that are no longer required
     batchRequest.compareAndDeleteReferences(await this.getAllCurrentReferences(codeRepoComponentId));
 
+    if (batchRequest.getTotalNumberOfRecords() === 0) {
+      this.logger.info('No batch request to process');
+      return counts;
+    }
     // process the batch request
     return counts.merge(await this.client.processBatchRequest(batchRequest));
   }

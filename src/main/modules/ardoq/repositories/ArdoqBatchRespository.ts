@@ -20,7 +20,7 @@ export class ArdoqBatchRespository {
 
     try {
       const response = await this.httpClient.post('/api/v2/batch', batchRequest);
-
+      this.logger.info(JSON.stringify(response.data));
       if (response.status === 200) {
         return this.processBatchResponse(response.data.components, response.data.references);
       }
