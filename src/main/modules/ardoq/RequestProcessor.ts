@@ -27,11 +27,18 @@ export class RequestProcessor {
   public async processRequest(request: ArdoqRequest): Promise<ArdoqStatusCounts> {
     const vcsHostingComponentId = (await this.client.createVcsHostingComponent(request.vcsHost))[1];
     const codeRepoComponentId = (await this.client.createCodeRepoComponent(request.codeRepository))[1];
+    const languageComponentId = request.language
+      ? (
+          await this.client.getOrCreateComponent(request.language, ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE)
+        )[1]
+      : null;
 
     const references = this.initialiseBaseReferences(
       request.hmctsApplication,
       codeRepoComponentId,
-      vcsHostingComponentId
+      vcsHostingComponentId,
+      languageComponentId,
+      request.languageVersion
     );
 
     const counts = new ArdoqStatusCounts();
@@ -96,7 +103,9 @@ export class RequestProcessor {
   private initialiseBaseReferences(
     hmctsApplication: string,
     codeRepoComponentId: string | null,
-    vcsHostingComponentId: string | null
+    vcsHostingComponentId: string | null,
+    languageComponentId: string | null,
+    languageVersion: string | undefined
   ) {
     const references = [];
     if (codeRepoComponentId) {
@@ -109,6 +118,16 @@ export class RequestProcessor {
             vcsHostingComponentId,
             codeRepoComponentId,
             ArdoqRelationship.HOSTS
+          )
+        );
+      }
+      if (languageComponentId) {
+        references.push(
+          this.client.getCreateOrUpdateReferenceModel(
+            codeRepoComponentId,
+            languageComponentId,
+            ArdoqRelationship.DEPENDS_ON_VERSION,
+            languageVersion
           )
         );
       }

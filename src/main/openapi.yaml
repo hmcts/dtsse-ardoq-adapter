@@ -46,6 +46,12 @@ components:
         - encodedDependecyList
         - parser
       properties:
+        language:
+          type: string
+          example: 'node'
+        languageVersion:
+          type: string
+          example: '18-alpine'
         vcsHost:
           type: string
           enum:
