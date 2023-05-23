@@ -1,9 +1,7 @@
 import { ArdoqComponentCreatedStatus } from '../ArdoqComponentCreatedStatus';
 import { ArdoqStatusCounts } from '../ArdoqStatusCounts';
-import { BatchActionResult, BatchResult } from '../batch/BatchModel';
+import { BatchAction, BatchResult, BatchType } from '../batch/BatchModel';
 import { BatchRequest } from '../batch/BatchRequest';
-import { Component } from '../batch/Component';
-import { Reference } from '../batch/Reference';
 
 import { AxiosInstance } from 'axios';
 
@@ -35,34 +33,38 @@ export class ArdoqBatchRespository {
   }
 
   private processBatchResponse(components?: BatchResult, references?: BatchResult): ArdoqStatusCounts {
-    const counts = this.processCreatedAndUpdated(components?.created, references?.created, true);
-    return counts.merge(this.processCreatedAndUpdated(components?.updated, references?.updated, false));
+    const counts = this.processCreatedAndUpdated(components, BatchType.COMPONENT);
+    return counts.merge(this.processCreatedAndUpdated(references, BatchType.REFERENCE));
   }
 
-  processCreatedAndUpdated(
-    components: BatchActionResult[] | undefined,
-    references: BatchActionResult[] | undefined,
-    isCreation: boolean
-  ): ArdoqStatusCounts {
+  processCreatedAndUpdated(items: BatchResult | undefined, batchType: BatchType): ArdoqStatusCounts {
     const counts = new ArdoqStatusCounts();
 
-    [...(components ?? []), ...(references ?? [])].forEach(u => {
-      const status = this.getBatchActionResultStatus(u, isCreation);
+    items?.created?.forEach(u => {
+      const status = this.getBatchActionResultStatus(u.id, batchType, BatchAction.CREATE);
+      counts.add(status, 1);
+    });
+    items?.updated?.forEach(u => {
+      const status = this.getBatchActionResultStatus(u.id, batchType, BatchAction.UPDATE);
+      counts.add(status, 1);
+    });
+    items?.deleted?.forEach(u => {
+      const status = this.getBatchActionResultStatus(u.id, batchType, BatchAction.DELETE);
       counts.add(status, 1);
     });
 
     return counts;
   }
 
-  private getBatchActionResultStatus(res: BatchActionResult, isCreation: boolean): ArdoqComponentCreatedStatus {
-    const status = isCreation ? ArdoqComponentCreatedStatus.CREATED : ArdoqComponentCreatedStatus.EXISTING;
-    const logText = isCreation ? 'Component created: ' : 'Component updated: ';
-    if ('typeId' in res.body) {
-      this.logger.debug(logText + (res.body as Component).name + ' - ' + res.id);
-    } else {
-      this.logger.debug(logText + (res.body as Reference).source + ' - ' + (res.body as Reference).target);
+  private getBatchActionResultStatus(id: string, type: BatchType, action: BatchAction): ArdoqComponentCreatedStatus {
+    this.logger.debug(type + ' ' + action + ' id: ' + id);
+    switch (action) {
+      case BatchAction.CREATE:
+        return ArdoqComponentCreatedStatus.CREATED;
+      case BatchAction.UPDATE:
+        return ArdoqComponentCreatedStatus.EXISTING;
+      case BatchAction.DELETE:
+        return ArdoqComponentCreatedStatus.DELETED;
     }
-
-    return status;
   }
 }

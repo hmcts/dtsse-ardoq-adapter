@@ -3,4 +3,5 @@ export enum ArdoqComponentCreatedStatus {
   CREATED = 'Created',
   ERROR = 'Error',
   PENDING = 'Pending',
+  DELETED = 'Deleted',
 }

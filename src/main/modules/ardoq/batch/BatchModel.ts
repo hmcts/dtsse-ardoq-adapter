@@ -1,6 +1,16 @@
 import { Component } from './Component';
 import { Reference } from './Reference';
 
+export enum BatchType {
+  COMPONENT = 'components',
+  REFERENCE = 'references',
+}
+export enum BatchAction {
+  CREATE = 'create',
+  UPDATE = 'update',
+  DELETE = 'delete',
+}
+
 export type BatchCreate = {
   batchId?: string;
   body: Component | Reference;
@@ -12,7 +22,7 @@ export type BatchUpdate = {
   body: Component | Reference;
 };
 
-export type BatchDelete = {
+export type GenericBatchItem = {
   id: string;
 };
 
@@ -23,15 +33,15 @@ export type BatchActionResult = {
 };
 
 export type BatchResult = {
-  created?: BatchActionResult[];
-  updated?: BatchActionResult[];
-  deleted?: BatchDelete[];
+  created?: GenericBatchItem[];
+  updated?: GenericBatchItem[];
+  deleted?: GenericBatchItem[];
 };
 
 export class BatchModel {
   private create: BatchCreate[] = [];
   private update: BatchUpdate[] = [];
-  private delete: BatchDelete[] = [];
+  private delete: GenericBatchItem[] = [];
 
   public addCreate(model: BatchCreate): BatchModel {
     this.create.push(model);
@@ -43,7 +53,7 @@ export class BatchModel {
     return this;
   }
 
-  public setDeleteIds(model: BatchDelete[]): BatchModel {
+  public setDeleteIds(model: GenericBatchItem[]): BatchModel {
     this.delete.push(...model);
     return this;
   }
