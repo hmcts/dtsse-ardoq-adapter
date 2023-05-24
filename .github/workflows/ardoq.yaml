@@ -34,7 +34,7 @@ jobs:
           echo -n '",
             "languageVersion": "' >> payload.json
           grep -E '^FROM' Dockerfile | awk '{print $2}' | awk -F ':' '{printf("%s", $2)}' >> payload.json
-          echo -n '",
+          echo -n '"
             }' >> payload.json
 
       - name: compress body
