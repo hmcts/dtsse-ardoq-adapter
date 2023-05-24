@@ -13,9 +13,9 @@ type ArdoqComponentResponse = {
 };
 
 export class ArdoqComponentRepository {
-  readonly componentTypeLookup = new Map<ArdoqWorkspace, string>([
+  static readonly componentTypeLookup = new Map<ArdoqWorkspace, string>([
     [ArdoqWorkspace.ARDOQ_VCS_HOSTING_WORKSPACE, 'p1681283498700'],
-    [ArdoqWorkspace.ARDOQ_CODE_REPOSITORY_WORKSPACE, 'p1681283498700'],
+    [ArdoqWorkspace.ARDOQ_CODE_REPOSITORY_WORKSPACE, 'p1680004054236'],
     [ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE, 'p1659003743296'],
   ]);
 
@@ -45,13 +45,13 @@ export class ArdoqComponentRepository {
       {
         rootWorkspace: config.get(workspace),
         name: componentName,
-        typeId: this.componentTypeLookup.get(workspace),
+        typeId: ArdoqComponentRepository.componentTypeLookup.get(workspace),
       },
       {
         params: {
           rootWorkspace: config.get(workspace),
           name: componentName,
-          typeId: this.componentTypeLookup.get(workspace),
+          typeId: ArdoqComponentRepository.componentTypeLookup.get(workspace),
         },
         responseType: 'json',
       }

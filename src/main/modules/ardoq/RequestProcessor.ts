@@ -8,7 +8,8 @@ import { Dependency } from './Dependency';
 import { DependencyParser } from './DependencyParser';
 import { BatchCreate, BatchUpdate } from './batch/BatchModel';
 import { BatchRequest } from './batch/BatchRequest';
-import { ArdoqReferenceRepository, SearchReferenceResponse } from './repositories/ArdoqReferenceRepository';
+import { ArdoqComponentRepository } from './repositories/ArdoqComponentRepository';
+import { SearchReferenceResponse } from './repositories/ArdoqReferenceRepository';
 
 import config from 'config';
 
@@ -74,7 +75,7 @@ export class RequestProcessor {
               rootWorkspace: config.get(ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE),
               name: d.name,
               typeId:
-                ArdoqReferenceRepository.componentTypeLookup.get(ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE) ??
+                ArdoqComponentRepository.componentTypeLookup.get(ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE) ??
                 '',
             },
           } as BatchCreate);
