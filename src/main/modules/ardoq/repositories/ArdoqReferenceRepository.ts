@@ -14,7 +14,7 @@ export type SearchReferenceResponse = {
 export class ArdoqReferenceRepository {
   static readonly componentTypeLookup = new Map<ArdoqWorkspace, string>([
     [ArdoqWorkspace.ARDOQ_VCS_HOSTING_WORKSPACE, 'p1681283498700'],
-    [ArdoqWorkspace.ARDOQ_CODE_REPOSITORY_WORKSPACE, 'p1681283498700'],
+    [ArdoqWorkspace.ARDOQ_CODE_REPOSITORY_WORKSPACE, 'p1680004054236'],
     [ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE, 'p1659003743296'],
   ]);
 
