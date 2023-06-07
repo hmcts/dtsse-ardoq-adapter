@@ -80,7 +80,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express", "npm:4.18.2"],\
             ["express-nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.0.0"],\
             ["express-openapi-validator", "npm:5.0.4"],\
-            ["glob", "npm:10.2.6"],\
+            ["glob", "npm:10.2.7"],\
             ["govuk-frontend", "npm:4.6.0"],\
             ["helmet", "npm:7.0.0"],\
             ["html-webpack-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.5.1"],\
@@ -9242,7 +9242,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express", "npm:4.18.2"],\
             ["express-nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.0.0"],\
             ["express-openapi-validator", "npm:5.0.4"],\
-            ["glob", "npm:10.2.6"],\
+            ["glob", "npm:10.2.7"],\
             ["govuk-frontend", "npm:4.6.0"],\
             ["helmet", "npm:7.0.0"],\
             ["html-webpack-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.5.1"],\
@@ -10587,10 +10587,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["glob", [\
-        ["npm:10.2.6", {\
-          "packageLocation": "./.yarn/cache/glob-npm-10.2.6-dcc609070c-94c5964bfa.zip/node_modules/glob/",\
+        ["npm:10.2.7", {\
+          "packageLocation": "./.yarn/cache/glob-npm-10.2.7-25e89f4e5c-555205a746.zip/node_modules/glob/",\
           "packageDependencies": [\
-            ["glob", "npm:10.2.6"],\
+            ["glob", "npm:10.2.7"],\
             ["foreground-child", "npm:3.1.1"],\
             ["jackspeak", "npm:2.0.3"],\
             ["minimatch", "npm:9.0.1"],\
