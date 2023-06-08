@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - main
+      - action-test
 jobs:
   Maintain-Ardoq-Tech-Stack:
     runs-on: ubuntu-latest
@@ -36,6 +37,10 @@ jobs:
           grep -E '^FROM' Dockerfile | awk '{print $2}' | awk -F ':' '{printf("%s", $2)}' >> payload.json
           echo -n '"
             }' >> payload.json
+
+      - name: debug json
+        run: |
+          cat payload.json
 
       - name: compress body
         run: |
