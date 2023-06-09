@@ -20,7 +20,7 @@ describe('Ardoq YarnParser', () => {
 
   test('that an error is thrown for invalid yaml', async () => {
     expect(() => new DependencyParser(parser).fromDepRequest(ardoqRequest('{"json": "data"}'))).toThrow(
-      'No dependencies found in request'
+      'No dependencies found in request (found: 0)'
     );
   });
 });

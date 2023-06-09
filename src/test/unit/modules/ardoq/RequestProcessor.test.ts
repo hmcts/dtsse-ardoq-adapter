@@ -138,7 +138,7 @@ describe('RequestProcessor', () => {
         encodedDependecyList: '',
       })
       .catch(err => {
-        expect(err.message).toBe('No dependencies found in request');
+        expect(err.message).toBe('No dependencies found in request (found: 0)');
       });
   });
 
@@ -203,7 +203,7 @@ describe('RequestProcessor', () => {
         expect(res.counts).toEqual(emptyResult(0, 0, 0, 0));
       })
       .catch(err => {
-        expect(err.message).toBe('No dependencies found in request');
+        expect(err.message).toBe('No dependencies found in request (found: 0)');
       });
   });
 

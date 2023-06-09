@@ -16,13 +16,13 @@ describe('Ardoq PipParser', () => {
 
   test('that an error is thrown for empty files', async () => {
     expect(() => new DependencyParser(parser).fromDepRequest(ardoqRequest(''))).toThrow(
-      'No dependencies found in request'
+      'No dependencies found in request (found: 0)'
     );
   });
 
   test('that an error is thrown for invalid txt', async () => {
     expect(() => new DependencyParser(parser).fromDepRequest(ardoqRequest('hello there!'))).toThrow(
-      'No dependencies found in request'
+      'No dependencies found in request (found: 0)'
     );
   });
 });
