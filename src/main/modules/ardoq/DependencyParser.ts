@@ -8,7 +8,7 @@ export class DependencyParser {
   public fromDepRequest(request: ArdoqRequest): Record<string, Dependency> {
     const deps = this.parser.extractTopTierDeps(this.base64Decode(request.encodedDependecyList));
     if (deps.length === 0) {
-      throw new DependencyParserError('No dependencies found in request');
+      throw new DependencyParserError('No dependencies found in request (found: ' + deps.length + ')');
     }
     const parsedDeps: Record<string, Dependency> = {};
     deps.forEach(d => {
