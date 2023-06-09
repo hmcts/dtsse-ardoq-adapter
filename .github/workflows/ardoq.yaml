@@ -28,7 +28,7 @@ jobs:
             "encodedDependecyList": "' > payload.json
           cat yarn.lock.b64 | tr -d '\n' >> payload.json
           echo -n '",
-            "parser": "gradle",
+            "parser": "yarn",
             "language": "' >> payload.json
           grep -E '^FROM' Dockerfile | awk '{print $2}' | awk -F ':' '{printf("%s", $1)}' | tr '/' '\n' | tail -1 >> payload.json
           echo -n '",
