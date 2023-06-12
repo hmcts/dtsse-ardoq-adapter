@@ -26,6 +26,11 @@ paths:
           description: 'invalid input, object invalid'
         '409':
           description: an existing item already exists
+      parameters:
+        - in: query
+          name: async
+          schema:
+            type: boolean
       requestBody:
         content:
           application/json:

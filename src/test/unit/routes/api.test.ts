@@ -4,6 +4,7 @@ import config from 'config';
 import * as zlib from 'zlib';
 
 import { ArdoqComponentCreatedStatus } from '../../../main/modules/ardoq/ArdoqComponentCreatedStatus';
+import { ArdoqRequest } from '../../../main/modules/ardoq/ArdoqRequest';
 import { ArdoqStatusCounts } from '../../../main/modules/ardoq/ArdoqStatusCounts';
 
 import { RequestProcessor } from '../../../main/modules/ardoq/RequestProcessor';
@@ -11,19 +12,23 @@ import { RequestProcessor } from '../../../main/modules/ardoq/RequestProcessor';
 jest.mock('../../../main/modules/ardoq/RequestProcessor', () => ({
   RequestProcessor: jest.fn().mockImplementation(() => ({
     constructor: (client: ArdoqClient) => {},
-    processRequest: (deps: Map<string, Dependency>) =>
-      Promise.resolve(new ArdoqStatusCounts().add(ArdoqComponentCreatedStatus.EXISTING, 10)),
+    processRequest: (request: ArdoqRequest) => {
+      if (request.parser === 'maven') {
+        return Promise.resolve(new ArdoqStatusCounts().add(ArdoqComponentCreatedStatus.CREATED, 10));
+      }
+      return Promise.resolve(new ArdoqStatusCounts().add(ArdoqComponentCreatedStatus.EXISTING, 10));
+    },
   })),
 }));
 
 import { app } from '../../../main/app';
 import fs from 'fs';
-import { Dependency } from '../../../main/modules/ardoq/Dependency';
 import { ArdoqClient } from '../../../main/modules/ardoq/ArdoqClient';
 import { ardoqRequest } from '../modules/ardoq/TestUtility';
 
 describe('Test api.ts', () => {
   const body = fs.readFileSync('src/test/resources/gradle-dependencies.log', 'utf8');
+  const mavenBody = fs.readFileSync('src/test/resources/maven-dependencies.log', 'utf8');
 
   beforeEach(() => {
     // Clear all instances and calls to constructor and all methods:
@@ -64,6 +69,48 @@ describe('Test api.ts', () => {
         ArdoqComponentCreatedStatus.PENDING +
         '":0}'
     );
+  });
+
+  it('/api/dependencies ok created', async () => {
+    const bodyContent = JSON.stringify(ardoqRequest(mavenBody, 'maven'));
+    const bodyLen = Buffer.byteLength(bodyContent, 'utf-8');
+
+    const res1 = await request(app)
+      .post('/api/dependencies')
+      .set({
+        'Content-Type': 'application/json',
+        'Content-Length': bodyLen,
+        Authorization: 'Bearer ' + config.get('serverApiKey.primary'),
+      })
+      .send(bodyContent)
+      .expect(res => expect(res.status).toEqual(201));
+
+    expect(res1.text).toEqual(
+      '{"' +
+        ArdoqComponentCreatedStatus.EXISTING +
+        '":0,"' +
+        ArdoqComponentCreatedStatus.CREATED +
+        '":10,"' +
+        ArdoqComponentCreatedStatus.ERROR +
+        '":0,"' +
+        ArdoqComponentCreatedStatus.PENDING +
+        '":0}'
+    );
+  });
+
+  it('/api/dependencies async', async () => {
+    const bodyContent = JSON.stringify(ardoqRequest(body));
+    const bodyLen = Buffer.byteLength(bodyContent, 'utf-8');
+
+    await request(app)
+      .post('/api/dependencies?async=true')
+      .set({
+        'Content-Type': 'application/json',
+        'Content-Length': bodyLen,
+        Authorization: 'Bearer ' + config.get('serverApiKey.primary'),
+      })
+      .send(bodyContent)
+      .expect(res => expect(res.status).toEqual(202));
   });
 
   it('/api/dependencies unsupported parser', async () => {

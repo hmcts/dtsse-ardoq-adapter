@@ -5,7 +5,6 @@ on:
     branches:
       - master
       - main
-      - request-throttling
 jobs:
   Maintain-Ardoq-Tech-Stack:
     runs-on: ubuntu-latest
@@ -48,7 +47,7 @@ jobs:
 
       - name: post deps to ardoq app
         run: |
-          curl --location --request POST '${{ secrets.ARDOQ_ADAPTER_URL }}' \
+          curl --location --request POST '${{ secrets.ARDOQ_ADAPTER_URL }}?async=true' \
             --header 'Authorization: Bearer ${{ secrets.ARDOQ_ADAPTER_KEY }}' \
             --header 'Content-Type: application/json' \
             --header 'content-encoding: gzip' \
