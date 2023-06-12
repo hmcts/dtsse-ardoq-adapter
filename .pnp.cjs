@@ -83,7 +83,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["glob", "npm:10.2.7"],\
             ["govuk-frontend", "npm:4.6.0"],\
             ["helmet", "npm:7.0.0"],\
-            ["html-webpack-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.5.1"],\
+            ["html-webpack-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.5.3"],\
             ["husky", "npm:8.0.3"],\
             ["jest", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:29.5.0"],\
             ["jest-html-reporter", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.10.0"],\
@@ -9457,7 +9457,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["glob", "npm:10.2.7"],\
             ["govuk-frontend", "npm:4.6.0"],\
             ["helmet", "npm:7.0.0"],\
-            ["html-webpack-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.5.1"],\
+            ["html-webpack-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.5.3"],\
             ["husky", "npm:8.0.3"],\
             ["jest", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:29.5.0"],\
             ["jest-html-reporter", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.10.0"],\
@@ -11121,17 +11121,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["html-webpack-plugin", [\
-        ["npm:5.5.1", {\
-          "packageLocation": "./.yarn/cache/html-webpack-plugin-npm-5.5.1-3bb416367d-f4b4327117.zip/node_modules/html-webpack-plugin/",\
+        ["npm:5.5.3", {\
+          "packageLocation": "./.yarn/cache/html-webpack-plugin-npm-5.5.3-b4f14786eb-ccf6851957.zip/node_modules/html-webpack-plugin/",\
           "packageDependencies": [\
-            ["html-webpack-plugin", "npm:5.5.1"]\
+            ["html-webpack-plugin", "npm:5.5.3"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.5.1", {\
-          "packageLocation": "./.yarn/__virtual__/html-webpack-plugin-virtual-ac5e679b68/0/cache/html-webpack-plugin-npm-5.5.1-3bb416367d-f4b4327117.zip/node_modules/html-webpack-plugin/",\
+        ["virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.5.3", {\
+          "packageLocation": "./.yarn/__virtual__/html-webpack-plugin-virtual-3faaf3bded/0/cache/html-webpack-plugin-npm-5.5.3-b4f14786eb-ccf6851957.zip/node_modules/html-webpack-plugin/",\
           "packageDependencies": [\
-            ["html-webpack-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.5.1"],\
+            ["html-webpack-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.5.3"],\
             ["@types/html-minifier-terser", "npm:6.1.0"],\
             ["@types/webpack", null],\
             ["html-minifier-terser", "npm:6.1.0"],\
