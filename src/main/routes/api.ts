@@ -13,10 +13,13 @@ import { RequestProcessor } from '../modules/ardoq/RequestProcessor';
 import { YarnParser } from '../modules/ardoq/YarnParser';
 
 import axios from 'axios';
+import axiosThrottle from 'axios-request-throttle';
 import config from 'config';
 import { Application } from 'express';
 
 export default function (app: Application): void {
+  axiosThrottle.use(axios, { requestsPerSecond: 10 });
+
   const client = new ArdoqClient(
     axios.create({
       baseURL: config.get('ardoq.apiUrl'),

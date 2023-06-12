@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - main
+      - request-throttling
 jobs:
   Maintain-Ardoq-Tech-Stack:
     runs-on: ubuntu-latest

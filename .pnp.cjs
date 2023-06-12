@@ -59,6 +59,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["applicationinsights", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:2.7.0"],\
             ["axios", "npm:1.4.0"],\
             ["axios-debug-log", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:1.0.0"],\
+            ["axios-request-throttle", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:1.0.0"],\
             ["babel-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:9.1.2"],\
             ["body-parser", "npm:1.20.2"],\
             ["chai", "npm:4.3.7"],\
@@ -5735,6 +5736,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/axios", [\
+        ["npm:0.14.0", {\
+          "packageLocation": "./.yarn/cache/@types-axios-npm-0.14.0-42f41917ea-12a230b940.zip/node_modules/@types/axios/",\
+          "packageDependencies": [\
+            ["@types/axios", "npm:0.14.0"],\
+            ["axios", "npm:1.4.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/babel__core", [\
         ["npm:7.20.0", {\
           "packageLocation": "./.yarn/cache/@types-babel__core-npm-7.20.0-cf2ab39970-49b601a0a7.zip/node_modules/@types/babel__core/",\
@@ -7459,6 +7470,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "packagePeers": [\
             "@types/axios",\
+            "axios"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["axios-request-throttle", [\
+        ["npm:1.0.0", {\
+          "packageLocation": "./.yarn/cache/axios-request-throttle-npm-1.0.0-379001f2f0-61857316e6.zip/node_modules/axios-request-throttle/",\
+          "packageDependencies": [\
+            ["axios-request-throttle", "npm:1.0.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:1.0.0", {\
+          "packageLocation": "./.yarn/__virtual__/axios-request-throttle-virtual-c97c6aa76e/0/cache/axios-request-throttle-npm-1.0.0-379001f2f0-61857316e6.zip/node_modules/axios-request-throttle/",\
+          "packageDependencies": [\
+            ["axios-request-throttle", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:1.0.0"],\
+            ["@types/axios", "npm:0.14.0"],\
+            ["axios", "npm:1.4.0"],\
+            ["promise-throttle", "npm:1.1.2"]\
+          ],\
+          "packagePeers": [\
             "axios"\
           ],\
           "linkType": "HARD"\
@@ -9433,6 +9466,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["applicationinsights", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:2.7.0"],\
             ["axios", "npm:1.4.0"],\
             ["axios-debug-log", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:1.0.0"],\
+            ["axios-request-throttle", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:1.0.0"],\
             ["babel-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:9.1.2"],\
             ["body-parser", "npm:1.20.2"],\
             ["chai", "npm:4.3.7"],\
@@ -14524,6 +14558,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["promise-retry", "npm:2.0.1"],\
             ["err-code", "npm:2.0.3"],\
             ["retry", "npm:0.12.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["promise-throttle", [\
+        ["npm:1.1.2", {\
+          "packageLocation": "./.yarn/cache/promise-throttle-npm-1.1.2-0bc4fe7fea-9c147f7c4b.zip/node_modules/promise-throttle/",\
+          "packageDependencies": [\
+            ["promise-throttle", "npm:1.1.2"]\
           ],\
           "linkType": "HARD"\
         }]\

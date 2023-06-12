@@ -3386,6 +3386,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/axios@npm:^0.14.0":
+  version: 0.14.0
+  resolution: "@types/axios@npm:0.14.0"
+  dependencies:
+    axios: "*"
+  checksum: 12a230b9404055d81804cb57fe4739b2317111b28a39e2477b2513250e8b85725e6f6ce509fc2a9494a6da60facb8d80df875fcd747f62f6c3abebc7db60ae66
+  languageName: node
+  linkType: hard
+
 "@types/babel__core@npm:^7.1.14":
   version: 7.20.0
   resolution: "@types/babel__core@npm:7.20.0"
@@ -4704,7 +4713,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.4.0":
+"axios-request-throttle@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "axios-request-throttle@npm:1.0.0"
+  dependencies:
+    "@types/axios": ^0.14.0
+    promise-throttle: ^1.1.2
+  peerDependencies:
+    axios: "*"
+  checksum: 61857316e6ee1dd77b7aaf0c8da1e9ce81fe11ebabee0dcd8127418d3a80402d8e7be15a5b31680efaabd19233cca57c2b6e19bbe3db4238f1cf11e36f330091
+  languageName: node
+  linkType: hard
+
+"axios@npm:*, axios@npm:1.4.0":
   version: 1.4.0
   resolution: "axios@npm:1.4.0"
   dependencies:
@@ -6274,6 +6295,7 @@ __metadata:
     applicationinsights: 2.7.0
     axios: 1.4.0
     axios-debug-log: 1.0.0
+    axios-request-throttle: ^1.0.0
     babel-loader: 9.1.2
     body-parser: 1.20.2
     chai: 4.3.7
@@ -10659,6 +10681,13 @@ __metadata:
     err-code: ^2.0.2
     retry: ^0.12.0
   checksum: f96a3f6d90b92b568a26f71e966cbbc0f63ab85ea6ff6c81284dc869b41510e6cdef99b6b65f9030f0db422bf7c96652a3fff9f2e8fb4a0f069d8f4430359429
+  languageName: node
+  linkType: hard
+
+"promise-throttle@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "promise-throttle@npm:1.1.2"
+  checksum: 9c147f7c4be88590b8e42bc3ed159768515b6536e185ddc088b9d21cf59b0b10185e741efda475659417e7bd56db0226b5c202998ca925f918906473f4f003ed
   languageName: node
   linkType: hard
 
