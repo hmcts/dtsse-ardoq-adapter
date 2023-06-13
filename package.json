@@ -42,6 +42,7 @@
     "@types/serve-favicon": "2.5.4",
     "applicationinsights": "2.7.0",
     "axios": "1.4.0",
+    "axios-request-throttle": "^1.0.0",
     "body-parser": "1.20.2",
     "compression": "^1.7.4",
     "config": "3.3.9",
