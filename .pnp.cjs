@@ -73,7 +73,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["css-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:6.8.1"],\
             ["csurf", "npm:1.11.0"],\
             ["debug", "virtual:071d471ccd267160a6f0ec15e4cdc2874728a012db8f34521faf9e64a516aa918ee9ebab3c4c084d955ab74aaac5b8be9afb7a168813c9f210acdb7d88754ab9#npm:4.3.4"],\
-            ["dotenv", "npm:16.1.4"],\
+            ["dotenv", "npm:16.2.0"],\
             ["eslint", "npm:8.42.0"],\
             ["eslint-config-prettier", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:8.8.0"],\
             ["eslint-plugin-import", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:2.27.5"],\
@@ -9422,10 +9422,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["dotenv", [\
-        ["npm:16.1.4", {\
-          "packageLocation": "./.yarn/cache/dotenv-npm-16.1.4-c4499a21eb-c1b2e13df4.zip/node_modules/dotenv/",\
+        ["npm:16.2.0", {\
+          "packageLocation": "./.yarn/cache/dotenv-npm-16.2.0-0e36c5b2ca-07ff2c3bcc.zip/node_modules/dotenv/",\
           "packageDependencies": [\
-            ["dotenv", "npm:16.1.4"]\
+            ["dotenv", "npm:16.2.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9480,7 +9480,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["css-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:6.8.1"],\
             ["csurf", "npm:1.11.0"],\
             ["debug", "virtual:071d471ccd267160a6f0ec15e4cdc2874728a012db8f34521faf9e64a516aa918ee9ebab3c4c084d955ab74aaac5b8be9afb7a168813c9f210acdb7d88754ab9#npm:4.3.4"],\
-            ["dotenv", "npm:16.1.4"],\
+            ["dotenv", "npm:16.2.0"],\
             ["eslint", "npm:8.42.0"],\
             ["eslint-config-prettier", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:8.8.0"],\
             ["eslint-plugin-import", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:2.27.5"],\
