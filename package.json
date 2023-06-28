@@ -98,7 +98,7 @@
     "jest-html-reporter": "3.10.1",
     "jest-junit": "16.0.0",
     "jest-mock": "^29.3.1",
-    "lint-staged": "13.2.2",
+    "lint-staged": "13.2.3",
     "mini-css-extract-plugin": "2.7.6",
     "nock": "13.3.1",
     "nodemon": "2.0.22",
