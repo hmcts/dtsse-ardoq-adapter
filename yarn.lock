@@ -12395,13 +12395,13 @@ __metadata:
   linkType: hard
 
 "typed-rest-client@npm:^1.8.9":
-  version: 1.8.9
-  resolution: "typed-rest-client@npm:1.8.9"
+  version: 1.8.11
+  resolution: "typed-rest-client@npm:1.8.11"
   dependencies:
     qs: ^6.9.1
     tunnel: 0.0.6
     underscore: ^1.12.1
-  checksum: 615c95872d9b4d4caa7eb44d639d9044fc41602a16c3855b87deae9e97d6df168c9501a40a1fe003ced4984335684b3dfdadcf24ac0b50657f4cd9026df40e1c
+  checksum: baba87806381cb8e686e07dc0907bbc4a7588410f13f73f5a9fe662274d1961b84d0037bf2cb3966cb288ed6146b3350edcd896c42422f7dbc06625c347f3035
   languageName: node
   linkType: hard
 
