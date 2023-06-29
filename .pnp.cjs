@@ -113,7 +113,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:9.4.4"],\
             ["ts-node", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:10.9.1"],\
             ["tsconfig-paths", "npm:4.2.0"],\
-            ["typed-rest-client", "npm:1.8.9"],\
+            ["typed-rest-client", "npm:1.8.11"],\
             ["typescript", "patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=5da071"],\
             ["webpack", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.88.0"],\
             ["webpack-cli", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.1.4"],\
@@ -9520,7 +9520,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:9.4.4"],\
             ["ts-node", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:10.9.1"],\
             ["tsconfig-paths", "npm:4.2.0"],\
-            ["typed-rest-client", "npm:1.8.9"],\
+            ["typed-rest-client", "npm:1.8.11"],\
             ["typescript", "patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=5da071"],\
             ["webpack", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.88.0"],\
             ["webpack-cli", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.1.4"],\
@@ -16527,10 +16527,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["typed-rest-client", [\
-        ["npm:1.8.9", {\
-          "packageLocation": "./.yarn/cache/typed-rest-client-npm-1.8.9-97c1fb6d71-615c95872d.zip/node_modules/typed-rest-client/",\
+        ["npm:1.8.11", {\
+          "packageLocation": "./.yarn/cache/typed-rest-client-npm-1.8.11-7be28960b2-baba878063.zip/node_modules/typed-rest-client/",\
           "packageDependencies": [\
-            ["typed-rest-client", "npm:1.8.9"],\
+            ["typed-rest-client", "npm:1.8.11"],\
             ["qs", "npm:6.11.1"],\
             ["tunnel", "npm:0.0.6"],\
             ["underscore", "npm:1.13.6"]\
