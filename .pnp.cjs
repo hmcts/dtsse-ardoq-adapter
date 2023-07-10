@@ -82,7 +82,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express-nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.1.0"],\
             ["express-openapi-validator", "npm:5.0.4"],\
             ["glob", "npm:10.3.3"],\
-            ["govuk-frontend", "npm:4.6.0"],\
+            ["govuk-frontend", "npm:4.7.0"],\
             ["helmet", "npm:7.0.0"],\
             ["html-webpack-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.5.3"],\
             ["husky", "npm:8.0.3"],\
@@ -9697,7 +9697,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express-nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.1.0"],\
             ["express-openapi-validator", "npm:5.0.4"],\
             ["glob", "npm:10.3.3"],\
-            ["govuk-frontend", "npm:4.6.0"],\
+            ["govuk-frontend", "npm:4.7.0"],\
             ["helmet", "npm:7.0.0"],\
             ["html-webpack-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.5.3"],\
             ["husky", "npm:8.0.3"],\
@@ -11212,10 +11212,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["govuk-frontend", [\
-        ["npm:4.6.0", {\
-          "packageLocation": "./.yarn/cache/govuk-frontend-npm-4.6.0-c1b6541d8c-025a5b99f5.zip/node_modules/govuk-frontend/",\
+        ["npm:4.7.0", {\
+          "packageLocation": "./.yarn/cache/govuk-frontend-npm-4.7.0-36712acdef-0e246dd2c7.zip/node_modules/govuk-frontend/",\
           "packageDependencies": [\
-            ["govuk-frontend", "npm:4.6.0"]\
+            ["govuk-frontend", "npm:4.7.0"]\
           ],\
           "linkType": "HARD"\
         }]\
