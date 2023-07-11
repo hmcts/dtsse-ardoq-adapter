@@ -79,6 +79,7 @@ export class RequestProcessor {
                 '',
             },
           } as BatchCreate);
+          // add a create for all of the references too?
         } else if (componentId && codeRepoComponentId) {
           const depRefs = await this.client.getCreateOrUpdateReferenceModel(
             codeRepoComponentId,

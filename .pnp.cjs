@@ -94,6 +94,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["js-yaml", "npm:4.1.0"],\
             ["lint-staged", "npm:13.2.3"],\
             ["lodash", "npm:4.17.21"],\
+            ["memory-cache-node", "npm:1.4.0"],\
             ["mini-css-extract-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:2.7.6"],\
             ["nock", "npm:13.3.1"],\
             ["nodemon", "npm:2.0.22"],\
@@ -9709,6 +9710,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["js-yaml", "npm:4.1.0"],\
             ["lint-staged", "npm:13.2.3"],\
             ["lodash", "npm:4.17.21"],\
+            ["memory-cache-node", "npm:1.4.0"],\
             ["mini-css-extract-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:2.7.6"],\
             ["nock", "npm:13.3.1"],\
             ["nodemon", "npm:2.0.22"],\
@@ -13376,6 +13378,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["memfs", "npm:3.5.0"],\
             ["fs-monkey", "npm:1.0.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["memory-cache-node", [\
+        ["npm:1.4.0", {\
+          "packageLocation": "./.yarn/cache/memory-cache-node-npm-1.4.0-54405e5819-538938d866.zip/node_modules/memory-cache-node/",\
+          "packageDependencies": [\
+            ["memory-cache-node", "npm:1.4.0"]\
           ],\
           "linkType": "HARD"\
         }]\

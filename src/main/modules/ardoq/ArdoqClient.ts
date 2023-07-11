@@ -7,8 +7,14 @@ import { BatchRequest } from './batch/BatchRequest';
 import { ArdoqBatchRespository } from './repositories/ArdoqBatchRespository';
 import { ArdoqComponentRepository } from './repositories/ArdoqComponentRepository';
 import { ArdoqReferenceRepository, SearchReferenceResponse } from './repositories/ArdoqReferenceRepository';
+import { ArdoqReportRepository } from './repositories/ArdoqReportRespository';
 
 import { AxiosInstance } from 'axios';
+import config from 'config';
+import { MemoryCache } from 'memory-cache-node';
+
+
+
 
 const { Logger } = require('@hmcts/nodejs-logging');
 
@@ -16,26 +22,71 @@ export class ArdoqClient {
   private componentRepository: ArdoqComponentRepository;
   private referenceRepository: ArdoqReferenceRepository;
   private batchRepository: ArdoqBatchRespository;
+  private reportRepository: ArdoqReportRepository;
+  private static CACHE_TTL_CHECK_INTERVAL: number = config.get('ardoq.cache.ttlCheckInterval');
+  private static MAX_CACHE_SIZE: number = config.get('ardoq.cache.maxSize');
 
   constructor(
     private httpClient: AxiosInstance,
-    private cache: Map<string, string> = new Map<string, string>(),
+    private cache = new Map<string, MemoryCache<string, string>>([
+      [
+        ArdoqWorkspace.ARDOQ_VCS_HOSTING_WORKSPACE,
+        new MemoryCache<string, string>(ArdoqClient.CACHE_TTL_CHECK_INTERVAL, ArdoqClient.MAX_CACHE_SIZE),
+      ],
+      [
+        ArdoqWorkspace.ARDOQ_CODE_REPOSITORY_WORKSPACE,
+        new MemoryCache<string, string>(ArdoqClient.CACHE_TTL_CHECK_INTERVAL, ArdoqClient.MAX_CACHE_SIZE),
+      ],
+      [
+        ArdoqWorkspace.ARDOQ_HMCTS_APPLICATIONS_WORKSPACE,
+        new MemoryCache<string, string>(ArdoqClient.CACHE_TTL_CHECK_INTERVAL, ArdoqClient.MAX_CACHE_SIZE),
+      ],
+      [
+        ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE,
+        new MemoryCache<string, string>(ArdoqClient.CACHE_TTL_CHECK_INTERVAL, ArdoqClient.MAX_CACHE_SIZE),
+      ],
+    ]),
     private logger = Logger.getLogger('ArdoqClient')
   ) {
     this.componentRepository = new ArdoqComponentRepository(this.httpClient);
     this.referenceRepository = new ArdoqReferenceRepository(this.httpClient);
     this.batchRepository = new ArdoqBatchRespository(this.httpClient);
+    this.reportRepository = new ArdoqReportRepository(this.httpClient);
   }
 
-  private cacheResult(name: string, componentId: string): void {
-    this.cache.set(name, componentId);
+  private cacheResult(workspace: ArdoqWorkspace, name: string, componentId: string): void {
+    this.cache.get(workspace)?.storePermanentItem(name, componentId);
+  }
+
+  private async cacheRead(workspace: ArdoqWorkspace, name: string): Promise<string | undefined> {
+    // prime ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE cache if needed
+    if (
+      workspace === ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE &&
+      this.cache.get(workspace)?.getItemCount() === 0
+    ) {
+      await this.primeCache();
+    }
+    return this.cache.get(workspace)?.retrieveItemValue(name);
+  }
+
+  private async primeCache(): Promise<void> {
+    this.logger.debug('Priming ' + ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE + ' cache...');
+    const dependencyCache = this.cache.get(ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE);
+    if (!dependencyCache) {
+      return;
+    }
+    const items = await this.reportRepository.get(config.get('ardoq.report.dependencyReportId'));
+    items.map(item => {
+      dependencyCache.storePermanentItem(item.name, item._id);
+    });
+    this.logger.debug('Done priming ' + ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE + ' cache.');
   }
 
   public async getOrCreateComponent(
     name: string,
     workspace: ArdoqWorkspace
   ): Promise<[ArdoqComponentCreatedStatus, string | null]> {
-    const cachedComponentId = this.cache.get(name);
+    const cachedComponentId = await this.cacheRead(workspace, name);
     if (cachedComponentId) {
       this.logger.debug('Found cached result for: ' + name + ' - ' + cachedComponentId);
       return [ArdoqComponentCreatedStatus.EXISTING, cachedComponentId];
@@ -44,7 +95,7 @@ export class ArdoqClient {
     const searchRes = await this.componentRepository.search(name, workspace);
     if (searchRes.status === 200 && searchRes.data.values.length > 0) {
       this.logger.debug('Found component: ' + name);
-      this.cacheResult(name, searchRes.data.values[0]._id);
+      this.cacheResult(workspace, name, searchRes.data.values[0]._id);
       return [ArdoqComponentCreatedStatus.EXISTING, searchRes.data.values[0]._id];
     }
 
@@ -54,7 +105,7 @@ export class ArdoqClient {
       return [ArdoqComponentCreatedStatus.ERROR, null];
     }
     this.logger.debug('Component created: ' + name);
-    this.cacheResult(name, createRes.data._id);
+    this.cacheResult(workspace, name, createRes.data._id);
     return [ArdoqComponentCreatedStatus.CREATED, createRes.data._id];
   }
 
@@ -101,7 +152,7 @@ export class ArdoqClient {
     name: string,
     workspace = ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE
   ): Promise<string | null> {
-    const cachedComponentId = this.cache.get(name);
+    const cachedComponentId = await this.cacheRead(workspace, name);
     if (cachedComponentId) {
       return cachedComponentId;
     }
@@ -111,7 +162,7 @@ export class ArdoqClient {
     if (searchResponse?.status === 200 && searchResponse.data.values.length > 0) {
       const componentId = searchResponse.data.values[0]._id;
       this.logger.debug('Found component: ' + name + ' - ' + componentId);
-      this.cacheResult(name, componentId);
+      this.cacheResult(workspace, name, componentId);
       return componentId;
     }
 

@@ -9,6 +9,7 @@ const { Logger } = require('@hmcts/nodejs-logging');
 export type SearchReferenceResponse = {
   id: string;
   version: string | undefined;
+  name: string | undefined;
 };
 
 export class ArdoqReferenceRepository {
@@ -28,6 +29,7 @@ export class ArdoqReferenceRepository {
       return {
         id: searchResponse.data.values[0]._id,
         version: searchResponse.data.values[0].customFields?.sf_version,
+        name: searchResponse.data.values[0].customFields?.reference_target,
       };
     }
   }
@@ -73,9 +75,10 @@ export class ArdoqReferenceRepository {
       response = await this.getNextPageOfReferences(sourceComponentId, rootWorkspace, targetWorkspace, response);
       if (response.status === 200) {
         references.push(
-          ...response.data.values.map((r: { _id: string; customFields?: Record<string, string> }) => ({
-            id: r._id,
+          ...response.data.values.map((r: { target: string; customFields?: Record<string, string> }) => ({
+            id: r.target,
             version: r.customFields?.sf_version,
+            name: r.customFields?.reference_target,
           }))
         );
       }

@@ -9,7 +9,11 @@
   "ardoq": {
     "apiKey": "",
     "apiUrl": "",
-    "apiWorkspace": ""
+    "cache": {
+      "ttlCheckInterval": 600,
+      "maxSize": 1000000
+    },
+    "dependencyReportId": ""
   },
   "serverApiKey": {
     "primary": "test1",

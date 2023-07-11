@@ -6550,6 +6550,7 @@ __metadata:
     js-yaml: ^4.1.0
     lint-staged: 13.2.3
     lodash: 4.17.21
+    memory-cache-node: ^1.4.0
     mini-css-extract-plugin: 2.7.6
     nock: 13.3.1
     nodemon: 2.0.22
@@ -9743,6 +9744,13 @@ __metadata:
   dependencies:
     fs-monkey: ^1.0.3
   checksum: 8427db6c3644eeb9119b7a74b232d9a6178d018878acce6f05bd89d95e28b1073c9eeb00127131b0613b07a003e2e7b15b482f9004e548fe06a0aba7aa02515c
+  languageName: node
+  linkType: hard
+
+"memory-cache-node@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "memory-cache-node@npm:1.4.0"
+  checksum: 538938d866500afd0805aeac8ab56d02444d8fe73b084ed499c3b8c4e4260d2b2f4bcbda6d2adbe2cea17834d50be7a7195dc67eda7b8e491e2786c996cc6531
   languageName: node
   linkType: hard
 
