@@ -79,7 +79,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-import", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:2.27.5"],\
             ["eslint-plugin-jest", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:27.2.2"],\
             ["express", "npm:4.18.2"],\
-            ["express-nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.1.0"],\
+            ["express-nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.1.1"],\
             ["express-openapi-validator", "npm:5.0.4"],\
             ["glob", "npm:10.3.3"],\
             ["govuk-frontend", "npm:4.7.0"],\
@@ -9694,7 +9694,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-import", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:2.27.5"],\
             ["eslint-plugin-jest", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:27.2.2"],\
             ["express", "npm:4.18.2"],\
-            ["express-nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.1.0"],\
+            ["express-nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.1.1"],\
             ["express-openapi-validator", "npm:5.0.4"],\
             ["glob", "npm:10.3.3"],\
             ["govuk-frontend", "npm:4.7.0"],\
@@ -10480,22 +10480,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["express-nunjucks", [\
-        ["npm:3.1.0", {\
-          "packageLocation": "./.yarn/cache/express-nunjucks-npm-3.1.0-68bf7a38b4-c145d1cfeb.zip/node_modules/express-nunjucks/",\
+        ["npm:3.1.1", {\
+          "packageLocation": "./.yarn/cache/express-nunjucks-npm-3.1.1-89debd405a-f41928106d.zip/node_modules/express-nunjucks/",\
           "packageDependencies": [\
-            ["express-nunjucks", "npm:3.1.0"]\
+            ["express-nunjucks", "npm:3.1.1"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.1.0", {\
-          "packageLocation": "./.yarn/__virtual__/express-nunjucks-virtual-c6ea419ca4/0/cache/express-nunjucks-npm-3.1.0-68bf7a38b4-c145d1cfeb.zip/node_modules/express-nunjucks/",\
+        ["virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.1.1", {\
+          "packageLocation": "./.yarn/__virtual__/express-nunjucks-virtual-5afa7c34d6/0/cache/express-nunjucks-npm-3.1.1-89debd405a-f41928106d.zip/node_modules/express-nunjucks/",\
           "packageDependencies": [\
-            ["express-nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.1.0"],\
+            ["express-nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.1.1"],\
             ["@types/express", "npm:4.17.17"],\
             ["@types/nunjucks", "npm:3.2.3"],\
             ["express", "npm:4.18.2"],\
             ["nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.2.4"],\
-            ["nunjucks-async-loader", "virtual:c6ea419ca4c1c4f033795b44017ce5c1138069a26282d6c0e93c8de64f56797429ec07768b9e0801d3fa9fb62f714a8d7d4c4f9d74d3a9ad2b365bdd8f5a64b8#npm:2.0.0"]\
+            ["nunjucks-async-loader", "virtual:5afa7c34d662e3c0f4425c214099e6bb6f6b18d6bd3107bdbf04e6daa1738a4d00cae155162c70b1831473951186d9890defc2542441d378ae799ea8a431a4bd#npm:2.1.2"]\
           ],\
           "packagePeers": [\
             "@types/express",\
@@ -14118,17 +14118,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["nunjucks-async-loader", [\
-        ["npm:2.0.0", {\
-          "packageLocation": "./.yarn/cache/nunjucks-async-loader-npm-2.0.0-dcb3182fa8-44af991a65.zip/node_modules/nunjucks-async-loader/",\
+        ["npm:2.1.2", {\
+          "packageLocation": "./.yarn/cache/nunjucks-async-loader-npm-2.1.2-9f5a24a6b6-6a68153352.zip/node_modules/nunjucks-async-loader/",\
           "packageDependencies": [\
-            ["nunjucks-async-loader", "npm:2.0.0"]\
+            ["nunjucks-async-loader", "npm:2.1.2"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:c6ea419ca4c1c4f033795b44017ce5c1138069a26282d6c0e93c8de64f56797429ec07768b9e0801d3fa9fb62f714a8d7d4c4f9d74d3a9ad2b365bdd8f5a64b8#npm:2.0.0", {\
-          "packageLocation": "./.yarn/__virtual__/nunjucks-async-loader-virtual-05fb77045b/0/cache/nunjucks-async-loader-npm-2.0.0-dcb3182fa8-44af991a65.zip/node_modules/nunjucks-async-loader/",\
+        ["virtual:5afa7c34d662e3c0f4425c214099e6bb6f6b18d6bd3107bdbf04e6daa1738a4d00cae155162c70b1831473951186d9890defc2542441d378ae799ea8a431a4bd#npm:2.1.2", {\
+          "packageLocation": "./.yarn/__virtual__/nunjucks-async-loader-virtual-5e89414c7c/0/cache/nunjucks-async-loader-npm-2.1.2-9f5a24a6b6-6a68153352.zip/node_modules/nunjucks-async-loader/",\
           "packageDependencies": [\
-            ["nunjucks-async-loader", "virtual:c6ea419ca4c1c4f033795b44017ce5c1138069a26282d6c0e93c8de64f56797429ec07768b9e0801d3fa9fb62f714a8d7d4c4f9d74d3a9ad2b365bdd8f5a64b8#npm:2.0.0"],\
+            ["nunjucks-async-loader", "virtual:5afa7c34d662e3c0f4425c214099e6bb6f6b18d6bd3107bdbf04e6daa1738a4d00cae155162c70b1831473951186d9890defc2542441d378ae799ea8a431a4bd#npm:2.1.2"],\
             ["@types/nunjucks", "npm:3.2.3"],\
             ["chokidar", "npm:3.3.1"],\
             ["nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.2.4"]\
