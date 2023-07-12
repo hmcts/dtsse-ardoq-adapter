@@ -1,10 +1,12 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import axios from 'axios';
 import { app } from '../../../../main/app';
+import { ArdoqCache } from '../../../../main/modules/ardoq/ArdoqCache';
 
 import { ArdoqClient } from '../../../../main/modules/ardoq/ArdoqClient';
 import { ArdoqComponentCreatedStatus } from '../../../../main/modules/ardoq/ArdoqComponentCreatedStatus';
 import { ArdoqRelationship } from '../../../../main/modules/ardoq/ArdoqRelationship';
+import { ArdoqWorkspace } from '../../../../main/modules/ardoq/ArdoqWorkspace';
 import { BatchUpdate } from '../../../../main/modules/ardoq/batch/BatchModel';
 import { BatchRequest } from '../../../../main/modules/ardoq/batch/BatchRequest';
 import { PropertiesVolume } from '../../../../main/modules/properties-volume';
@@ -126,7 +128,7 @@ describe('ArdoqClient', () => {
     },
   };
 
-  const cache = new Map<string, string>();
+  const cache = new ArdoqCache();
 
   beforeEach(() => {
     cache.clear();
@@ -140,7 +142,7 @@ describe('ArdoqClient', () => {
   });
 
   it('createVcsHostingComponent cache exists', async () => {
-    cache.set('github.com/jp', '91011');
+    cache.set(ArdoqWorkspace.ARDOQ_VCS_HOSTING_WORKSPACE, 'github.com/jp', '91011');
     const client = new ArdoqClient(mockedAxios, cache);
     client.createVcsHostingComponent('github.com/jp').then(result => {
       expect(result).toEqual([ArdoqComponentCreatedStatus.EXISTING, '91011']);
@@ -169,7 +171,7 @@ describe('ArdoqClient', () => {
   });
 
   it('createCodeRepoComponent cache exists', async () => {
-    cache.set('github.com/jp', '91011');
+    cache.set(ArdoqWorkspace.ARDOQ_CODE_REPOSITORY_WORKSPACE, 'github.com/jp', '91011');
     const client = new ArdoqClient(mockedAxios, cache);
     client.createCodeRepoComponent('github.com/jp').then(result => {
       expect(result).toEqual([ArdoqComponentCreatedStatus.EXISTING, '91011']);
@@ -222,7 +224,7 @@ describe('ArdoqClient', () => {
   });
 
   it('getComponentIdIfExists cached', async () => {
-    cache.set('fooComponent', '1234');
+    cache.set(ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE, 'fooComponent', '1234');
     const client = new ArdoqClient(mockedAxios, cache);
     const r = await client.getComponentIdIfExists('fooComponent');
     expect(r).toEqual('1234');

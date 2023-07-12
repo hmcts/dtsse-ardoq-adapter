@@ -28,10 +28,7 @@ export class PropertiesVolume {
     set(config, 'serverApiKey.primary', process.env.SERVER_API_KEY_PRIMARY ?? 'SERVER_API_KEY_PRIMARY');
     set(config, 'serverApiKey.secondary', process.env.SERVER_API_KEY_SECONDARY ?? 'SERVER_API_KEY_SECONDARY');
 
-    set(config, 'ardoq.cache.ttlCheckInterval', process.env.CACHE_TTL_CHECK_INTERVAL ?? 'CACHE_TTL_CHECK_INTERVAL');
-    set(config, 'ardoq.cache.maxSize', process.env.CACHE_MAX_SIZE ?? 'CACHE_MAX_SIZE');
-
-    set(config, 'ardoq.dependencyReportId', process.env.DEPENDENCY_REPORT_ID ?? 'DEPENDENCY_REPORT_ID');
+    set(config, 'ardoq.report.dependencyReportId', process.env.DEPENDENCY_REPORT_ID ?? 'DEPENDENCY_REPORT_ID');
 
     if (server.locals.ENV !== 'development' && server.locals.ENV !== 'test') {
       propertiesVolume.addTo(config);

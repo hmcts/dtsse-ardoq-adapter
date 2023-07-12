@@ -1,6 +1,7 @@
 import { jest } from '@jest/globals';
 import { mocked } from 'jest-mock';
 import { app } from '../../../../main/app';
+import { ArdoqCache } from '../../../../main/modules/ardoq/ArdoqCache';
 import { ArdoqClient } from '../../../../main/modules/ardoq/ArdoqClient';
 import { ArdoqRelationship } from '../../../../main/modules/ardoq/ArdoqRelationship';
 import { ArdoqStatusCounts } from '../../../../main/modules/ardoq/ArdoqStatusCounts';
@@ -50,12 +51,14 @@ jest.mock('../../../../main/modules/ardoq/ArdoqClient', () => {
             return Promise.resolve({
               id: '123',
               version: '0.0.1',
+              name: 'name123',
             });
           }
           if (source === 'e' && target === '456') {
             return Promise.resolve({
               id: '456',
               version: '1.1.1',
+              name: 'name456',
             });
           }
           return Promise.resolve(undefined);
@@ -104,7 +107,7 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('RequestProcessor', () => {
   new PropertiesVolume().enableFor(app);
-  const cache = new Map<string, string>();
+  const cache = new ArdoqCache();
   const mockedArdoqClient = mocked(ArdoqClient, { shallow: true });
   const emptyResult: (
     existing: number,

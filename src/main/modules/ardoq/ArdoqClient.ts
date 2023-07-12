@@ -1,3 +1,4 @@
+import { ArdoqCache } from './ArdoqCache';
 import { ArdoqComponentCreatedStatus } from './ArdoqComponentCreatedStatus';
 import { ArdoqRelationship } from './ArdoqRelationship';
 import { ArdoqStatusCounts } from './ArdoqStatusCounts';
@@ -11,10 +12,6 @@ import { ArdoqReportRepository } from './repositories/ArdoqReportRespository';
 
 import { AxiosInstance } from 'axios';
 import config from 'config';
-import { MemoryCache } from 'memory-cache-node';
-
-
-
 
 const { Logger } = require('@hmcts/nodejs-logging');
 
@@ -23,29 +20,10 @@ export class ArdoqClient {
   private referenceRepository: ArdoqReferenceRepository;
   private batchRepository: ArdoqBatchRespository;
   private reportRepository: ArdoqReportRepository;
-  private static CACHE_TTL_CHECK_INTERVAL: number = config.get('ardoq.cache.ttlCheckInterval');
-  private static MAX_CACHE_SIZE: number = config.get('ardoq.cache.maxSize');
 
   constructor(
     private httpClient: AxiosInstance,
-    private cache = new Map<string, MemoryCache<string, string>>([
-      [
-        ArdoqWorkspace.ARDOQ_VCS_HOSTING_WORKSPACE,
-        new MemoryCache<string, string>(ArdoqClient.CACHE_TTL_CHECK_INTERVAL, ArdoqClient.MAX_CACHE_SIZE),
-      ],
-      [
-        ArdoqWorkspace.ARDOQ_CODE_REPOSITORY_WORKSPACE,
-        new MemoryCache<string, string>(ArdoqClient.CACHE_TTL_CHECK_INTERVAL, ArdoqClient.MAX_CACHE_SIZE),
-      ],
-      [
-        ArdoqWorkspace.ARDOQ_HMCTS_APPLICATIONS_WORKSPACE,
-        new MemoryCache<string, string>(ArdoqClient.CACHE_TTL_CHECK_INTERVAL, ArdoqClient.MAX_CACHE_SIZE),
-      ],
-      [
-        ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE,
-        new MemoryCache<string, string>(ArdoqClient.CACHE_TTL_CHECK_INTERVAL, ArdoqClient.MAX_CACHE_SIZE),
-      ],
-    ]),
+    private cache = new ArdoqCache(),
     private logger = Logger.getLogger('ArdoqClient')
   ) {
     this.componentRepository = new ArdoqComponentRepository(this.httpClient);
@@ -54,30 +32,19 @@ export class ArdoqClient {
     this.reportRepository = new ArdoqReportRepository(this.httpClient);
   }
 
-  private cacheResult(workspace: ArdoqWorkspace, name: string, componentId: string): void {
-    this.cache.get(workspace)?.storePermanentItem(name, componentId);
-  }
-
   private async cacheRead(workspace: ArdoqWorkspace, name: string): Promise<string | undefined> {
     // prime ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE cache if needed
-    if (
-      workspace === ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE &&
-      this.cache.get(workspace)?.getItemCount() === 0
-    ) {
+    if (workspace === ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE && this.cache.getItemCount(workspace) === 0) {
       await this.primeCache();
     }
-    return this.cache.get(workspace)?.retrieveItemValue(name);
+    return this.cache.get(workspace, name);
   }
 
   private async primeCache(): Promise<void> {
     this.logger.debug('Priming ' + ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE + ' cache...');
-    const dependencyCache = this.cache.get(ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE);
-    if (!dependencyCache) {
-      return;
-    }
     const items = await this.reportRepository.get(config.get('ardoq.report.dependencyReportId'));
     items.map(item => {
-      dependencyCache.storePermanentItem(item.name, item._id);
+      this.cache.set(ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE, item.name, item._id);
     });
     this.logger.debug('Done priming ' + ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE + ' cache.');
   }
@@ -95,7 +62,7 @@ export class ArdoqClient {
     const searchRes = await this.componentRepository.search(name, workspace);
     if (searchRes.status === 200 && searchRes.data.values.length > 0) {
       this.logger.debug('Found component: ' + name);
-      this.cacheResult(workspace, name, searchRes.data.values[0]._id);
+      this.cache.set(workspace, name, searchRes.data.values[0]._id);
       return [ArdoqComponentCreatedStatus.EXISTING, searchRes.data.values[0]._id];
     }
 
@@ -105,7 +72,7 @@ export class ArdoqClient {
       return [ArdoqComponentCreatedStatus.ERROR, null];
     }
     this.logger.debug('Component created: ' + name);
-    this.cacheResult(workspace, name, createRes.data._id);
+    this.cache.set(workspace, name, createRes.data._id);
     return [ArdoqComponentCreatedStatus.CREATED, createRes.data._id];
   }
 
@@ -162,7 +129,7 @@ export class ArdoqClient {
     if (searchResponse?.status === 200 && searchResponse.data.values.length > 0) {
       const componentId = searchResponse.data.values[0]._id;
       this.logger.debug('Found component: ' + name + ' - ' + componentId);
-      this.cacheResult(workspace, name, componentId);
+      this.cache.set(workspace, name, componentId);
       return componentId;
     }
 

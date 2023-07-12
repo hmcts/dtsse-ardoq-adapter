@@ -19,9 +19,10 @@ describe('ArdoqReferenceRespository', () => {
         data: {
           values: [
             {
-              _id: 'c',
+              target: 'c',
               customFields: {
-                version: '1.0.0',
+                sf_version: '1.0.0',
+                reference_target: 'cc',
               },
             },
           ],
@@ -34,15 +35,17 @@ describe('ArdoqReferenceRespository', () => {
       data: {
         values: [
           {
-            _id: 'a',
+            target: 'a',
             customFields: {
-              version: '1.1.0',
+              sf_version: '1.1.0',
+              reference_target: 'aa',
             },
           },
           {
-            _id: 'b',
+            target: 'b',
             customFields: {
-              version: '2.0.0',
+              sf_version: '2.0.0',
+              reference_target: 'bb',
             },
           },
         ],
