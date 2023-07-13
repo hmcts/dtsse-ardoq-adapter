@@ -44,7 +44,7 @@ export class ArdoqClient {
     this.cache.clear();
     this.logger.debug('Priming ' + ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE + ' cache...');
     const items = await this.reportRepository.get(config.get('ardoq.report.dependencyReportId'));
-    items.map(item => {
+    items.forEach(item => {
       this.cache.set(ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE, item.name, item._id);
     });
     this.logger.debug('Done priming ' + ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE + ' cache.');
