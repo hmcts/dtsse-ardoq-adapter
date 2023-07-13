@@ -39,15 +39,25 @@ export class RequestProcessor {
       codeRepoComponentId,
       vcsHostingComponentId,
       languageComponentId,
-      request.languageVersion
+      request.languageVersion,
+      request.language
     );
+
+    // Remove GET component when it's for dependencies as we _know_ we've loaded them all via the report into cache
 
     const counts = new ArdoqStatusCounts();
     const deps = this.parser.fromDepRequest(request);
-    const batchRequest = await this.buildBatchRequest(deps, references, counts, codeRepoComponentId);
+    const dependencyReferences = await this.getAllCurrentReferences(codeRepoComponentId);
+    const batchRequest = await this.buildBatchRequest(
+      deps,
+      references,
+      dependencyReferences,
+      counts,
+      codeRepoComponentId
+    );
 
     // cleanup any references that are no longer required
-    batchRequest.compareAndDeleteReferences(await this.getAllCurrentReferences(codeRepoComponentId));
+    batchRequest.compareAndDeleteReferences(dependencyReferences);
 
     if (batchRequest.getTotalNumberOfRecords() === 0) {
       this.logger.info('No batch request to process');
@@ -60,10 +70,12 @@ export class RequestProcessor {
   private async buildBatchRequest(
     deps: Record<string, Dependency>,
     references: Promise<BatchCreate | BatchUpdate | undefined>[],
+    dependencyReferences: Map<string, SearchReferenceResponse>,
     counts: ArdoqStatusCounts,
     codeRepoComponentId: string | null
   ) {
     const batchRequest = new BatchRequest();
+
     await Promise.all(
       Object.values(deps).map(async (d: Dependency) => {
         const componentId = d.componentId ?? (await this.client.getComponentIdIfExists(d.name));
@@ -81,11 +93,15 @@ export class RequestProcessor {
           } as BatchCreate);
           // add a create for all of the references too?
         } else if (componentId && codeRepoComponentId) {
-          const depRefs = await this.client.getCreateOrUpdateReferenceModel(
+          const existingReference = dependencyReferences.get(componentId);
+
+          const depRefs = await this.client.getCreateOrUpdateDependencyReferenceModel(
+            existingReference,
             codeRepoComponentId,
             componentId,
             ArdoqRelationship.DEPENDS_ON_VERSION,
-            d.version
+            d.version,
+            d.name
           );
           this.addReferences([depRefs], batchRequest);
           this.logger.debug('Created dependency reference: ' + codeRepoComponentId + ' -> ' + componentId);
@@ -107,7 +123,8 @@ export class RequestProcessor {
     codeRepoComponentId: string | null,
     vcsHostingComponentId: string | null,
     languageComponentId: string | null,
-    languageVersion: string | undefined
+    languageVersion: string | undefined,
+    language: string | undefined
   ) {
     const references = [];
     if (codeRepoComponentId) {
@@ -129,7 +146,8 @@ export class RequestProcessor {
             codeRepoComponentId,
             languageComponentId,
             ArdoqRelationship.DEPENDS_ON_VERSION,
-            languageVersion
+            languageVersion,
+            language
           )
         );
       }
@@ -148,10 +166,9 @@ export class RequestProcessor {
   }
 
   private async getAllCurrentReferences(codeRepoComponentId: string | null) {
-    const allReferences: SearchReferenceResponse[] = [];
     if (codeRepoComponentId) {
-      allReferences.push(...(await this.client.getAllReferencesForRepository(codeRepoComponentId)));
+      return this.client.getAllReferencesForRepository(codeRepoComponentId);
     }
-    return allReferences;
+    return new Map<string, SearchReferenceResponse>();
   }
 }

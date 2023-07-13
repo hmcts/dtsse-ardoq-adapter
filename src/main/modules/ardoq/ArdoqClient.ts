@@ -41,6 +41,7 @@ export class ArdoqClient {
   }
 
   private async primeCache(): Promise<void> {
+    this.cache.clear();
     this.logger.debug('Priming ' + ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE + ' cache...');
     const items = await this.reportRepository.get(config.get('ardoq.report.dependencyReportId'));
     items.map(item => {
@@ -88,10 +89,10 @@ export class ArdoqClient {
     return this.referenceRepository.search(source, target);
   }
 
-  getAllReferencesForRepository(sourceComponentId: string): Promise<SearchReferenceResponse[]> {
+  getAllReferencesForRepository(sourceComponentId: string): Promise<Map<string, SearchReferenceResponse>> {
     return this.referenceRepository.getAllReferences(
       sourceComponentId,
-      ArdoqWorkspace.ARDOQ_HMCTS_APPLICATIONS_WORKSPACE,
+      ArdoqWorkspace.ARDOQ_CODE_REPOSITORY_WORKSPACE,
       ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE
     );
   }
@@ -100,7 +101,8 @@ export class ArdoqClient {
     source: string,
     target: string,
     relationship: ArdoqRelationship,
-    version?: string
+    version?: string,
+    name?: string
   ): Promise<BatchCreate | BatchUpdate | undefined> {
     try {
       return this.referenceRepository.getCreateOrUpdateModel(
@@ -108,7 +110,30 @@ export class ArdoqClient {
         source,
         target,
         relationship,
-        version
+        version,
+        name
+      );
+    } catch (e) {
+      this.logger.error('Error finding reference: ' + source + ' -> ' + target + ' : ' + e.message);
+    }
+  }
+
+  public async getCreateOrUpdateDependencyReferenceModel(
+    existingReference: SearchReferenceResponse | undefined,
+    source: string,
+    target: string,
+    relationship: ArdoqRelationship,
+    version?: string,
+    name?: string
+  ): Promise<BatchCreate | BatchUpdate | undefined> {
+    try {
+      return this.referenceRepository.getCreateOrUpdateModel(
+        existingReference,
+        source,
+        target,
+        relationship,
+        version,
+        name
       );
     } catch (e) {
       this.logger.error('Error finding reference: ' + source + ' -> ' + target + ' : ' + e.message);
@@ -118,9 +143,9 @@ export class ArdoqClient {
   public async getComponentIdIfExists(
     name: string,
     workspace = ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE
-  ): Promise<string | null> {
+  ): Promise<string | undefined> {
     const cachedComponentId = await this.cacheRead(workspace, name);
-    if (cachedComponentId) {
+    if (cachedComponentId || workspace === ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE) {
       return cachedComponentId;
     }
 
@@ -133,10 +158,12 @@ export class ArdoqClient {
       return componentId;
     }
 
-    return null;
+    return undefined;
   }
 
   public async processBatchRequest(batchRequest: BatchRequest): Promise<ArdoqStatusCounts> {
-    return this.batchRepository.create(batchRequest);
+    const res = await this.batchRepository.create(batchRequest);
+    await this.primeCache();
+    return res;
   }
 }

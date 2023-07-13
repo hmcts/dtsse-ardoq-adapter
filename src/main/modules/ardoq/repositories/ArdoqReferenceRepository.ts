@@ -39,7 +39,8 @@ export class ArdoqReferenceRepository {
     source: string,
     target: string,
     relationship: ArdoqRelationship,
-    version?: string
+    version?: string,
+    name?: string
   ): BatchCreate | BatchUpdate | undefined {
     if (!existingReference) {
       return {
@@ -47,10 +48,10 @@ export class ArdoqReferenceRepository {
           source,
           target,
           type: relationship,
-          customFields: version ? { sf_version: version } : undefined,
+          customFields: version ? { sf_version: version, reference_target: name } : undefined,
         },
       } as BatchCreate;
-    } else if (version && existingReference.version !== version) {
+    } else if (version && version !== existingReference.version) {
       return {
         id: existingReference.id,
         ifVersionMatch: 'latest',
@@ -58,7 +59,7 @@ export class ArdoqReferenceRepository {
           source,
           target,
           type: relationship,
-          customFields: { sf_version: version },
+          customFields: { sf_version: version, reference_target: existingReference.name },
         },
       } as BatchUpdate;
     }
@@ -68,18 +69,18 @@ export class ArdoqReferenceRepository {
     sourceComponentId: string,
     rootWorkspace: ArdoqWorkspace,
     targetWorkspace: ArdoqWorkspace
-  ): Promise<SearchReferenceResponse[]> {
-    const references: SearchReferenceResponse[] = [];
+  ): Promise<Map<string, SearchReferenceResponse>> {
+    const references = new Map<string, SearchReferenceResponse>();
     let response;
     do {
       response = await this.getNextPageOfReferences(sourceComponentId, rootWorkspace, targetWorkspace, response);
       if (response.status === 200) {
-        references.push(
-          ...response.data.values.map((r: { target: string; customFields?: Record<string, string> }) => ({
-            id: r.target,
+        response.data.values.map((r: { _id: string; target: string; customFields?: Record<string, string> }) =>
+          references.set(r.target, {
+            id: r._id,
             version: r.customFields?.sf_version,
             name: r.customFields?.reference_target,
-          }))
+          })
         );
       }
     } while (response.status === 200 && response.data._links?.next?.href !== undefined);

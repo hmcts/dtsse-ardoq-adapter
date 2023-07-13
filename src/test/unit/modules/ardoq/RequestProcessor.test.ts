@@ -67,10 +67,12 @@ jest.mock('../../../../main/modules/ardoq/ArdoqClient', () => {
           return Promise.resolve(new ArdoqStatusCounts());
         },
         getCreateOrUpdateReferenceModel(
+          existingReference: SearchReferenceResponse | undefined,
           source: string,
           target: string,
           relationship: ArdoqRelationship,
-          version?: string
+          version?: string,
+          name?: string
         ): Promise<BatchCreate | BatchUpdate | undefined> {
           if (source == 'def') {
             return Promise.resolve({
@@ -78,7 +80,7 @@ jest.mock('../../../../main/modules/ardoq/ArdoqClient', () => {
                 source,
                 target,
                 type: relationship,
-                customFields: version ? { sf_version: version } : undefined,
+                customFields: version ? { sf_version: version, reference_target: name } : undefined,
               },
             } as BatchCreate);
           } else if (source === 'java123') {
@@ -89,14 +91,45 @@ jest.mock('../../../../main/modules/ardoq/ArdoqClient', () => {
                 source,
                 target,
                 type: relationship,
-                customFields: { sf_version: version },
+                customFields: { sf_version: version, reference_target: name },
               },
             } as BatchUpdate);
           }
           return Promise.resolve(undefined);
         },
-        getAllReferencesForRepository(repo: string): Promise<SearchReferenceResponse[]> {
-          return Promise.resolve([]);
+        getCreateOrUpdateDependencyReferenceModel(
+          existingReference: SearchReferenceResponse | undefined,
+          source: string,
+          target: string,
+          relationship: ArdoqRelationship,
+          version?: string,
+          name?: string
+        ): Promise<BatchCreate | BatchUpdate | undefined> {
+          if (source == 'def') {
+            return Promise.resolve({
+              body: {
+                source,
+                target,
+                type: relationship,
+                customFields: version ? { sf_version: version, reference_target: name } : undefined,
+              },
+            } as BatchCreate);
+          } else if (source === 'java123') {
+            return Promise.resolve({
+              id: 'ref123',
+              ifVersionMatch: 'latest',
+              body: {
+                source,
+                target,
+                type: relationship,
+                customFields: { sf_version: version, reference_target: name },
+              },
+            } as BatchUpdate);
+          }
+          return Promise.resolve(undefined);
+        },
+        getAllReferencesForRepository(repo: string): Promise<Map<string, SearchReferenceResponse>> {
+          return Promise.resolve(new Map<string, SearchReferenceResponse>());
         },
       };
     }),
