@@ -4,7 +4,7 @@ export function ardoqRequest(body: string, parser: string = 'gradle', base64Enco
   return {
     language: 'node',
     languageVersion: '18-alpine',
-    vcsHost: 'github.com/hmcts',
+    vcsHost: 'Github HMCTS',
     parser: parser,
     hmctsApplication: 'c365c1b0-233a-4bba-92ed-0830983e6c0a',
     codeRepository: 'foo-bat',

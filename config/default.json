@@ -9,7 +9,7 @@
   "ardoq": {
     "apiKey": "",
     "apiUrl": "",
-    "apiWorkspace": ""
+    "dependencyReportId": ""
   },
   "serverApiKey": {
     "primary": "test1",

@@ -8,4 +8,5 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   coveragePathIgnorePatterns: ['/src/main/modules/properties-volume/*'],
+  openHandlesTimeout: 2000,
 };

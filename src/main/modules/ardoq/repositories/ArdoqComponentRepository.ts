@@ -14,9 +14,9 @@ type ArdoqComponentResponse = {
 
 export class ArdoqComponentRepository {
   static readonly componentTypeLookup = new Map<ArdoqWorkspace, string>([
-    [ArdoqWorkspace.ARDOQ_VCS_HOSTING_WORKSPACE, 'p1681283498700'],
+    [ArdoqWorkspace.ARDOQ_VCS_HOSTING_WORKSPACE, 'p1663692402277'],
     [ArdoqWorkspace.ARDOQ_CODE_REPOSITORY_WORKSPACE, 'p1680004054236'],
-    [ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE, 'p1659003743296'],
+    [ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE, 'p1688398121677'],
   ]);
 
   constructor(private httpClient: AxiosInstance, private logger = Logger.getLogger('ArdoqComponentRepository')) {}

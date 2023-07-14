@@ -1,6 +1,7 @@
 import { jest } from '@jest/globals';
 import { mocked } from 'jest-mock';
 import { app } from '../../../../main/app';
+import { ArdoqCache } from '../../../../main/modules/ardoq/ArdoqCache';
 import { ArdoqClient } from '../../../../main/modules/ardoq/ArdoqClient';
 import { ArdoqRelationship } from '../../../../main/modules/ardoq/ArdoqRelationship';
 import { ArdoqStatusCounts } from '../../../../main/modules/ardoq/ArdoqStatusCounts';
@@ -50,12 +51,14 @@ jest.mock('../../../../main/modules/ardoq/ArdoqClient', () => {
             return Promise.resolve({
               id: '123',
               version: '0.0.1',
+              name: 'name123',
             });
           }
           if (source === 'e' && target === '456') {
             return Promise.resolve({
               id: '456',
               version: '1.1.1',
+              name: 'name456',
             });
           }
           return Promise.resolve(undefined);
@@ -67,7 +70,9 @@ jest.mock('../../../../main/modules/ardoq/ArdoqClient', () => {
           source: string,
           target: string,
           relationship: ArdoqRelationship,
-          version?: string
+          version?: string,
+          name?: string,
+          existingReference?: SearchReferenceResponse | undefined
         ): Promise<BatchCreate | BatchUpdate | undefined> {
           if (source == 'def') {
             return Promise.resolve({
@@ -75,7 +80,7 @@ jest.mock('../../../../main/modules/ardoq/ArdoqClient', () => {
                 source,
                 target,
                 type: relationship,
-                customFields: version ? { sf_version: version } : undefined,
+                customFields: version ? { sf_version: version, reference_target: name } : undefined,
               },
             } as BatchCreate);
           } else if (source === 'java123') {
@@ -86,14 +91,14 @@ jest.mock('../../../../main/modules/ardoq/ArdoqClient', () => {
                 source,
                 target,
                 type: relationship,
-                customFields: { sf_version: version },
+                customFields: { sf_version: version, reference_target: name },
               },
             } as BatchUpdate);
           }
           return Promise.resolve(undefined);
         },
-        getAllReferencesForRepository(repo: string): Promise<SearchReferenceResponse[]> {
-          return Promise.resolve([]);
+        getAllReferencesForRepository(repo: string): Promise<Map<string, SearchReferenceResponse>> {
+          return Promise.resolve(new Map<string, SearchReferenceResponse>());
         },
       };
     }),
@@ -104,7 +109,7 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('RequestProcessor', () => {
   new PropertiesVolume().enableFor(app);
-  const cache = new Map<string, string>();
+  const cache = new ArdoqCache();
   const mockedArdoqClient = mocked(ArdoqClient, { shallow: true });
   const emptyResult: (
     existing: number,

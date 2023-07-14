@@ -19,9 +19,11 @@ describe('ArdoqReferenceRespository', () => {
         data: {
           values: [
             {
-              _id: 'c',
+              _id: 'c3',
+              target: 'c',
               customFields: {
-                version: '1.0.0',
+                sf_version: '1.0.0',
+                reference_target: 'cc',
               },
             },
           ],
@@ -34,15 +36,19 @@ describe('ArdoqReferenceRespository', () => {
       data: {
         values: [
           {
-            _id: 'a',
+            _id: 'a1',
+            target: 'a',
             customFields: {
-              version: '1.1.0',
+              sf_version: '1.1.0',
+              reference_target: 'aa',
             },
           },
           {
-            _id: 'b',
+            _id: 'b2',
+            target: 'b',
             customFields: {
-              version: '2.0.0',
+              sf_version: '2.0.0',
+              reference_target: 'bb',
             },
           },
         ],
@@ -70,9 +76,9 @@ describe('ArdoqReferenceRespository', () => {
       ArdoqWorkspace.ARDOQ_HMCTS_APPLICATIONS_WORKSPACE,
       ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE
     );
-    expect(result.length).toBe(3);
-    expect(result[0].id).toEqual('a');
-    expect(result[1].id).toEqual('b');
-    expect(result[2].id).toEqual('c');
+    expect(result.size).toBe(3);
+    expect(result.get('a')?.id).toEqual('a1');
+    expect(result.get('b')?.id).toEqual('b2');
+    expect(result.get('c')?.id).toEqual('c3');
   });
 });

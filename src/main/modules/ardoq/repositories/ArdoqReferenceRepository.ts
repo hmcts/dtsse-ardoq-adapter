@@ -9,6 +9,7 @@ const { Logger } = require('@hmcts/nodejs-logging');
 export type SearchReferenceResponse = {
   id: string;
   version: string | undefined;
+  name: string | undefined;
 };
 
 export class ArdoqReferenceRepository {
@@ -28,6 +29,7 @@ export class ArdoqReferenceRepository {
       return {
         id: searchResponse.data.values[0]._id,
         version: searchResponse.data.values[0].customFields?.sf_version,
+        name: searchResponse.data.values[0].customFields?.reference_target,
       };
     }
   }
@@ -37,7 +39,8 @@ export class ArdoqReferenceRepository {
     source: string,
     target: string,
     relationship: ArdoqRelationship,
-    version?: string
+    version?: string,
+    name?: string
   ): BatchCreate | BatchUpdate | undefined {
     if (!existingReference) {
       return {
@@ -45,10 +48,10 @@ export class ArdoqReferenceRepository {
           source,
           target,
           type: relationship,
-          customFields: version ? { sf_version: version } : undefined,
+          customFields: version ? { sf_version: version, reference_target: name } : undefined,
         },
       } as BatchCreate;
-    } else if (version && existingReference.version !== version) {
+    } else if (version && version !== existingReference.version) {
       return {
         id: existingReference.id,
         ifVersionMatch: 'latest',
@@ -56,7 +59,7 @@ export class ArdoqReferenceRepository {
           source,
           target,
           type: relationship,
-          customFields: { sf_version: version },
+          customFields: { sf_version: version, reference_target: existingReference.name },
         },
       } as BatchUpdate;
     }
@@ -66,17 +69,18 @@ export class ArdoqReferenceRepository {
     sourceComponentId: string,
     rootWorkspace: ArdoqWorkspace,
     targetWorkspace: ArdoqWorkspace
-  ): Promise<SearchReferenceResponse[]> {
-    const references: SearchReferenceResponse[] = [];
+  ): Promise<Map<string, SearchReferenceResponse>> {
+    const references = new Map<string, SearchReferenceResponse>();
     let response;
     do {
       response = await this.getNextPageOfReferences(sourceComponentId, rootWorkspace, targetWorkspace, response);
       if (response.status === 200) {
-        references.push(
-          ...response.data.values.map((r: { _id: string; customFields?: Record<string, string> }) => ({
+        response.data.values.map((r: { _id: string; target: string; customFields?: Record<string, string> }) =>
+          references.set(r.target, {
             id: r._id,
             version: r.customFields?.sf_version,
-          }))
+            name: r.customFields?.reference_target,
+          })
         );
       }
     } while (response.status === 200 && response.data._links?.next?.href !== undefined);

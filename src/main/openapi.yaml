@@ -61,13 +61,16 @@ components:
           type: string
           enum:
             [
-              'github.com/hmcts',
-              'cpp gerrit',
-              's drive',
-              'sharepoint',
-              'azure devops',
-              'github.com/ministryofjustice',
-              'github.com/cjscommonplatform',
+              'Github HMCTS',
+              'Gerrit',
+              'Github MoJ',
+              'Github CJS Common Platform',
+              'Azure Portal',
+              'S: Drive',
+              'SharePoint',
+              'Gitlab',
+              'Subversion',
+              'OneDrive Justice.gov.uk (individuals)',
             ]
           example: 'github.com/hmcts'
         hmctsApplication:

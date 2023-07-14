@@ -19,9 +19,10 @@ export class BatchRequest {
     );
   }
 
-  public compareAndDeleteReferences(references: SearchReferenceResponse[]): BatchRequest {
+  public compareAndDeleteReferences(references: Map<string, SearchReferenceResponse>): BatchRequest {
     const updatingIds = this.references.getUpdateIds();
-    const idsToDelete = references.filter(r => !updatingIds.includes(r.id)).map(r => r.id);
+    const referenceArray = Array.from(references.values());
+    const idsToDelete = referenceArray.filter(r => !updatingIds.includes(r.id)).map(r => r.id);
     this.references.setDeleteIds(idsToDelete.map(id => ({ id })));
     return this;
   }
