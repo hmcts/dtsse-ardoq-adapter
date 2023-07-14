@@ -102,33 +102,12 @@ export class ArdoqClient {
     target: string,
     relationship: ArdoqRelationship,
     version?: string,
-    name?: string
+    name?: string,
+    existingReference?: SearchReferenceResponse | undefined
   ): Promise<BatchCreate | BatchUpdate | undefined> {
     try {
       return this.referenceRepository.getCreateOrUpdateModel(
-        await this.searchForReference(source, target),
-        source,
-        target,
-        relationship,
-        version,
-        name
-      );
-    } catch (e) {
-      this.logger.error('Error finding reference: ' + source + ' -> ' + target + ' : ' + e.message);
-    }
-  }
-
-  public async getCreateOrUpdateDependencyReferenceModel(
-    existingReference: SearchReferenceResponse | undefined,
-    source: string,
-    target: string,
-    relationship: ArdoqRelationship,
-    version?: string,
-    name?: string
-  ): Promise<BatchCreate | BatchUpdate | undefined> {
-    try {
-      return this.referenceRepository.getCreateOrUpdateModel(
-        existingReference,
+        existingReference ?? (await this.searchForReference(source, target)),
         source,
         target,
         relationship,
@@ -145,6 +124,8 @@ export class ArdoqClient {
     workspace = ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE
   ): Promise<string | undefined> {
     const cachedComponentId = await this.cacheRead(workspace, name);
+    // if we are looking for dependencies we assume the cache is up-to-date as we read all of them
+    // into cache at the start of the process
     if (cachedComponentId || workspace === ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE) {
       return cachedComponentId;
     }

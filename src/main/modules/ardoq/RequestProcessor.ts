@@ -95,13 +95,13 @@ export class RequestProcessor {
         } else if (componentId && codeRepoComponentId) {
           const existingReference = dependencyReferences.get(componentId);
 
-          const depRefs = await this.client.getCreateOrUpdateDependencyReferenceModel(
-            existingReference,
+          const depRefs = await this.client.getCreateOrUpdateReferenceModel(
             codeRepoComponentId,
             componentId,
             ArdoqRelationship.DEPENDS_ON_VERSION,
             d.version,
-            d.name
+            d.name,
+            existingReference
           );
           this.addReferences([depRefs], batchRequest);
           this.logger.debug('Created dependency reference: ' + codeRepoComponentId + ' -> ' + componentId);
