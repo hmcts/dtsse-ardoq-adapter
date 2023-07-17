@@ -44,6 +44,8 @@ export class PropertiesVolume {
 
       this.setSecret('secrets.dtsse.server-api-key-primary', 'serverApiKey.primary');
       this.setSecret('secrets.dtsse.server-api-key-secondary', 'serverApiKey.secondary');
+
+      this.setSecret('secrets.dtsse.dependency-report-id', 'ardoq.report.dependencyReportId');
     }
   }
 
