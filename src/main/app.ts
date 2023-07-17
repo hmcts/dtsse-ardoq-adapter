@@ -33,6 +33,12 @@ new Nunjucks(developmentMode).enableFor(app);
 // secure the application by adding various HTTP headers to its responses
 new Helmet(config.get('security')).enableFor(app);
 
+logger.info('ardoq.vcsHostingWorkspace: ' + config.get('ardoq.vcsHostingWorkspace'));
+logger.info('ardoq.codeRepositoryWorkspace: ' + config.get('ardoq.codeRepositoryWorkspace'));
+logger.info('ardoq.hmctsApplicationsWorkspace: ' + config.get('ardoq.hmctsApplicationsWorkspace'));
+logger.info('ardoq.softwareFrameworksWorkspace: ' + config.get('ardoq.softwareFrameworksWorkspace'));
+logger.info('ardoq.report.dependencyReportId: ' + config.get('ardoq.report.dependencyReportId'));
+
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
