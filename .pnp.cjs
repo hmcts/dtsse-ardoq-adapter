@@ -49,7 +49,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/js-yaml", "npm:4.0.5"],\
             ["@types/lodash", "npm:4.14.196"],\
             ["@types/mini-css-extract-plugin", "npm:2.5.1"],\
-            ["@types/node", "npm:18.17.2"],\
+            ["@types/node", "npm:18.17.3"],\
             ["@types/nunjucks", "npm:3.2.3"],\
             ["@types/require-directory", "npm:2.1.2"],\
             ["@types/serve-favicon", "npm:2.5.4"],\
@@ -6373,10 +6373,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:18.17.2", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-18.17.2-471d3f5212-2e08acaeb3.zip/node_modules/@types/node/",\
+        ["npm:18.17.3", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-18.17.3-eeddb8f916-884fb68936.zip/node_modules/@types/node/",\
           "packageDependencies": [\
-            ["@types/node", "npm:18.17.2"]\
+            ["@types/node", "npm:18.17.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9772,7 +9772,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/js-yaml", "npm:4.0.5"],\
             ["@types/lodash", "npm:4.14.196"],\
             ["@types/mini-css-extract-plugin", "npm:2.5.1"],\
-            ["@types/node", "npm:18.17.2"],\
+            ["@types/node", "npm:18.17.3"],\
             ["@types/nunjucks", "npm:3.2.3"],\
             ["@types/require-directory", "npm:2.1.2"],\
             ["@types/serve-favicon", "npm:2.5.4"],\
@@ -16923,7 +16923,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@tsconfig/node12", "npm:1.0.11"],\
             ["@tsconfig/node14", "npm:1.0.3"],\
             ["@tsconfig/node16", "npm:1.0.3"],\
-            ["@types/node", "npm:18.17.2"],\
+            ["@types/node", "npm:18.17.3"],\
             ["@types/swc__core", null],\
             ["@types/swc__wasm", null],\
             ["@types/typescript", null],\
