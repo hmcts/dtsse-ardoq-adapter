@@ -95,7 +95,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lint-staged", "npm:13.3.0"],\
             ["lodash", "npm:4.17.21"],\
             ["mini-css-extract-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:2.7.6"],\
-            ["nock", "npm:13.3.2"],\
+            ["nock", "npm:13.3.3"],\
             ["nodemon", "npm:3.0.1"],\
             ["nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.2.4"],\
             ["pa11y", "npm:6.2.3"],\
@@ -9868,7 +9868,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lint-staged", "npm:13.3.0"],\
             ["lodash", "npm:4.17.21"],\
             ["mini-css-extract-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:2.7.6"],\
-            ["nock", "npm:13.3.2"],\
+            ["nock", "npm:13.3.3"],\
             ["nodemon", "npm:3.0.1"],\
             ["nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.2.4"],\
             ["pa11y", "npm:6.2.3"],\
@@ -14171,10 +14171,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["nock", [\
-        ["npm:13.3.2", {\
-          "packageLocation": "./.yarn/cache/nock-npm-13.3.2-a7de3a3615-1d7d5fda18.zip/node_modules/nock/",\
+        ["npm:13.3.3", {\
+          "packageLocation": "./.yarn/cache/nock-npm-13.3.3-37a69da40c-e3e4f0fb77.zip/node_modules/nock/",\
           "packageDependencies": [\
-            ["nock", "npm:13.3.2"],\
+            ["nock", "npm:13.3.3"],\
             ["debug", "virtual:9eaf5a4899064c3f055c57e0f559dc88875f793a1a2609dc036bf423e91ad9e5e8ee6be23b8816bec3ad42d85476c35b425c827a9747fd484a68aa7745d5ff7a#npm:4.3.4"],\
             ["json-stringify-safe", "npm:5.0.1"],\
             ["lodash", "npm:4.17.21"],\
