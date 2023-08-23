@@ -45,7 +45,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/es6-promisify", "npm:6.0.1"],\
             ["@types/express", "npm:4.17.17"],\
             ["@types/glob", "npm:8.1.0"],\
-            ["@types/jest", "npm:29.5.3"],\
+            ["@types/jest", "npm:29.5.4"],\
             ["@types/js-yaml", "npm:4.0.5"],\
             ["@types/lodash", "npm:4.14.197"],\
             ["@types/mini-css-extract-plugin", "npm:2.5.1"],\
@@ -6295,10 +6295,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/jest", [\
-        ["npm:29.5.3", {\
-          "packageLocation": "./.yarn/cache/@types-jest-npm-29.5.3-8fc40e94bc-e36bb92e0b.zip/node_modules/@types/jest/",\
+        ["npm:29.5.4", {\
+          "packageLocation": "./.yarn/cache/@types-jest-npm-29.5.4-d0885ca455-38ed5942f4.zip/node_modules/@types/jest/",\
           "packageDependencies": [\
-            ["@types/jest", "npm:29.5.3"],\
+            ["@types/jest", "npm:29.5.4"],\
             ["expect", "npm:29.5.0"],\
             ["pretty-format", "npm:29.5.0"]\
           ],\
@@ -9846,7 +9846,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/es6-promisify", "npm:6.0.1"],\
             ["@types/express", "npm:4.17.17"],\
             ["@types/glob", "npm:8.1.0"],\
-            ["@types/jest", "npm:29.5.3"],\
+            ["@types/jest", "npm:29.5.4"],\
             ["@types/js-yaml", "npm:4.0.5"],\
             ["@types/lodash", "npm:4.14.197"],\
             ["@types/mini-css-extract-plugin", "npm:2.5.1"],\
@@ -10456,7 +10456,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["eslint-plugin-jest", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:27.2.3"],\
             ["@types/eslint", null],\
-            ["@types/jest", "npm:29.5.3"],\
+            ["@types/jest", "npm:29.5.4"],\
             ["@types/typescript-eslint__eslint-plugin", null],\
             ["@typescript-eslint/eslint-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:6.4.0"],\
             ["@typescript-eslint/utils", "virtual:e49dd04f21d508de2797b84deda75b4da718a15ae0a038e91d3262cd1ae8693c6251f638ea6c40c2771b9ac974767df88874d432a86ac4a1810888837045a0fc#npm:5.59.0"],\
@@ -12772,7 +12772,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@jest/console", "npm:29.5.0"],\
             ["@jest/test-result", "npm:29.5.0"],\
             ["@jest/types", "npm:29.5.0"],\
-            ["@types/jest", "npm:29.5.3"],\
+            ["@types/jest", "npm:29.5.4"],\
             ["@types/typescript", null],\
             ["dateformat", "npm:3.0.2"],\
             ["jest", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:29.6.3"],\
@@ -16985,7 +16985,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/babel-jest", null],\
             ["@types/babel__core", null],\
             ["@types/esbuild", null],\
-            ["@types/jest", "npm:29.5.3"],\
+            ["@types/jest", "npm:29.5.4"],\
             ["@types/jest__types", null],\
             ["@types/typescript", null],\
             ["babel-jest", null],\
