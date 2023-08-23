@@ -80,7 +80,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-jest", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:27.2.3"],\
             ["express", "npm:4.18.2"],\
             ["express-nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.1.1"],\
-            ["express-openapi-validator", "npm:5.0.4"],\
+            ["express-openapi-validator", "npm:5.0.5"],\
             ["glob", "npm:10.3.3"],\
             ["govuk-frontend", "npm:4.7.0"],\
             ["helmet", "npm:7.0.0"],\
@@ -7321,10 +7321,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:95e9fadff5b935a1a9345ca95cb65a86d6c44be1a1f2f23857f8d760f582ba2cca999914ffa898a05c76b112ad22e3e73819378a483f4b67c3d94a8f3f7f0ecc#npm:1.0.0", {\
-          "packageLocation": "./.yarn/__virtual__/ajv-draft-04-virtual-fb0dcb5f47/0/cache/ajv-draft-04-npm-1.0.0-6fc962dbab-3f11fa0e7f.zip/node_modules/ajv-draft-04/",\
+        ["virtual:143b6cb855858b920590f4cfa45357f80a73b8b23394dbd1def461f70bb7f9c46340a16738182ba39d9295862ff937e0bc417183e0b71680efecd5a55a14c4a2#npm:1.0.0", {\
+          "packageLocation": "./.yarn/__virtual__/ajv-draft-04-virtual-fed47802b1/0/cache/ajv-draft-04-npm-1.0.0-6fc962dbab-3f11fa0e7f.zip/node_modules/ajv-draft-04/",\
           "packageDependencies": [\
-            ["ajv-draft-04", "virtual:95e9fadff5b935a1a9345ca95cb65a86d6c44be1a1f2f23857f8d760f582ba2cca999914ffa898a05c76b112ad22e3e73819378a483f4b67c3d94a8f3f7f0ecc#npm:1.0.0"],\
+            ["ajv-draft-04", "virtual:143b6cb855858b920590f4cfa45357f80a73b8b23394dbd1def461f70bb7f9c46340a16738182ba39d9295862ff937e0bc417183e0b71680efecd5a55a14c4a2#npm:1.0.0"],\
             ["@types/ajv", null],\
             ["ajv", "npm:8.12.0"]\
           ],\
@@ -9881,7 +9881,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-jest", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:27.2.3"],\
             ["express", "npm:4.18.2"],\
             ["express-nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.1.1"],\
-            ["express-openapi-validator", "npm:5.0.4"],\
+            ["express-openapi-validator", "npm:5.0.5"],\
             ["glob", "npm:10.3.3"],\
             ["govuk-frontend", "npm:4.7.0"],\
             ["helmet", "npm:7.0.0"],\
@@ -10764,16 +10764,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["express-openapi-validator", [\
-        ["npm:5.0.4", {\
-          "packageLocation": "./.yarn/cache/express-openapi-validator-npm-5.0.4-95e9fadff5-5f41d63232.zip/node_modules/express-openapi-validator/",\
+        ["npm:5.0.5", {\
+          "packageLocation": "./.yarn/cache/express-openapi-validator-npm-5.0.5-143b6cb855-e3a4a1fe63.zip/node_modules/express-openapi-validator/",\
           "packageDependencies": [\
-            ["express-openapi-validator", "npm:5.0.4"],\
+            ["express-openapi-validator", "npm:5.0.5"],\
             ["@apidevtools/json-schema-ref-parser", "npm:9.1.2"],\
             ["@types/multer", "npm:1.4.7"],\
             ["ajv", "npm:8.12.0"],\
-            ["ajv-draft-04", "virtual:95e9fadff5b935a1a9345ca95cb65a86d6c44be1a1f2f23857f8d760f582ba2cca999914ffa898a05c76b112ad22e3e73819378a483f4b67c3d94a8f3f7f0ecc#npm:1.0.0"],\
+            ["ajv-draft-04", "virtual:143b6cb855858b920590f4cfa45357f80a73b8b23394dbd1def461f70bb7f9c46340a16738182ba39d9295862ff937e0bc417183e0b71680efecd5a55a14c4a2#npm:1.0.0"],\
             ["ajv-formats", "virtual:dc7c36c9e083f20c3df0a7229e9e899bd51e56b17dd9ddf9f3c95570fccd0b695a7db72687ba4a3ee515e94dc8e56f6bfc7552c3788747c480c5c1e78605ae1b#npm:2.1.1"],\
             ["content-type", "npm:1.0.5"],\
+            ["json-schema-traverse", "npm:1.0.0"],\
             ["lodash.clonedeep", "npm:4.5.0"],\
             ["lodash.get", "npm:4.4.2"],\
             ["lodash.uniq", "npm:4.5.0"],\
