@@ -67,8 +67,8 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
-    "@babel/core": "7.22.10",
-    "@babel/eslint-parser": "7.22.10",
+    "@babel/core": "7.22.11",
+    "@babel/eslint-parser": "7.22.11",
     "@babel/preset-env": "7.22.10",
     "@codeceptjs/configure": "^0.10.0",
     "@jest/globals": "^29.3.1",
