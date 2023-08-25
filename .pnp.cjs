@@ -62,7 +62,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios-request-throttle", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:1.0.0"],\
             ["babel-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:9.1.3"],\
             ["body-parser", "npm:1.20.2"],\
-            ["chai", "npm:4.3.7"],\
+            ["chai", "npm:4.3.8"],\
             ["chai-as-promised", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:7.1.1"],\
             ["chokidar", "npm:3.5.3"],\
             ["codeceptjs", "npm:3.4.1"],\
@@ -6918,6 +6918,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["type-detect", "npm:4.0.8"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:4.3.8", {\
+          "packageLocation": "./.yarn/cache/chai-npm-4.3.8-d7c5b7ef2d-29e0984ed1.zip/node_modules/chai/",\
+          "packageDependencies": [\
+            ["chai", "npm:4.3.8"],\
+            ["assertion-error", "npm:1.1.0"],\
+            ["check-error", "npm:1.0.2"],\
+            ["deep-eql", "npm:4.1.3"],\
+            ["get-func-name", "npm:2.0.0"],\
+            ["loupe", "npm:2.3.6"],\
+            ["pathval", "npm:1.1.1"],\
+            ["type-detect", "npm:4.0.8"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["chai-as-promised", [\
@@ -6933,7 +6947,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["chai-as-promised", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:7.1.1"],\
             ["@types/chai", null],\
-            ["chai", "npm:4.3.7"],\
+            ["chai", "npm:4.3.8"],\
             ["check-error", "npm:1.0.2"]\
           ],\
           "packagePeers": [\
@@ -8253,7 +8267,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios-request-throttle", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:1.0.0"],\
             ["babel-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:9.1.3"],\
             ["body-parser", "npm:1.20.2"],\
-            ["chai", "npm:4.3.7"],\
+            ["chai", "npm:4.3.8"],\
             ["chai-as-promised", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:7.1.1"],\
             ["chokidar", "npm:3.5.3"],\
             ["codeceptjs", "npm:3.4.1"],\
@@ -14596,7 +14610,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["sinon-chai", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.7.0"],\
             ["@types/chai", null],\
             ["@types/sinon", null],\
-            ["chai", "npm:4.3.7"],\
+            ["chai", "npm:4.3.8"],\
             ["sinon", "npm:15.2.0"]\
           ],\
           "packagePeers": [\
