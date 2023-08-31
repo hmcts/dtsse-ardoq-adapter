@@ -81,7 +81,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express", "npm:4.18.2"],\
             ["express-nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.1.1"],\
             ["express-openapi-validator", "npm:5.0.6"],\
-            ["glob", "npm:10.3.3"],\
+            ["glob", "npm:10.3.4"],\
             ["govuk-frontend", "npm:4.7.0"],\
             ["helmet", "npm:7.0.0"],\
             ["html-webpack-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.5.3"],\
@@ -8349,7 +8349,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express", "npm:4.18.2"],\
             ["express-nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.1.1"],\
             ["express-openapi-validator", "npm:5.0.6"],\
-            ["glob", "npm:10.3.3"],\
+            ["glob", "npm:10.3.4"],\
             ["govuk-frontend", "npm:4.7.0"],\
             ["helmet", "npm:7.0.0"],\
             ["html-webpack-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.5.3"],\
@@ -9812,10 +9812,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["glob", [\
-        ["npm:10.3.3", {\
-          "packageLocation": "./.yarn/cache/glob-npm-10.3.3-2d9abea8c7-29190d3291.zip/node_modules/glob/",\
+        ["npm:10.3.4", {\
+          "packageLocation": "./.yarn/cache/glob-npm-10.3.4-f58cd31f55-176b97c124.zip/node_modules/glob/",\
           "packageDependencies": [\
-            ["glob", "npm:10.3.3"],\
+            ["glob", "npm:10.3.4"],\
             ["foreground-child", "npm:3.1.1"],\
             ["jackspeak", "npm:2.0.3"],\
             ["minimatch", "npm:9.0.1"],\
