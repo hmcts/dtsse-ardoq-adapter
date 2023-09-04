@@ -2,7 +2,7 @@ import { jest } from '@jest/globals';
 import { app } from '../../../../../main/app';
 import { describe, expect, it } from '@jest/globals';
 import axios from 'axios';
-import { ArdoqWorkspace } from '../../../../../main/modules/ardoq/ArdoqWorkspace';
+import { ArdoqWorkspaceConfig } from '../../../../../main/modules/ardoq/ArdoqWorkspace';
 
 import { ArdoqReferenceRepository } from '../../../../../main/modules/ardoq/repositories/ArdoqReferenceRepository';
 import { PropertiesVolume } from '../../../../../main/modules/properties-volume';
@@ -73,8 +73,8 @@ describe('ArdoqReferenceRespository', () => {
     const repo = new ArdoqReferenceRepository(mockedAxios);
     const result = await repo.getAllReferences(
       'sourceComponentId',
-      ArdoqWorkspace.ARDOQ_HMCTS_APPLICATIONS_WORKSPACE,
-      ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE
+      ArdoqWorkspaceConfig.ARDOQ_HMCTS_APPLICATIONS_WORKSPACE,
+      ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE
     );
     expect(result.size).toBe(3);
     expect(result.get('a')?.id).toEqual('a1');

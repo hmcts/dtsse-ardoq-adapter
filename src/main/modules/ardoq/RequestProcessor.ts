@@ -3,15 +3,13 @@ import { ArdoqComponentCreatedStatus } from './ArdoqComponentCreatedStatus';
 import { ArdoqRelationship } from './ArdoqRelationship';
 import { ArdoqRequest } from './ArdoqRequest';
 import { ArdoqStatusCounts } from './ArdoqStatusCounts';
-import { ArdoqWorkspace } from './ArdoqWorkspace';
+import { ArdoqWorkspace, ArdoqWorkspaceConfig } from './ArdoqWorkspace';
 import { Dependency } from './Dependency';
 import { DependencyParser } from './DependencyParser';
 import { BatchCreate, BatchUpdate } from './batch/BatchModel';
 import { BatchRequest } from './batch/BatchRequest';
 import { ArdoqComponentRepository } from './repositories/ArdoqComponentRepository';
 import { SearchReferenceResponse } from './repositories/ArdoqReferenceRepository';
-
-import config from 'config';
 
 const { Logger } = require('@hmcts/nodejs-logging');
 
@@ -30,7 +28,7 @@ export class RequestProcessor {
     const codeRepoComponentId = (await this.client.createCodeRepoComponent(request.codeRepository))[1];
     const languageComponentId = request.language
       ? (
-          await this.client.getOrCreateComponent(request.language, ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE)
+          await this.client.getOrCreateComponent(request.language, ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE)
         )[1]
       : null;
 
@@ -82,12 +80,13 @@ export class RequestProcessor {
         const status = componentId ? ArdoqComponentCreatedStatus.EXISTING : ArdoqComponentCreatedStatus.PENDING;
         // if there is no componentId we need to create this component via the BatchRequest
         if (!componentId) {
+          const workspaceId = new ArdoqWorkspace(ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE).getId();
           batchRequest.components.addCreate({
             body: {
-              rootWorkspace: config.get(ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE),
+              rootWorkspace: workspaceId,
               name: d.name,
               typeId:
-                ArdoqComponentRepository.componentTypeLookup.get(ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE) ??
+                ArdoqComponentRepository.componentTypeLookup.get(ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE) ??
                 '',
             },
           } as BatchCreate);

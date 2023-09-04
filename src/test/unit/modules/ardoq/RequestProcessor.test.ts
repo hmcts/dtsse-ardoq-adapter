@@ -5,7 +5,7 @@ import { ArdoqCache } from '../../../../main/modules/ardoq/ArdoqCache';
 import { ArdoqClient } from '../../../../main/modules/ardoq/ArdoqClient';
 import { ArdoqRelationship } from '../../../../main/modules/ardoq/ArdoqRelationship';
 import { ArdoqStatusCounts } from '../../../../main/modules/ardoq/ArdoqStatusCounts';
-import { ArdoqWorkspace } from '../../../../main/modules/ardoq/ArdoqWorkspace';
+import { ArdoqWorkspaceConfig } from '../../../../main/modules/ardoq/ArdoqWorkspace';
 import { BatchCreate, BatchUpdate } from '../../../../main/modules/ardoq/batch/BatchModel';
 import { BatchRequest } from '../../../../main/modules/ardoq/batch/BatchRequest';
 import { SearchReferenceResponse } from '../../../../main/modules/ardoq/repositories/ArdoqReferenceRepository';
@@ -39,7 +39,7 @@ jest.mock('../../../../main/modules/ardoq/ArdoqClient', () => {
         },
         getOrCreateComponent(
           name: string,
-          ardoqWorkspace: ArdoqWorkspace
+          ardoqWorkspace: ArdoqWorkspaceConfig
         ): Promise<[ArdoqComponentCreatedStatus, string | null]> {
           if (name === 'java') {
             return Promise.resolve([ArdoqComponentCreatedStatus.EXISTING, 'java123']);

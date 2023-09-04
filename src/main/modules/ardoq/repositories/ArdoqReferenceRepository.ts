@@ -1,5 +1,5 @@
 import { ArdoqRelationship } from '../ArdoqRelationship';
-import { ArdoqWorkspace } from '../ArdoqWorkspace';
+import { ArdoqWorkspace, ArdoqWorkspaceConfig } from '../ArdoqWorkspace';
 import { BatchCreate, BatchUpdate } from '../batch/BatchModel';
 
 import { AxiosInstance, AxiosResponse } from 'axios';
@@ -67,8 +67,8 @@ export class ArdoqReferenceRepository {
 
   public async getAllReferences(
     sourceComponentId: string,
-    rootWorkspace: ArdoqWorkspace,
-    targetWorkspace: ArdoqWorkspace
+    rootWorkspace: ArdoqWorkspaceConfig,
+    targetWorkspace: ArdoqWorkspaceConfig
   ): Promise<Map<string, SearchReferenceResponse>> {
     const references = new Map<string, SearchReferenceResponse>();
     let response;
@@ -90,24 +90,27 @@ export class ArdoqReferenceRepository {
 
   private getNextPageOfReferences(
     sourceComponentId: string,
-    rootWorkspace: ArdoqWorkspace,
-    targetWorkspace: ArdoqWorkspace,
+    rootWorkspace: ArdoqWorkspaceConfig,
+    targetWorkspace: ArdoqWorkspaceConfig,
     response: AxiosResponse | undefined
   ) {
+
+    const rootWorkspaceId = new ArdoqWorkspace(rootWorkspace).getId();
+    const targetWorkspaceId = new ArdoqWorkspace(targetWorkspace).getId();
     this.logger.debug(
       'Calling GET /api/v2/references source:' +
         sourceComponentId +
         'rootWorkspace: ' +
-        rootWorkspace +
+        rootWorkspaceId +
         ' targetWorkspace:' +
-        targetWorkspace
+        targetWorkspaceId
     );
     const url = response?.data._links?.next?.href || '/api/v2/references';
     return this.httpClient.get(url, {
       params: {
         source: sourceComponentId,
-        rootWorkspace,
-        targetWorkspace,
+        rootWorkspaceId,
+        targetWorkspaceId,
       },
       responseType: 'json',
     });
