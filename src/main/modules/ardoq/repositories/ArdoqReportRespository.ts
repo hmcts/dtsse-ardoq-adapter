@@ -17,7 +17,6 @@ export class ArdoqReportRepository {
 
     try {
       const response = await this.httpClient.get('/api/report/' + reportId + '/export-data');
-      // this.logger.info(JSON.stringify(response.data));
       if (response.status === 200) {
         return response.data as DependencyReportItem[];
       }
