@@ -34,7 +34,10 @@ export class ArdoqClient {
 
   private async cacheRead(workspace: ArdoqWorkspaceConfig, name: string): Promise<string | undefined> {
     // prime ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE cache if needed
-    if (workspace === ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE && this.cache.getItemCount(workspace) === 0) {
+    if (
+      workspace === ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE &&
+      this.cache.getItemCount(workspace) === 0
+    ) {
       await this.primeCache();
     }
     return this.cache.get(workspace, name);

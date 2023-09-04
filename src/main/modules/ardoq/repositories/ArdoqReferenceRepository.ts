@@ -94,7 +94,6 @@ export class ArdoqReferenceRepository {
     targetWorkspace: ArdoqWorkspaceConfig,
     response: AxiosResponse | undefined
   ) {
-
     const rootWorkspaceId = new ArdoqWorkspace(rootWorkspace).getId();
     const targetWorkspaceId = new ArdoqWorkspace(targetWorkspace).getId();
     this.logger.debug(

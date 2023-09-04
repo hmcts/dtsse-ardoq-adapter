@@ -28,7 +28,10 @@ export class RequestProcessor {
     const codeRepoComponentId = (await this.client.createCodeRepoComponent(request.codeRepository))[1];
     const languageComponentId = request.language
       ? (
-          await this.client.getOrCreateComponent(request.language, ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE)
+          await this.client.getOrCreateComponent(
+            request.language,
+            ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE
+          )
         )[1]
       : null;
 
@@ -86,8 +89,9 @@ export class RequestProcessor {
               rootWorkspace: workspaceId,
               name: d.name,
               typeId:
-                ArdoqComponentRepository.componentTypeLookup.get(ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE) ??
-                '',
+                ArdoqComponentRepository.componentTypeLookup.get(
+                  ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE
+                ) ?? '',
             },
           } as BatchCreate);
           // add a create for all of the references too?
