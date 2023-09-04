@@ -2,7 +2,7 @@ import { ArdoqCache } from './ArdoqCache';
 import { ArdoqComponentCreatedStatus } from './ArdoqComponentCreatedStatus';
 import { ArdoqRelationship } from './ArdoqRelationship';
 import { ArdoqStatusCounts } from './ArdoqStatusCounts';
-import { ArdoqWorkspace } from './ArdoqWorkspace';
+import { ArdoqWorkspaceConfig } from './ArdoqWorkspace';
 import { BatchCreate, BatchUpdate } from './batch/BatchModel';
 import { BatchRequest } from './batch/BatchRequest';
 import { ArdoqBatchRespository } from './repositories/ArdoqBatchRespository';
@@ -32,9 +32,12 @@ export class ArdoqClient {
     this.reportRepository = new ArdoqReportRepository(this.httpClient);
   }
 
-  private async cacheRead(workspace: ArdoqWorkspace, name: string): Promise<string | undefined> {
+  private async cacheRead(workspace: ArdoqWorkspaceConfig, name: string): Promise<string | undefined> {
     // prime ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE cache if needed
-    if (workspace === ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE && this.cache.getItemCount(workspace) === 0) {
+    if (
+      workspace === ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE &&
+      this.cache.getItemCount(workspace) === 0
+    ) {
       await this.primeCache();
     }
     return this.cache.get(workspace, name);
@@ -42,17 +45,17 @@ export class ArdoqClient {
 
   private async primeCache(): Promise<void> {
     this.cache.clear();
-    this.logger.debug('Priming ' + ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE + ' cache...');
+    this.logger.debug('Priming ' + ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE + ' cache...');
     const items = await this.reportRepository.get(config.get('ardoq.report.dependencyReportId'));
     items.forEach(item => {
-      this.cache.set(ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE, item.name, item._id);
+      this.cache.set(ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE, item.name, item._id);
     });
-    this.logger.debug('Done priming ' + ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE + ' cache.');
+    this.logger.debug('Done priming ' + ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE + ' cache.');
   }
 
   public async getOrCreateComponent(
     name: string,
-    workspace: ArdoqWorkspace
+    workspace: ArdoqWorkspaceConfig
   ): Promise<[ArdoqComponentCreatedStatus, string | null]> {
     const cachedComponentId = await this.cacheRead(workspace, name);
     if (cachedComponentId) {
@@ -78,11 +81,11 @@ export class ArdoqClient {
   }
 
   public createVcsHostingComponent(name: string): Promise<[ArdoqComponentCreatedStatus, string | null]> {
-    return this.getOrCreateComponent(name, ArdoqWorkspace.ARDOQ_VCS_HOSTING_WORKSPACE);
+    return this.getOrCreateComponent(name, ArdoqWorkspaceConfig.ARDOQ_VCS_HOSTING_WORKSPACE);
   }
 
   public createCodeRepoComponent(name: string): Promise<[ArdoqComponentCreatedStatus, string | null]> {
-    return this.getOrCreateComponent(name, ArdoqWorkspace.ARDOQ_CODE_REPOSITORY_WORKSPACE);
+    return this.getOrCreateComponent(name, ArdoqWorkspaceConfig.ARDOQ_CODE_REPOSITORY_WORKSPACE);
   }
 
   public async searchForReference(source: string, target: string): Promise<SearchReferenceResponse | undefined> {
@@ -92,8 +95,8 @@ export class ArdoqClient {
   getAllReferencesForRepository(sourceComponentId: string): Promise<Map<string, SearchReferenceResponse>> {
     return this.referenceRepository.getAllReferences(
       sourceComponentId,
-      ArdoqWorkspace.ARDOQ_CODE_REPOSITORY_WORKSPACE,
-      ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE
+      ArdoqWorkspaceConfig.ARDOQ_CODE_REPOSITORY_WORKSPACE,
+      ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE
     );
   }
 
@@ -121,12 +124,12 @@ export class ArdoqClient {
 
   public async getComponentIdIfExists(
     name: string,
-    workspace = ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE
+    workspace = ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE
   ): Promise<string | undefined> {
     const cachedComponentId = await this.cacheRead(workspace, name);
     // if we are looking for dependencies we assume the cache is up-to-date as we read all of them
     // into cache at the start of the process
-    if (cachedComponentId || workspace === ArdoqWorkspace.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE) {
+    if (cachedComponentId || workspace === ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE) {
       return cachedComponentId;
     }
 

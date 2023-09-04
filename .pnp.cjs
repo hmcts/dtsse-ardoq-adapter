@@ -32,7 +32,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/eslint-parser", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:7.22.11"],\
             ["@babel/preset-env", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:7.22.10"],\
             ["@codeceptjs/configure", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:0.10.0"],\
-            ["@hmcts/nodejs-healthcheck", "npm:1.8.0"],\
+            ["@hmcts/nodejs-healthcheck", "npm:1.8.3"],\
             ["@hmcts/nodejs-logging", "npm:4.0.4"],\
             ["@hmcts/properties-volume", "npm:0.0.14"],\
             ["@jest/globals", "npm:29.6.4"],\
@@ -3613,10 +3613,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@hmcts/nodejs-healthcheck", [\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/cache/@hmcts-nodejs-healthcheck-npm-1.8.0-e21336666f-8412f6a36b.zip/node_modules/@hmcts/nodejs-healthcheck/",\
+        ["npm:1.8.3", {\
+          "packageLocation": "./.yarn/cache/@hmcts-nodejs-healthcheck-npm-1.8.3-0b01c623ac-76f87a5a67.zip/node_modules/@hmcts/nodejs-healthcheck/",\
           "packageDependencies": [\
-            ["@hmcts/nodejs-healthcheck", "npm:1.8.0"],\
+            ["@hmcts/nodejs-healthcheck", "npm:1.8.3"],\
             ["@hmcts/nodejs-logging", "npm:4.0.4"],\
             ["js-yaml", "npm:3.14.1"],\
             ["superagent", "npm:7.1.5"]\
@@ -8216,7 +8216,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/eslint-parser", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:7.22.11"],\
             ["@babel/preset-env", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:7.22.10"],\
             ["@codeceptjs/configure", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:0.10.0"],\
-            ["@hmcts/nodejs-healthcheck", "npm:1.8.0"],\
+            ["@hmcts/nodejs-healthcheck", "npm:1.8.3"],\
             ["@hmcts/nodejs-logging", "npm:4.0.4"],\
             ["@hmcts/properties-volume", "npm:0.0.14"],\
             ["@jest/globals", "npm:29.6.4"],\
