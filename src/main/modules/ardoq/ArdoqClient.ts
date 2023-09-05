@@ -108,6 +108,15 @@ export class ArdoqClient {
     name?: string,
     existingReference?: SearchReferenceResponse | undefined
   ): Promise<BatchCreate | BatchUpdate | undefined> {
+    if (!existingReference && relationship === ArdoqRelationship.DEPENDS_ON_VERSION) {
+      this.logger.error(
+        'Error finding reference: ' +
+          source +
+          ' -> ' +
+          target +
+          ' : existingReferences was empty - not searching API due to rate limiting impact.'
+      );
+    }
     try {
       return this.referenceRepository.getCreateOrUpdateModel(
         existingReference ?? (await this.searchForReference(source, target)),
