@@ -116,18 +116,19 @@ export class ArdoqClient {
           target +
           ' : existingReferences was empty - not searching API due to rate limiting impact.'
       );
-    }
-    try {
-      return this.referenceRepository.getCreateOrUpdateModel(
-        existingReference ?? (await this.searchForReference(source, target)),
-        source,
-        target,
-        relationship,
-        version,
-        name
-      );
-    } catch (e) {
-      this.logger.error('Error finding reference: ' + source + ' -> ' + target + ' : ' + e.message);
+    } else {
+      try {
+        return this.referenceRepository.getCreateOrUpdateModel(
+          existingReference ?? (await this.searchForReference(source, target)),
+          source,
+          target,
+          relationship,
+          version,
+          name
+        );
+      } catch (e) {
+        this.logger.error('Error finding reference: ' + source + ' -> ' + target + ' : ' + e.message);
+      }
     }
   }
 
