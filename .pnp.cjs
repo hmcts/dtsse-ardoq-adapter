@@ -36,7 +36,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@hmcts/nodejs-logging", "npm:4.0.4"],\
             ["@hmcts/properties-volume", "npm:0.0.14"],\
             ["@jest/globals", "npm:29.7.0"],\
-            ["@types/body-parser", "npm:1.19.2"],\
+            ["@types/body-parser", "npm:1.19.3"],\
             ["@types/chai-as-promised", "npm:7.1.6"],\
             ["@types/compression", "npm:1.7.3"],\
             ["@types/config", "npm:3.3.1"],\
@@ -4587,6 +4587,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:18.15.11"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.19.3", {\
+          "packageLocation": "./.yarn/cache/@types-body-parser-npm-1.19.3-2449988991-932fa71437.zip/node_modules/@types/body-parser/",\
+          "packageDependencies": [\
+            ["@types/body-parser", "npm:1.19.3"],\
+            ["@types/connect", "npm:3.4.35"],\
+            ["@types/node", "npm:18.15.11"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@types/chai", [\
@@ -8283,7 +8292,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@hmcts/nodejs-logging", "npm:4.0.4"],\
             ["@hmcts/properties-volume", "npm:0.0.14"],\
             ["@jest/globals", "npm:29.7.0"],\
-            ["@types/body-parser", "npm:1.19.2"],\
+            ["@types/body-parser", "npm:1.19.3"],\
             ["@types/chai-as-promised", "npm:7.1.6"],\
             ["@types/compression", "npm:1.7.3"],\
             ["@types/config", "npm:3.3.1"],\
