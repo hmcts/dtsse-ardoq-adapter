@@ -50,7 +50,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/lodash", "npm:4.14.199"],\
             ["@types/mini-css-extract-plugin", "npm:2.5.1"],\
             ["@types/node", "npm:18.17.15"],\
-            ["@types/nunjucks", "npm:3.2.3"],\
+            ["@types/nunjucks", "npm:3.2.4"],\
             ["@types/require-directory", "npm:2.1.2"],\
             ["@types/serve-favicon", "npm:2.5.4"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -4875,10 +4875,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/nunjucks", [\
-        ["npm:3.2.3", {\
-          "packageLocation": "./.yarn/cache/@types-nunjucks-npm-3.2.3-84984528cc-f4263a39f0.zip/node_modules/@types/nunjucks/",\
+        ["npm:3.2.4", {\
+          "packageLocation": "./.yarn/cache/@types-nunjucks-npm-3.2.4-749d29b627-d154c6cc98.zip/node_modules/@types/nunjucks/",\
           "packageDependencies": [\
-            ["@types/nunjucks", "npm:3.2.3"]\
+            ["@types/nunjucks", "npm:3.2.4"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -8270,7 +8270,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/lodash", "npm:4.14.199"],\
             ["@types/mini-css-extract-plugin", "npm:2.5.1"],\
             ["@types/node", "npm:18.17.15"],\
-            ["@types/nunjucks", "npm:3.2.3"],\
+            ["@types/nunjucks", "npm:3.2.4"],\
             ["@types/require-directory", "npm:2.1.2"],\
             ["@types/serve-favicon", "npm:2.5.4"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -9168,7 +9168,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["express-nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.1.1"],\
             ["@types/express", "npm:4.17.18"],\
-            ["@types/nunjucks", "npm:3.2.3"],\
+            ["@types/nunjucks", "npm:3.2.4"],\
             ["express", "npm:4.18.2"],\
             ["nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.2.4"],\
             ["nunjucks-async-loader", "virtual:5afa7c34d662e3c0f4425c214099e6bb6f6b18d6bd3107bdbf04e6daa1738a4d00cae155162c70b1831473951186d9890defc2542441d378ae799ea8a431a4bd#npm:2.1.2"]\
@@ -12833,7 +12833,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/nunjucks-async-loader-virtual-5e89414c7c/0/cache/nunjucks-async-loader-npm-2.1.2-9f5a24a6b6-6a68153352.zip/node_modules/nunjucks-async-loader/",\
           "packageDependencies": [\
             ["nunjucks-async-loader", "virtual:5afa7c34d662e3c0f4425c214099e6bb6f6b18d6bd3107bdbf04e6daa1738a4d00cae155162c70b1831473951186d9890defc2542441d378ae799ea8a431a4bd#npm:2.1.2"],\
-            ["@types/nunjucks", "npm:3.2.3"],\
+            ["@types/nunjucks", "npm:3.2.4"],\
             ["chokidar", "npm:3.3.1"],\
             ["nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.2.4"]\
           ],\
