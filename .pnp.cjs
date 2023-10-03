@@ -51,7 +51,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/mini-css-extract-plugin", "npm:2.5.1"],\
             ["@types/node", "npm:18.17.15"],\
             ["@types/nunjucks", "npm:3.2.4"],\
-            ["@types/require-directory", "npm:2.1.2"],\
+            ["@types/require-directory", "npm:2.1.3"],\
             ["@types/serve-favicon", "npm:2.5.4"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["@typescript-eslint/eslint-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:6.7.2"],\
@@ -4902,10 +4902,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/require-directory", [\
-        ["npm:2.1.2", {\
-          "packageLocation": "./.yarn/cache/@types-require-directory-npm-2.1.2-d9ec802680-fa68f3f684.zip/node_modules/@types/require-directory/",\
+        ["npm:2.1.3", {\
+          "packageLocation": "./.yarn/cache/@types-require-directory-npm-2.1.3-62672b9c19-409842c479.zip/node_modules/@types/require-directory/",\
           "packageDependencies": [\
-            ["@types/require-directory", "npm:2.1.2"],\
+            ["@types/require-directory", "npm:2.1.3"],\
             ["@types/node", "npm:18.15.11"]\
           ],\
           "linkType": "HARD"\
@@ -8271,7 +8271,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/mini-css-extract-plugin", "npm:2.5.1"],\
             ["@types/node", "npm:18.17.15"],\
             ["@types/nunjucks", "npm:3.2.4"],\
-            ["@types/require-directory", "npm:2.1.2"],\
+            ["@types/require-directory", "npm:2.1.3"],\
             ["@types/serve-favicon", "npm:2.5.4"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["@typescript-eslint/eslint-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:6.7.2"],\
