@@ -53,7 +53,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/nunjucks", "npm:3.2.4"],\
             ["@types/require-directory", "npm:2.1.3"],\
             ["@types/serve-favicon", "npm:2.5.5"],\
-            ["@types/supertest", "npm:2.0.12"],\
+            ["@types/supertest", "npm:2.0.14"],\
             ["@typescript-eslint/eslint-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:6.7.2"],\
             ["@typescript-eslint/parser", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:6.7.2"],\
             ["applicationinsights", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:2.7.3"],\
@@ -4978,10 +4978,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/supertest", [\
-        ["npm:2.0.12", {\
-          "packageLocation": "./.yarn/cache/@types-supertest-npm-2.0.12-deccb2551b-f0e2b44f86.zip/node_modules/@types/supertest/",\
+        ["npm:2.0.14", {\
+          "packageLocation": "./.yarn/cache/@types-supertest-npm-2.0.14-c53201eddd-9f6850a22b.zip/node_modules/@types/supertest/",\
           "packageDependencies": [\
-            ["@types/supertest", "npm:2.0.12"],\
+            ["@types/supertest", "npm:2.0.14"],\
             ["@types/superagent", "npm:4.1.16"]\
           ],\
           "linkType": "HARD"\
@@ -8273,7 +8273,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/nunjucks", "npm:3.2.4"],\
             ["@types/require-directory", "npm:2.1.3"],\
             ["@types/serve-favicon", "npm:2.5.5"],\
-            ["@types/supertest", "npm:2.0.12"],\
+            ["@types/supertest", "npm:2.0.14"],\
             ["@typescript-eslint/eslint-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:6.7.2"],\
             ["@typescript-eslint/parser", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:6.7.2"],\
             ["applicationinsights", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:2.7.3"],\
