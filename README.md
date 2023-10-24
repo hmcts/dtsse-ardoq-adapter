@@ -26,33 +26,37 @@ The Ardoq Application ID can be found by logging into the Ardoq web portal, find
 Applications' workspace and using the `component id` for the application.
 
 ### 1. Using the CNP Jenkins Pipeline
+
 If your application is deployed using the standard CNP Pipeline then you need to onboard your application by raising a
 Pull Request such as this one: https://github.com/hmcts/cnp-jenkins-config/pull/977/files
 
 Once this config PR is merged, your teams application data shout start appearing in Ardoq after your next master build.
 
 ### 2. Using the API directly
+
 You will need to request an API key from the DTSSE team who can be found on the MoJ slack workspace in #rse-dev-tools.
 
 You will need to `POST` the following payload to the `/api/dependencies`.
 
 ```json
 {
-      "vcsHost": "Github HMCTS",
-      "hmctsApplication": "YOUR_APPLICATION_ID_HERE",
-      "codeRepository": "${{ github.event.repository.name }}",
-      "encodedDependecyList": "",
-      "parser": "yarn",
-      "language": "",
-      "languageVersion": ""
+  "vcsHost": "Github HMCTS",
+  "hmctsApplication": "YOUR_APPLICATION_ID_HERE",
+  "codeRepository": "${{ github.event.repository.name }}",
+  "encodedDependecyList": "",
+  "parser": "yarn",
+  "language": "",
+  "languageVersion": ""
 }
 ```
+
 The full [OpenAPI spec](src/main/openapi.yaml) is included in this repository.
 
 Some fields require additional clarification:
-* language - The main language used in the application eg. java, nodejs, python etc.
-* languageVersion - The version of the language used in the application eg. 11, 14, 3.8 etc.
-* encodedDependencyList - The base64 encoded list of dependencies for the application. See the [Supported Build Tools](#supported-build-tools) section for more information on how to get this data.
+
+- language - The main language used in the application eg. java, nodejs, python etc.
+- languageVersion - The version of the language used in the application eg. 11, 14, 3.8 etc.
+- encodedDependencyList - The base64 encoded list of dependencies for the application. See the [Supported Build Tools](#supported-build-tools) section for more information on how to get this data.
 
 ### 3. Using GitHub Workflows
 
