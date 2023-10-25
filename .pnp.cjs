@@ -81,7 +81,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express", "npm:4.18.2"],\
             ["express-nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.1.1"],\
             ["express-openapi-validator", "npm:5.0.6"],\
-            ["glob", "npm:10.3.5"],\
+            ["glob", "npm:10.3.10"],\
             ["govuk-frontend", "npm:4.7.0"],\
             ["helmet", "npm:7.0.0"],\
             ["html-webpack-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.5.3"],\
@@ -3674,6 +3674,30 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@humanwhocodes-object-schema-npm-1.2.1-eb622b5d0e-a824a1ec31.zip/node_modules/@humanwhocodes/object-schema/",\
           "packageDependencies": [\
             ["@humanwhocodes/object-schema", "npm:1.2.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@isaacs/cliui", [\
+        ["npm:8.0.2", {\
+          "packageLocation": "./.yarn/cache/@isaacs-cliui-npm-8.0.2-f4364666d5-4a473b9b32.zip/node_modules/@isaacs/cliui/",\
+          "packageDependencies": [\
+            ["@isaacs/cliui", "npm:8.0.2"],\
+            ["string-width", "npm:5.1.2"],\
+            ["string-width-cjs", [\
+              "string-width",\
+              "npm:4.2.3"\
+            ]],\
+            ["strip-ansi", "npm:7.0.1"],\
+            ["strip-ansi-cjs", [\
+              "strip-ansi",\
+              "npm:6.0.1"\
+            ]],\
+            ["wrap-ansi", "npm:8.1.0"],\
+            ["wrap-ansi-cjs", [\
+              "wrap-ansi",\
+              "npm:7.0.0"\
+            ]]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -8309,7 +8333,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express", "npm:4.18.2"],\
             ["express-nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.1.1"],\
             ["express-openapi-validator", "npm:5.0.6"],\
-            ["glob", "npm:10.3.5"],\
+            ["glob", "npm:10.3.10"],\
             ["govuk-frontend", "npm:4.7.0"],\
             ["helmet", "npm:7.0.0"],\
             ["html-webpack-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.5.3"],\
@@ -9772,12 +9796,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["glob", [\
-        ["npm:10.3.5", {\
-          "packageLocation": "./.yarn/cache/glob-npm-10.3.5-f1fb527177-564f4799ca.zip/node_modules/glob/",\
+        ["npm:10.3.10", {\
+          "packageLocation": "./.yarn/cache/glob-npm-10.3.10-da1ef8b112-4f2fe2511e.zip/node_modules/glob/",\
           "packageDependencies": [\
-            ["glob", "npm:10.3.5"],\
+            ["glob", "npm:10.3.10"],\
             ["foreground-child", "npm:3.1.1"],\
-            ["jackspeak", "npm:2.0.3"],\
+            ["jackspeak", "npm:2.3.6"],\
             ["minimatch", "npm:9.0.1"],\
             ["minipass", "npm:7.0.1"],\
             ["path-scurry", "npm:1.10.1"]\
@@ -10895,12 +10919,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["jackspeak", [\
-        ["npm:2.0.3", {\
-          "packageLocation": "./.yarn/cache/jackspeak-npm-2.0.3-38eb83d5bf-f58c7e1a0a.zip/node_modules/jackspeak/",\
+        ["npm:2.3.6", {\
+          "packageLocation": "./.yarn/cache/jackspeak-npm-2.3.6-42e1233172-57d43ad11e.zip/node_modules/jackspeak/",\
           "packageDependencies": [\
-            ["jackspeak", "npm:2.0.3"],\
-            ["@pkgjs/parseargs", "npm:0.11.0"],\
-            ["cliui", "npm:7.0.4"]\
+            ["jackspeak", "npm:2.3.6"],\
+            ["@isaacs/cliui", "npm:8.0.2"],\
+            ["@pkgjs/parseargs", "npm:0.11.0"]\
           ],\
           "linkType": "HARD"\
         }]\
