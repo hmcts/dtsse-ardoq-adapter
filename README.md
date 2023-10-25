@@ -10,49 +10,121 @@ erDiagram
 ```
 
 This application is a NodeJS application that runs in CFT and hosts an API that is called by
-HMCTS applications to update Ardoq with its dependencies.
+HMCTS applications and the CNP Pipeline to update Ardoq with its dependencies.
+
+```mermaid
+flowchart LR
+    A[GitHub Workflow] & B[CNP Jenkins Pipeline] -- Dependencies --> C[dtsse-ardoq-adapter]
+    C -- Dependencies --> D[Ardoq]
+```
 
 ## Getting Started with Integration
 
-In order to integrate with this application, you will need to request an API key from the DTSSE team who can be found
-on the DTS slack in #rse-dev-tools.
+There are currently 3 methods of integration. You will need to know your Ardoq Application ID for all of them.
 
-### Supported Build Tools
+The Ardoq Application ID can be found by logging into the Ardoq web portal, finding your application ini the 'HMCTS
+Applications' workspace and using the `component id` for the application.
 
-You can send data to the dtsse-ardoq-adapter API however you feel is best for your needs. Below is a sample GitHub
-action in case it is of use. The following sections of the supported build tools will describe how to get the correct
-payload to submit to the different endpoints for your built tool.
+### 1. Using the CNP Jenkins Pipeline
+
+If your application is deployed using the standard CNP Pipeline then you need to onboard your application by raising a
+Pull Request such as this one: https://github.com/hmcts/cnp-jenkins-config/pull/977/files
+
+Once this config PR is merged, your teams application data shout start appearing in Ardoq after your next master build.
+
+### 2. Using the API directly
+
+You will need to request an API key from the DTSSE team who can be found on the MoJ slack workspace in #rse-dev-tools.
+
+You will need to `POST` the following payload to the `/api/dependencies`.
+
+```json
+{
+  "vcsHost": "Github HMCTS",
+  "hmctsApplication": "YOUR_APPLICATION_ID_HERE",
+  "codeRepository": "${{ github.event.repository.name }}",
+  "encodedDependecyList": "",
+  "parser": "yarn",
+  "language": "",
+  "languageVersion": ""
+}
+```
+
+The full [OpenAPI spec](src/main/openapi.yaml) is included in this repository.
+
+Some fields require additional clarification:
+
+- language - The main language used in the application eg. java, nodejs, python etc.
+- languageVersion - The version of the language used in the application eg. 11, 14, 3.8 etc.
+- encodedDependencyList - The base64 encoded list of dependencies for the application. See the [Supported Build Tools](#supported-build-tools) section for more information on how to get this data.
+
+### 3. Using GitHub Workflows
+
+Below is a sample GitHub workflow. for a yarn application.
 
 ```name: Maintain Ardoq Tech Stack
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+name: Maintain Ardoq Tech Stack
+run-name: ${{ github.actor }} Maintaining Ardoq Tech Stack. 🚀
 on:
   push:
     branches:
       - master
       - main
-      - ardoq-integration
 jobs:
   Maintain-Ardoq-Tech-Stack:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - uses: actions/checkout@v3
-      - name: Set up JDK 11
-        uses: actions/setup-java@v3
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-      - name: Dump dependencies
-        run: ./gradlew -q dependencies > $PWD/deps.log
-      - name: base64 encode
-        run: cat $PWD/deps.log | base64 > $PWD/deps.log.base64
-      - name: Send data to Ardoq adapter
-        env:
-          ARDOQ_ADAPTER_URL: ${{ secrets.ARDOQ_ADAPTER_URL }}
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - name: List dependencies
         run: |
-          curl -d "@$PWD/deps.log.base64" $ARDOQ_ADAPTER_URL/api/gradle/send-letter-service -H 'Content-Type: text/plain' -H 'Authorization: Bearer ${{ secrets.ARDOQ_ADAPTER_KEY }}'
+          cat yarn.lock | base64 > yarn.lock.b64
+        id: deps
+
+      - name: Prepare request payload
+        run: |
+          echo -n '{
+            "vcsHost": "Github HMCTS",
+            "hmctsApplication": "YOUR_APPLICATION_ID_HERE",
+            "codeRepository": "${{ github.event.repository.name }}",
+            "encodedDependecyList": "' > payload.json
+          cat yarn.lock.b64 | tr -d '\n' >> payload.json
+          echo -n '",
+            "parser": "yarn",
+            "language": "' >> payload.json
+          grep -E '^FROM' Dockerfile | awk '{print $2}' | awk -F ':' '{printf("%s", $1)}' | tr '/' '\n' | tail -1 >> payload.json
+          echo -n '",
+            "languageVersion": "' >> payload.json
+          grep -E '^FROM' Dockerfile | awk '{print $2}' | awk -F ':' '{printf("%s", $2)}' >> payload.json
+          echo -n '"
+            }' >> payload.json
+
+      - name: compress body
+        run: |
+          gzip payload.json
+
+      - name: debug compression
+        run: |
+          ls -lah payload.json.gz
+
+      - name: post deps to ardoq app
+        run: |
+          curl -w "%{http_code}" --location --request POST '${{ secrets.ARDOQ_ADAPTER_URL }}?async=true' \
+            --header 'Authorization: Bearer ${{ secrets.ARDOQ_ADAPTER_KEY }}' \
+            --header 'Content-Type: application/json' \
+            --header 'content-encoding: gzip' \
+            --data-binary '@payload.json.gz'
+
       - run: echo "🍏 This job's status is ${{ job.status }}."
 ```
+
+## Supported Build Tools
+
+The following sections of the supported build tools will describe how to get the correct
+payload to submit to the different endpoints for your built tool.
 
 ### Gradle
 
