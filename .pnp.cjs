@@ -37,7 +37,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@hmcts/properties-volume", "npm:0.0.14"],\
             ["@jest/globals", "npm:29.7.0"],\
             ["@types/body-parser", "npm:1.19.4"],\
-            ["@types/chai-as-promised", "npm:7.1.6"],\
+            ["@types/chai-as-promised", "npm:7.1.7"],\
             ["@types/compression", "npm:1.7.3"],\
             ["@types/config", "npm:3.3.1"],\
             ["@types/cookie-parser", "npm:1.4.4"],\
@@ -4569,10 +4569,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/chai-as-promised", [\
-        ["npm:7.1.6", {\
-          "packageLocation": "./.yarn/cache/@types-chai-as-promised-npm-7.1.6-69e594bab6-f765dd249a.zip/node_modules/@types/chai-as-promised/",\
+        ["npm:7.1.7", {\
+          "packageLocation": "./.yarn/cache/@types-chai-as-promised-npm-7.1.7-847093f322-59199afbd9.zip/node_modules/@types/chai-as-promised/",\
           "packageDependencies": [\
-            ["@types/chai-as-promised", "npm:7.1.6"],\
+            ["@types/chai-as-promised", "npm:7.1.7"],\
             ["@types/chai", "npm:4.3.4"]\
           ],\
           "linkType": "HARD"\
@@ -8289,7 +8289,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@hmcts/properties-volume", "npm:0.0.14"],\
             ["@jest/globals", "npm:29.7.0"],\
             ["@types/body-parser", "npm:1.19.4"],\
-            ["@types/chai-as-promised", "npm:7.1.6"],\
+            ["@types/chai-as-promised", "npm:7.1.7"],\
             ["@types/compression", "npm:1.7.3"],\
             ["@types/config", "npm:3.3.1"],\
             ["@types/cookie-parser", "npm:1.4.4"],\
