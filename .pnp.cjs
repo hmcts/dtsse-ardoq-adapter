@@ -38,7 +38,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@jest/globals", "npm:29.7.0"],\
             ["@types/body-parser", "npm:1.19.4"],\
             ["@types/chai-as-promised", "npm:7.1.7"],\
-            ["@types/compression", "npm:1.7.3"],\
+            ["@types/compression", "npm:1.7.4"],\
             ["@types/config", "npm:3.3.1"],\
             ["@types/cookie-parser", "npm:1.4.4"],\
             ["@types/csurf", "npm:1.11.3"],\
@@ -4579,10 +4579,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/compression", [\
-        ["npm:1.7.3", {\
-          "packageLocation": "./.yarn/cache/@types-compression-npm-1.7.3-421a8043b4-9a65519e8c.zip/node_modules/@types/compression/",\
+        ["npm:1.7.4", {\
+          "packageLocation": "./.yarn/cache/@types-compression-npm-1.7.4-06ec0a028f-0994e68158.zip/node_modules/@types/compression/",\
           "packageDependencies": [\
-            ["@types/compression", "npm:1.7.3"],\
+            ["@types/compression", "npm:1.7.4"],\
             ["@types/express", "npm:4.17.17"]\
           ],\
           "linkType": "HARD"\
@@ -8290,7 +8290,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@jest/globals", "npm:29.7.0"],\
             ["@types/body-parser", "npm:1.19.4"],\
             ["@types/chai-as-promised", "npm:7.1.7"],\
-            ["@types/compression", "npm:1.7.3"],\
+            ["@types/compression", "npm:1.7.4"],\
             ["@types/config", "npm:3.3.1"],\
             ["@types/cookie-parser", "npm:1.4.4"],\
             ["@types/csurf", "npm:1.11.3"],\
