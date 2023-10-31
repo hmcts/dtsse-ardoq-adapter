@@ -43,7 +43,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/cookie-parser", "npm:1.4.5"],\
             ["@types/csurf", "npm:1.11.4"],\
             ["@types/es6-promisify", "npm:6.0.3"],\
-            ["@types/express", "npm:4.17.18"],\
+            ["@types/express", "npm:4.17.20"],\
             ["@types/glob", "npm:8.1.0"],\
             ["@types/jest", "npm:29.5.5"],\
             ["@types/js-yaml", "npm:4.0.6"],\
@@ -4698,10 +4698,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:4.17.18", {\
-          "packageLocation": "./.yarn/cache/@types-express-npm-4.17.18-c095318854-8c178da4f0.zip/node_modules/@types/express/",\
+        ["npm:4.17.20", {\
+          "packageLocation": "./.yarn/cache/@types-express-npm-4.17.20-a63c9e93d3-bf8a97d283.zip/node_modules/@types/express/",\
           "packageDependencies": [\
-            ["@types/express", "npm:4.17.18"],\
+            ["@types/express", "npm:4.17.20"],\
             ["@types/body-parser", "npm:1.19.2"],\
             ["@types/express-serve-static-core", "npm:4.17.33"],\
             ["@types/qs", "npm:6.9.7"],\
@@ -8295,7 +8295,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/cookie-parser", "npm:1.4.5"],\
             ["@types/csurf", "npm:1.11.4"],\
             ["@types/es6-promisify", "npm:6.0.3"],\
-            ["@types/express", "npm:4.17.18"],\
+            ["@types/express", "npm:4.17.20"],\
             ["@types/glob", "npm:8.1.0"],\
             ["@types/jest", "npm:29.5.5"],\
             ["@types/js-yaml", "npm:4.0.6"],\
@@ -9199,7 +9199,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/express-nunjucks-virtual-5afa7c34d6/0/cache/express-nunjucks-npm-3.1.1-89debd405a-f41928106d.zip/node_modules/express-nunjucks/",\
           "packageDependencies": [\
             ["express-nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.1.1"],\
-            ["@types/express", "npm:4.17.18"],\
+            ["@types/express", "npm:4.17.20"],\
             ["@types/nunjucks", "npm:3.2.4"],\
             ["express", "npm:4.18.2"],\
             ["nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.2.4"],\
