@@ -40,9 +40,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/chai-as-promised", "npm:7.1.7"],\
             ["@types/compression", "npm:1.7.4"],\
             ["@types/config", "npm:3.3.2"],\
-            ["@types/cookie-parser", "npm:1.4.4"],\
-            ["@types/csurf", "npm:1.11.3"],\
-            ["@types/es6-promisify", "npm:6.0.2"],\
+            ["@types/cookie-parser", "npm:1.4.5"],\
+            ["@types/csurf", "npm:1.11.4"],\
+            ["@types/es6-promisify", "npm:6.0.3"],\
             ["@types/express", "npm:4.17.18"],\
             ["@types/glob", "npm:8.1.0"],\
             ["@types/jest", "npm:29.5.5"],\
@@ -4608,10 +4608,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/cookie-parser", [\
-        ["npm:1.4.4", {\
-          "packageLocation": "./.yarn/cache/@types-cookie-parser-npm-1.4.4-17217c3bbc-5c81ac4b7d.zip/node_modules/@types/cookie-parser/",\
+        ["npm:1.4.5", {\
+          "packageLocation": "./.yarn/cache/@types-cookie-parser-npm-1.4.5-f2ceab7219-4585572170.zip/node_modules/@types/cookie-parser/",\
           "packageDependencies": [\
-            ["@types/cookie-parser", "npm:1.4.4"],\
+            ["@types/cookie-parser", "npm:1.4.5"],\
             ["@types/express", "npm:4.17.17"]\
           ],\
           "linkType": "HARD"\
@@ -4627,10 +4627,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/csurf", [\
-        ["npm:1.11.3", {\
-          "packageLocation": "./.yarn/cache/@types-csurf-npm-1.11.3-62f7f6d342-5db4b4f4ad.zip/node_modules/@types/csurf/",\
+        ["npm:1.11.4", {\
+          "packageLocation": "./.yarn/cache/@types-csurf-npm-1.11.4-b184c3dfa3-6f80b6e7d5.zip/node_modules/@types/csurf/",\
           "packageDependencies": [\
-            ["@types/csurf", "npm:1.11.3"],\
+            ["@types/csurf", "npm:1.11.4"],\
             ["@types/express-serve-static-core", "npm:4.17.33"]\
           ],\
           "linkType": "HARD"\
@@ -4647,10 +4647,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/es6-promisify", [\
-        ["npm:6.0.2", {\
-          "packageLocation": "./.yarn/cache/@types-es6-promisify-npm-6.0.2-b70b31d53b-c75e0e642d.zip/node_modules/@types/es6-promisify/",\
+        ["npm:6.0.3", {\
+          "packageLocation": "./.yarn/cache/@types-es6-promisify-npm-6.0.3-8b824d1ee0-9d3f04e882.zip/node_modules/@types/es6-promisify/",\
           "packageDependencies": [\
-            ["@types/es6-promisify", "npm:6.0.2"]\
+            ["@types/es6-promisify", "npm:6.0.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -8292,9 +8292,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/chai-as-promised", "npm:7.1.7"],\
             ["@types/compression", "npm:1.7.4"],\
             ["@types/config", "npm:3.3.2"],\
-            ["@types/cookie-parser", "npm:1.4.4"],\
-            ["@types/csurf", "npm:1.11.3"],\
-            ["@types/es6-promisify", "npm:6.0.2"],\
+            ["@types/cookie-parser", "npm:1.4.5"],\
+            ["@types/csurf", "npm:1.11.4"],\
+            ["@types/es6-promisify", "npm:6.0.3"],\
             ["@types/express", "npm:4.17.18"],\
             ["@types/glob", "npm:8.1.0"],\
             ["@types/jest", "npm:29.5.5"],\
