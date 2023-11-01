@@ -46,7 +46,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/express", "npm:4.17.20"],\
             ["@types/glob", "npm:8.1.0"],\
             ["@types/jest", "npm:29.5.7"],\
-            ["@types/js-yaml", "npm:4.0.6"],\
+            ["@types/js-yaml", "npm:4.0.8"],\
             ["@types/lodash", "npm:4.14.199"],\
             ["@types/mini-css-extract-plugin", "npm:2.5.1"],\
             ["@types/node", "npm:18.17.15"],\
@@ -4793,10 +4793,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/js-yaml", [\
-        ["npm:4.0.6", {\
-          "packageLocation": "./.yarn/cache/@types-js-yaml-npm-4.0.6-2552380aa3-d4439ec2cc.zip/node_modules/@types/js-yaml/",\
+        ["npm:4.0.8", {\
+          "packageLocation": "./.yarn/cache/@types-js-yaml-npm-4.0.8-9956f51f10-a5a77a5a1e.zip/node_modules/@types/js-yaml/",\
           "packageDependencies": [\
-            ["@types/js-yaml", "npm:4.0.6"]\
+            ["@types/js-yaml", "npm:4.0.8"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -8298,7 +8298,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/express", "npm:4.17.20"],\
             ["@types/glob", "npm:8.1.0"],\
             ["@types/jest", "npm:29.5.7"],\
-            ["@types/js-yaml", "npm:4.0.6"],\
+            ["@types/js-yaml", "npm:4.0.8"],\
             ["@types/lodash", "npm:4.14.199"],\
             ["@types/mini-css-extract-plugin", "npm:2.5.1"],\
             ["@types/node", "npm:18.17.15"],\
