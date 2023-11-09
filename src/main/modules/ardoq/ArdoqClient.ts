@@ -50,7 +50,13 @@ export class ArdoqClient {
     items.forEach(item => {
       this.cache.set(ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE, item.name, item._id);
     });
-    this.logger.debug('Done priming ' + ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE + ' cache.');
+    this.logger.debug(
+      'Done priming ' +
+        ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE +
+        ' cache with ' +
+        items.length +
+        ' items.'
+    );
   }
 
   public async getOrCreateComponent(

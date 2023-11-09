@@ -22,15 +22,6 @@ const { Logger } = require('@hmcts/nodejs-logging');
 export default function (app: Application): void {
   axiosThrottle.use(axios, { requestsPerSecond: 10 });
 
-  const client = new ArdoqClient(
-    axios.create({
-      baseURL: config.get('ardoq.apiUrl'),
-      headers: {
-        Authorization: 'Bearer ' + config.get('ardoq.apiKey'),
-      },
-    })
-  );
-
   const logger = Logger.getLogger('ApiRoute');
 
   axios.interceptors.response.use(
@@ -51,6 +42,15 @@ export default function (app: Application): void {
 
   app.post('/api/dependencies', isAuthorised, async (req, res, next) => {
     try {
+      const client = new ArdoqClient(
+        axios.create({
+          baseURL: config.get('ardoq.apiUrl'),
+          headers: {
+            Authorization: 'Bearer ' + config.get('ardoq.apiKey'),
+          },
+        })
+      );
+
       const request: ArdoqRequest = req.body;
       const parser: DependencyParser = parsers[request.parser];
       if (parser === undefined) {

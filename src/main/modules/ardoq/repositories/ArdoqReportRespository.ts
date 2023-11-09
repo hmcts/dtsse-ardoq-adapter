@@ -13,7 +13,7 @@ export class ArdoqReportRepository {
   ) {}
 
   public async get(reportId: string): Promise<DependencyReportItem[]> {
-    this.logger.debug('Calling POST /api/report/{reportId}/export-data');
+    this.logger.debug('Calling GET /api/report/' + reportId + '/export-data');
 
     try {
       const response = await this.httpClient.get('/api/report/' + reportId + '/export-data');
