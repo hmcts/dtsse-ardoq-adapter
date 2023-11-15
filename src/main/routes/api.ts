@@ -41,6 +41,15 @@ export default function (app: Application): void {
   } as Record<string, DependencyParser>;
 
   app.post('/api/dependencies', isAuthorised, async (req, res, next) => {
+    if (!config.get('ardoq.enabled')) {
+      logger.info('Ardoq integration disabled');
+      res.contentType('application/json');
+      const processAsync = req.query['async']?.toString() === 'true';
+      if (processAsync) {
+        res.statusCode = 202;
+      }
+      res.send();
+    }
     try {
       const client = new ArdoqClient(
         axios.create({

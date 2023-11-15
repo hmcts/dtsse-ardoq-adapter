@@ -7,6 +7,7 @@
     "instrumentationKey": false
   },
   "ardoq": {
+    "enabled": true,
     "apiKey": "",
     "apiUrl": "",
     "dependencyReportId": ""
