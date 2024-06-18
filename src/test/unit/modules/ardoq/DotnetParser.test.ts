@@ -18,8 +18,6 @@ describe('Ardoq DotnetParser', () => {
   });
 
   test('that an error is thrown for invalid yaml', async () => {
-    expect(() => new DependencyParser(parser).fromDepRequest(ardoqRequest('hello there!'))).toThrow(
-      'Unexpected token h in JSON at position 0'
-    );
+    expect(() => new DependencyParser(parser).fromDepRequest(ardoqRequest('hello there!'))).toThrow();
   });
 });

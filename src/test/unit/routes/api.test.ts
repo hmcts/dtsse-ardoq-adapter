@@ -52,7 +52,7 @@ describe('Test api.ts', () => {
       .post('/api/dependencies')
       .set({
         'Content-Type': 'application/json',
-        'Content-Length': bodyLen,
+        'Content-Length': String(bodyLen),
         Authorization: 'Bearer ' + config.get('serverApiKey.primary'),
       })
       .send(bodyContent)
@@ -79,7 +79,7 @@ describe('Test api.ts', () => {
       .post('/api/dependencies')
       .set({
         'Content-Type': 'application/json',
-        'Content-Length': bodyLen,
+        'Content-Length': String(bodyLen),
         Authorization: 'Bearer ' + config.get('serverApiKey.primary'),
       })
       .send(bodyContent)
@@ -106,7 +106,7 @@ describe('Test api.ts', () => {
       .post('/api/dependencies?async=true')
       .set({
         'Content-Type': 'application/json',
-        'Content-Length': bodyLen,
+        'Content-Length': String(bodyLen),
         Authorization: 'Bearer ' + config.get('serverApiKey.primary'),
       })
       .send(bodyContent)
@@ -121,7 +121,7 @@ describe('Test api.ts', () => {
       .post('/api/dependencies')
       .set({
         'Content-Type': 'application/json',
-        'Content-Length': bodyLen,
+        'Content-Length': String(bodyLen),
         Authorization: 'Bearer ' + config.get('serverApiKey.secondary'),
       })
       .send(bodyContent)

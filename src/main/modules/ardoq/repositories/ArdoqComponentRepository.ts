@@ -18,7 +18,10 @@ export class ArdoqComponentRepository {
     [ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE, 'p1688398121677'],
   ]);
 
-  constructor(private httpClient: AxiosInstance, private logger = Logger.getLogger('ArdoqComponentRepository')) {}
+  constructor(
+    private httpClient: AxiosInstance,
+    private logger = Logger.getLogger('ArdoqComponentRepository')
+  ) {}
 
   public search(
     componentName: string,
