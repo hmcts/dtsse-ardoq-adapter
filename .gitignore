@@ -8,8 +8,9 @@ node_modules/
 *.iml
 
 *swp
-
+*.b64
 .DS_Store
+payload.json
 
 src/main/public/img/lib/*
 src/main/public/js/lib/**/*.js

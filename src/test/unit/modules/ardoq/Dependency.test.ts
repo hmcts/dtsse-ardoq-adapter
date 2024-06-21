@@ -1,4 +1,3 @@
-/* eslint-disable jest/expect-expect */
 import { describe, expect, test } from '@jest/globals';
 
 import { Dependency } from '../../../../main/modules/ardoq/Dependency';

@@ -47,7 +47,7 @@ export class RequestProcessor {
     // Remove GET component when it's for dependencies as we _know_ we've loaded them all via the report into cache
 
     const counts = new ArdoqStatusCounts();
-    const deps = this.parser.fromDepRequest(request);
+    const deps = await this.parser.fromDepRequest(request);
     const dependencyReferences = await this.getAllCurrentReferences(codeRepoComponentId);
     const batchRequest = await this.buildBatchRequest(
       deps,

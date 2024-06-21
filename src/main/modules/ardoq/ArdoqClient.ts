@@ -72,16 +72,17 @@ export class ArdoqClient {
     const searchRes = await this.componentRepository.search(name, workspace);
     if (searchRes.status === 200 && searchRes.data.values.length > 0) {
       this.logger.debug('Found component: ' + name);
-      this.cache.set(workspace, name, searchRes.data.values[0]._id);
-      return [ArdoqComponentCreatedStatus.EXISTING, searchRes.data.values[0]._id];
+      let firstResult = searchRes.data.values[0];
+      this.cache.set(workspace, name, firstResult._id);
+      return [ArdoqComponentCreatedStatus.EXISTING, firstResult._id];
     }
 
     const createRes = await this.componentRepository.create(name, workspace);
     if (createRes.status !== 201) {
-      this.logger.error('Unable to create component: ' + name);
+      this.logger.error(`Unable to create component: "${name}" in "${workspace}"`);
       return [ArdoqComponentCreatedStatus.ERROR, null];
     }
-    this.logger.debug('Component created: ' + name);
+    this.logger.debug(`Component created: "${name}" in "${workspace}"`);
     this.cache.set(workspace, name, createRes.data._id);
     return [ArdoqComponentCreatedStatus.CREATED, createRes.data._id];
   }
@@ -116,11 +117,7 @@ export class ArdoqClient {
   ): Promise<BatchCreate | BatchUpdate | undefined> {
     if (!existingReference && relationship === ArdoqRelationship.DEPENDS_ON_VERSION) {
       this.logger.error(
-        'Error finding reference: ' +
-          source +
-          ' -> ' +
-          target +
-          ' : existingReferences was empty - not searching API due to rate limiting impact.'
+        `Error finding reference: "${source}" -> "${target}"  : existingReferences was empty - not searching API due to rate limiting impact.`
       );
     } else {
       try {

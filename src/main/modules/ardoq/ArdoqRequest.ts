@@ -5,5 +5,6 @@ export interface ArdoqRequest {
   parser: string;
   hmctsApplication: string;
   codeRepository: string;
-  encodedDependecyList: string;
+  encodedDependencyList: string;
+  encodedDependencyListOther?: string | undefined;
 }
