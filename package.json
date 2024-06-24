@@ -17,7 +17,6 @@
     "test:coverage": "jest --coverage",
     "test:routes": "jest -c jest.routes.config.js",
     "test:smoke": "NODE_TLS_REJECT_UNAUTHORIZED=0 jest -c jest.smoke.config.js",
-    "test:functional": "NODE_TLS_REJECT_UNAUTHORIZED=0 codeceptjs --config ./src/test/functional/codecept.conf.js run --steps",
     "cichecks": "yarn build && yarn lint && yarn test && yarn test:routesØ",
     "prepare": "husky install",
     "prettier": "prettier --write ."
@@ -56,7 +55,6 @@
     "@babel/core": "7.24.7",
     "@babel/eslint-parser": "7.24.7",
     "@babel/preset-env": "7.24.7",
-    "@codeceptjs/configure": "^1.0.1",
     "@jest/globals": "^29.3.1",
     "@types/body-parser": "1.19.5",
     "@types/chai-as-promised": "7.1.8",
@@ -82,7 +80,6 @@
     "chai": "5.1.1",
     "chai-as-promised": "8.0.0",
     "chokidar": "3.6.0",
-    "codeceptjs": "^3.3.6",
     "copy-webpack-plugin": "12.0.2",
     "css-loader": "7.1.2",
     "debug": "4.3.5",
