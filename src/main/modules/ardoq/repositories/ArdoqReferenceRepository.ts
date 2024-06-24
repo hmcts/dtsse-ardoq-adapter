@@ -13,7 +13,10 @@ export type SearchReferenceResponse = {
 };
 
 export class ArdoqReferenceRepository {
-  constructor(private httpClient: AxiosInstance, private logger = Logger.getLogger('ArdoqReferenceRepository')) {}
+  constructor(
+    private httpClient: AxiosInstance,
+    private logger = Logger.getLogger('ArdoqReferenceRepository')
+  ) {}
 
   public async search(source: string, target: string): Promise<undefined | SearchReferenceResponse> {
     this.logger.debug('Calling GET /api/v2/references source:' + source + ' target:' + target);

@@ -1,4 +1,3 @@
-/* eslint-disable jest/expect-expect */
 import { describe, expect, test } from '@jest/globals';
 import { ArdoqRelationship } from '../../../../../main/modules/ardoq/ArdoqRelationship';
 import { BatchCreate, BatchUpdate } from '../../../../../main/modules/ardoq/batch/BatchModel';

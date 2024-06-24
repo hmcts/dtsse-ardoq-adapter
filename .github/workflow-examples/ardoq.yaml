@@ -17,6 +17,7 @@ jobs:
       - name: List dependencies
         run: |
           cat yarn.lock | base64 > yarn.lock.b64
+          cat package.json | base64 > package.json.b64
         id: deps
 
       - name: Prepare request payload
@@ -25,8 +26,11 @@ jobs:
             "vcsHost": "Github HMCTS",
             "hmctsApplication": "48f7e1661af3e8c64059f99f",
             "codeRepository": "${{ github.event.repository.name }}",
-            "encodedDependecyList": "' > payload.json
+            "encodedDependencyList": "' > payload.json
           cat yarn.lock.b64 | tr -d '\n' >> payload.json
+          echo -n '",
+            "encodedDependencyListOther": "' >> payload.json
+          cat package.json.b64 | tr -d '\n' >> payload.json
           echo -n '",
             "parser": "yarn",
             "language": "' >> payload.json

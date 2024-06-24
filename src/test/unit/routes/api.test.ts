@@ -1,6 +1,6 @@
-import request from 'supertest';
-import { describe, expect, jest, it, beforeEach } from '@jest/globals';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import config from 'config';
+import request from 'supertest';
 import * as zlib from 'zlib';
 
 import { ArdoqComponentCreatedStatus } from '../../../main/modules/ardoq/ArdoqComponentCreatedStatus';
@@ -21,13 +21,13 @@ jest.mock('../../../main/modules/ardoq/RequestProcessor', () => ({
   })),
 }));
 
-import { app } from '../../../main/app';
 import fs from 'fs';
+import { app } from '../../../main/app';
 import { ArdoqClient } from '../../../main/modules/ardoq/ArdoqClient';
 import { ardoqRequest } from '../modules/ardoq/TestUtility';
 
 describe('Test api.ts', () => {
-  const body = fs.readFileSync('src/test/resources/gradle-dependencies.log', 'utf8');
+  const encodedDependencyList = fs.readFileSync('src/test/resources/gradle-dependencies.log', 'utf8');
   const mavenBody = fs.readFileSync('src/test/resources/maven-dependencies.log', 'utf8');
 
   beforeEach(() => {
@@ -45,14 +45,14 @@ describe('Test api.ts', () => {
   });
 
   it('/api/dependencies ok', async () => {
-    const bodyContent = JSON.stringify(ardoqRequest(body));
+    const bodyContent = JSON.stringify(ardoqRequest({ encodedDependencyList }));
     const bodyLen = Buffer.byteLength(bodyContent, 'utf-8');
 
     const res1 = await request(app)
       .post('/api/dependencies')
       .set({
         'Content-Type': 'application/json',
-        'Content-Length': bodyLen,
+        'Content-Length': String(bodyLen),
         Authorization: 'Bearer ' + config.get('serverApiKey.primary'),
       })
       .send(bodyContent)
@@ -72,14 +72,14 @@ describe('Test api.ts', () => {
   });
 
   it('/api/dependencies ok created', async () => {
-    const bodyContent = JSON.stringify(ardoqRequest(mavenBody, 'maven'));
+    const bodyContent = JSON.stringify(ardoqRequest({ encodedDependencyList: mavenBody }, 'maven'));
     const bodyLen = Buffer.byteLength(bodyContent, 'utf-8');
 
     const res1 = await request(app)
       .post('/api/dependencies')
       .set({
         'Content-Type': 'application/json',
-        'Content-Length': bodyLen,
+        'Content-Length': String(bodyLen),
         Authorization: 'Bearer ' + config.get('serverApiKey.primary'),
       })
       .send(bodyContent)
@@ -99,14 +99,14 @@ describe('Test api.ts', () => {
   });
 
   it('/api/dependencies async', async () => {
-    const bodyContent = JSON.stringify(ardoqRequest(body));
+    const bodyContent = JSON.stringify(ardoqRequest({ encodedDependencyList }));
     const bodyLen = Buffer.byteLength(bodyContent, 'utf-8');
 
     await request(app)
       .post('/api/dependencies?async=true')
       .set({
         'Content-Type': 'application/json',
-        'Content-Length': bodyLen,
+        'Content-Length': String(bodyLen),
         Authorization: 'Bearer ' + config.get('serverApiKey.primary'),
       })
       .send(bodyContent)
@@ -114,14 +114,14 @@ describe('Test api.ts', () => {
   });
 
   it('/api/dependencies unsupported parser', async () => {
-    const bodyContent = JSON.stringify(ardoqRequest(body, 'foo-parser'));
+    const bodyContent = JSON.stringify(ardoqRequest({ encodedDependencyList }, 'foo-parser'));
     const bodyLen = Buffer.byteLength(bodyContent, 'utf-8');
 
     const res3 = await request(app)
       .post('/api/dependencies')
       .set({
         'Content-Type': 'application/json',
-        'Content-Length': bodyLen,
+        'Content-Length': String(bodyLen),
         Authorization: 'Bearer ' + config.get('serverApiKey.secondary'),
       })
       .send(bodyContent)
@@ -130,7 +130,7 @@ describe('Test api.ts', () => {
   });
 
   it('/api/dependencies gzip body', async () => {
-    const bodyContent = JSON.stringify(ardoqRequest(body, 'gradle'));
+    const bodyContent = JSON.stringify(ardoqRequest({ encodedDependencyList }, 'gradle'));
     const gzipBody = zlib.gzipSync(bodyContent);
 
     const req = request(app).post('/api/dependencies');

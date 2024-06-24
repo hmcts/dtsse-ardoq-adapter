@@ -4,20 +4,23 @@ import { IParser } from './IParser';
 const { Logger } = require('@hmcts/nodejs-logging');
 
 export class GradleParser implements IParser {
-  public extractTopTierDeps(depString: string): Dependency[] {
+  public async extractTopTierDeps(depString: string, depStringOther?: string | undefined): Promise<Dependency[]> {
     const rx = /^\+.+/gm;
     const res = depString.match(rx);
-    const semverRx = /^[.\d\-a-z]+:[.\d\-a-z]+:[.\d\-a-z]+\$/;
     if (res === null) {
-      return [];
+      return Promise.resolve([]);
     }
-    return res
-      .map(d => d.substring(5).replace(/ -> /g, ':'))
-      .filter(d => !d.match(semverRx))
-      .map(d => d.replace(/^([.\d\-a-z:]+):/, '$1 -> '))
-      .filter(d => d !== 'unspecified (n)')
-      .map(d => this.getDependency(d.replace(/ \(([*n])\)/, '')))
-      .filter(d => d !== undefined) as Dependency[];
+    const semverRx = /^[.\d\-a-z]+:[.\d\-a-z]+:[.\d\-a-z]+\$/;
+
+    return Promise.resolve(
+      res
+        .map(d => d.substring(5).replace(/ -> /g, ':'))
+        .filter(d => !d.match(semverRx))
+        .map(d => d.replace(/^([.\d\-a-z:]+):/, '$1 -> '))
+        .filter(d => d !== 'unspecified (n)')
+        .map(d => this.getDependency(d.replace(/ \(([*n])\)/, '')))
+        .filter(d => d !== undefined) as Dependency[]
+    );
   }
 
   public getDependency(depString: string): Dependency | undefined {

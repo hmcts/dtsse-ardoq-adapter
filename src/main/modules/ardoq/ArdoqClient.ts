@@ -78,10 +78,10 @@ export class ArdoqClient {
 
     const createRes = await this.componentRepository.create(name, workspace);
     if (createRes.status !== 201) {
-      this.logger.error('Unable to create component: ' + name);
+      this.logger.error(`Unable to create component: "${name}" in "${workspace}"`);
       return [ArdoqComponentCreatedStatus.ERROR, null];
     }
-    this.logger.debug('Component created: ' + name);
+    this.logger.debug(`Component created: "${name}" in "${workspace}"`);
     this.cache.set(workspace, name, createRes.data._id);
     return [ArdoqComponentCreatedStatus.CREATED, createRes.data._id];
   }

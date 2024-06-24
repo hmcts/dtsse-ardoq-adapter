@@ -5,24 +5,24 @@ import { PipParser } from '../../../../main/modules/ardoq/PipParser';
 import { ardoqRequest } from './TestUtility';
 
 describe('Ardoq PipParser', () => {
-  const raw = readFileSync(__dirname + '/../../../resources/requirements.txt', 'utf-8');
+  const encodedDependencyList = readFileSync(__dirname + '/../../../resources/requirements.txt', 'utf-8');
 
   const parser = new PipParser();
 
   test('that the raw dependency string is parsed correctly', async () => {
-    const res = new DependencyParser(parser).fromDepRequest(ardoqRequest(raw));
+    const res = await new DependencyParser(parser).fromDepRequest(ardoqRequest({ encodedDependencyList }));
     expect(Object.keys(res).length).toBe(3);
   });
 
   test('that an error is thrown for empty files', async () => {
-    expect(() => new DependencyParser(parser).fromDepRequest(ardoqRequest(''))).toThrow(
-      'No dependencies found in request (found: 0)'
-    );
+    expect(() =>
+      new DependencyParser(parser).fromDepRequest(ardoqRequest({ encodedDependencyList: '' }))
+    ).rejects.toThrow('No dependencies found in request (found: 0)');
   });
 
   test('that an error is thrown for invalid txt', async () => {
-    expect(() => new DependencyParser(parser).fromDepRequest(ardoqRequest('hello there!'))).toThrow(
-      'No dependencies found in request (found: 0)'
-    );
+    expect(() =>
+      new DependencyParser(parser).fromDepRequest(ardoqRequest({ encodedDependencyList: 'hello there!' }))
+    ).rejects.toThrow('No dependencies found in request (found: 0)');
   });
 });

@@ -48,7 +48,7 @@ components:
         - vcsHost
         - hmctsApplication
         - codeRepository
-        - encodedDependecyList
+        - encodedDependencyList
         - parser
       properties:
         language:
@@ -79,7 +79,11 @@ components:
         codeRepository:
           type: string
           example: 'dtsse-ardoq-adapter'
-        encodedDependecyList:
+        encodedDependencyList:
+          type: string
+          format: byte
+          example: U3dhZ2dlciByb2Nrcw==
+        encodedDependencyListOther:
           type: string
           format: byte
           example: U3dhZ2dlciByb2Nrcw==
