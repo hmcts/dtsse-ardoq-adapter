@@ -41,3 +41,4 @@ functional-output/
 !.yarn/unplugged
 !.yarn/plugins
 !.yarn/cache
+!.yarn/releases
