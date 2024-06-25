@@ -7,6 +7,7 @@ USER hmcts
 
 COPY --chown=hmcts:hmcts . .
 
+RUN yarn install
 RUN yarn build:prod && \
     rm -rf webpack/ webpack.config.js
 
