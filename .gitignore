@@ -6,7 +6,8 @@ node_modules/
 
 .idea/
 *.iml
-
+yarn-audit-result
+sorted-yarn-audit-issues
 *swp
 *.b64
 .DS_Store
