@@ -18,7 +18,8 @@
     "paths": {
       "router/*": ["router/*"],
       "routes/*": ["routes/*"]
-    }
+    },
+    "types": ["jest", "mocha"]
   },
   "exclude": ["**/*.test.ts", "**/__mocks__/*"]
 }
