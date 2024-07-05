@@ -15,6 +15,7 @@
     "test": "npx if-env CI=true && exit 0 || yarn test:unit --detectOpenHandles",
     "test:unit": "jest",
     "test:a11y": "echo 'Not required' && exit 0",
+    "test:functional": "echo 'Not required' && exit 0",
     "test:coverage": "jest --coverage",
     "test:routes": "jest -c jest.routes.config.js",
     "test:smoke": "NODE_TLS_REJECT_UNAUTHORIZED=0 jest -c jest.smoke.config.js",
