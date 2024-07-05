@@ -6,10 +6,12 @@ node_modules/
 
 .idea/
 *.iml
-
+yarn-audit-result
+sorted-yarn-audit-issues
 *swp
-
+*.b64
 .DS_Store
+payload.json
 
 src/main/public/img/lib/*
 src/main/public/js/lib/**/*.js
@@ -40,3 +42,4 @@ functional-output/
 !.yarn/unplugged
 !.yarn/plugins
 !.yarn/cache
+!.yarn/releases

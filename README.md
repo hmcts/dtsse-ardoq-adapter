@@ -43,7 +43,7 @@ You will need to `POST` the following payload to the `/api/dependencies`.
   "vcsHost": "Github HMCTS",
   "hmctsApplication": "YOUR_APPLICATION_ID_HERE",
   "codeRepository": "${{ github.event.repository.name }}",
-  "encodedDependecyList": "",
+  "encodedDependencyList": "",
   "parser": "yarn",
   "language": "",
   "languageVersion": ""
@@ -88,10 +88,13 @@ jobs:
         run: |
           echo -n '{
             "vcsHost": "Github HMCTS",
-            "hmctsApplication": "YOUR_APPLICATION_ID_HERE",
+            "hmctsApplication": "48f7e1661af3e8c64059f99f",
             "codeRepository": "${{ github.event.repository.name }}",
-            "encodedDependecyList": "' > payload.json
+            "encodedDependencyList": "' > payload.json
           cat yarn.lock.b64 | tr -d '\n' >> payload.json
+          echo -n '",
+            "encodedDependencyListOther": "' >> payload.json
+          cat package.json.b64 | tr -d '\n' >> payload.json
           echo -n '",
             "parser": "yarn",
             "language": "' >> payload.json
@@ -237,14 +240,6 @@ Here's how to run functional tests (the template contains just one sample test):
 ```bash
 $ yarn test:routes
 ```
-
-Running accessibility tests:
-
-```bash
-$ yarn test:a11y
-```
-
-Make sure all the paths in your application are covered by accessibility tests (see [a11y.ts](src/test/a11y/a11y.ts)).
 
 ### Security
 

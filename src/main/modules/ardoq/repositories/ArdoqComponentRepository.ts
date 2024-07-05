@@ -1,6 +1,6 @@
 import { ArdoqWorkspace, ArdoqWorkspaceConfig } from '../ArdoqWorkspace';
 
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 
 const { Logger } = require('@hmcts/nodejs-logging');
 
@@ -9,6 +9,13 @@ type ArdoqComponentSearchResponse = {
 };
 type ArdoqComponentResponse = {
   _id: string;
+  _meta: {
+    created: string;
+    lastUpdated: string;
+  };
+  customFields: {
+    products_using_this_dependency: string;
+  };
 };
 
 export class ArdoqComponentRepository {
@@ -18,7 +25,10 @@ export class ArdoqComponentRepository {
     [ArdoqWorkspaceConfig.ARDOQ_SOFTWARE_FRAMEWORKS_WORKSPACE, 'p1688398121677'],
   ]);
 
-  constructor(private httpClient: AxiosInstance, private logger = Logger.getLogger('ArdoqComponentRepository')) {}
+  constructor(
+    private httpClient: AxiosInstance,
+    private logger = Logger.getLogger('ArdoqComponentRepository')
+  ) {}
 
   public search(
     componentName: string,
@@ -35,27 +45,35 @@ export class ArdoqComponentRepository {
     });
   }
 
-  public create(
+  public async create(
     componentName: string,
     workspace: ArdoqWorkspaceConfig
   ): Promise<AxiosResponse<ArdoqComponentResponse, unknown>> {
     this.logger.debug('Calling POST /api/v2/components componentName:' + componentName);
     const workspaceId = new ArdoqWorkspace(workspace).getId();
-    return this.httpClient.post(
-      '/api/v2/components',
-      {
-        rootWorkspace: workspaceId,
-        name: componentName,
-        typeId: ArdoqComponentRepository.componentTypeLookup.get(workspace),
-      },
-      {
-        params: {
+    try {
+      return await this.httpClient.post(
+        '/api/v2/components',
+        {
           rootWorkspace: workspaceId,
           name: componentName,
           typeId: ArdoqComponentRepository.componentTypeLookup.get(workspace),
         },
-        responseType: 'json',
+        {
+          params: {
+            rootWorkspace: workspaceId,
+            name: componentName,
+            typeId: ArdoqComponentRepository.componentTypeLookup.get(workspace),
+          },
+          responseType: 'json',
+        }
+      );
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return (error as AxiosError).response as AxiosResponse<ArdoqComponentResponse, unknown>;
+      } else {
+        throw error;
       }
-    );
+    }
   }
 }

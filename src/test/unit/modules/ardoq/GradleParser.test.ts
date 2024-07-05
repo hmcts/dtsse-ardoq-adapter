@@ -1,10 +1,9 @@
-/* eslint-disable jest/expect-expect */
 import { readFileSync } from 'fs';
 
 import { describe, expect, test } from '@jest/globals';
 
-import { GradleParser } from '../../../../main/modules/ardoq/GradleParser';
 import { DependencyParser } from '../../../../main/modules/ardoq/DependencyParser';
+import { GradleParser } from '../../../../main/modules/ardoq/GradleParser';
 import { ardoqRequest } from './TestUtility';
 
 describe('Ardoq GradleParser', () => {
@@ -13,12 +12,13 @@ describe('Ardoq GradleParser', () => {
   const parser = new GradleParser();
 
   test('that the raw dependency string is parsed correctly', async () => {
-    const res = new DependencyParser(parser).fromDepRequest(ardoqRequest(raw));
+    const req = ardoqRequest({ encodedDependencyList: raw });
+    const res = await new DependencyParser(parser).fromDepRequest(req);
     expect(Object.keys(res).length).toBe(3);
   });
 
   test('that top tier deps are extracted', async () => {
-    const res = parser.extractTopTierDeps(raw);
+    const res = await parser.extractTopTierDeps(raw);
     expect(res[0].name).toBe('org.springframework.boot:spring-boot-starter-web');
     expect(res[1].name).toBe('org.springframework.boot:spring-boot-starter-actuator');
     expect(res[2].name).toBe('org.springframework.boot:spring-boot-starter-aop');
@@ -26,7 +26,7 @@ describe('Ardoq GradleParser', () => {
 
   test('error on no tests', async () => {
     try {
-      new DependencyParser(parser).fromDepRequest(ardoqRequest(''));
+      await new DependencyParser(parser).fromDepRequest(ardoqRequest({ encodedDependencyList: '' }));
     } catch (e) {
       expect(e.message === 'No dependencies found');
     }

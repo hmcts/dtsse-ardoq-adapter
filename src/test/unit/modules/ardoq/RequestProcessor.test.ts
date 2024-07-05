@@ -140,7 +140,7 @@ describe('RequestProcessor', () => {
         parser: 'gradle',
         hmctsApplication: 'dtsse',
         codeRepository: 'dtsse-ardoq-adapter',
-        encodedDependecyList: '',
+        encodedDependencyList: '',
       })
       .catch(err => {
         expect(err.message).toBe('No dependencies found in request (found: 0)');
@@ -161,7 +161,7 @@ describe('RequestProcessor', () => {
         parser: 'gradle',
         hmctsApplication: 'dtsse',
         codeRepository: 'dtsse-ardoq-adapter',
-        encodedDependecyList: base64Encode('+--- spring:1.1.1'),
+        encodedDependencyList: base64Encode('+--- spring:1.1.1'),
       })
       .then(res => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
@@ -181,7 +181,7 @@ describe('RequestProcessor', () => {
         parser: 'gradle',
         hmctsApplication: 'dtsse',
         codeRepository: 'dtsse-ardoq-adapter',
-        encodedDependecyList: base64Encode('+--- hot-tech:1.1.1\n'),
+        encodedDependencyList: base64Encode('+--- hot-tech:1.1.1\n'),
       })
       .then(res => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
@@ -201,7 +201,7 @@ describe('RequestProcessor', () => {
         parser: 'gradle',
         hmctsApplication: 'dtsse',
         codeRepository: 'dtsse-ardoq-adapter',
-        encodedDependecyList: base64Encode('+--- @!££$%^:1.1.1\n'),
+        encodedDependencyList: base64Encode('+--- @!££$%^:1.1.1\n'),
       })
       .then(res => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
@@ -224,7 +224,7 @@ describe('RequestProcessor', () => {
         parser: 'gradle',
         hmctsApplication: 'dtsse',
         codeRepository: 'dtsse-ardoq-adapter',
-        encodedDependecyList: base64Encode('+--- hot-tech:1.1.1\n' + '+--- spring:1.1.1\n'),
+        encodedDependencyList: base64Encode('+--- hot-tech:1.1.1\n' + '+--- spring:1.1.1\n'),
       })
       .then(res => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
@@ -244,7 +244,7 @@ describe('RequestProcessor', () => {
         parser: 'gradle',
         hmctsApplication: 'dtsse',
         codeRepository: 'dtsse-ardoq-adapter',
-        encodedDependecyList: base64Encode('+--- wow:1.1.1\n' + '+--- spring:1.1.1\n'),
+        encodedDependencyList: base64Encode('+--- wow:1.1.1\n' + '+--- spring:1.1.1\n'),
       })
       .then(res => {
         expect(mockedArdoqClient).toHaveBeenCalledTimes(1);
