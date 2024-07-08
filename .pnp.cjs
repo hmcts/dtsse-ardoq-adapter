@@ -65,7 +65,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["chai-as-promised", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:8.0.0"],\
             ["chokidar", "npm:3.6.0"],\
             ["compression", "npm:1.7.4"],\
-            ["config", "npm:3.3.11"],\
+            ["config", "npm:3.3.12"],\
             ["cookie-parser", "npm:1.4.6"],\
             ["copy-webpack-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:12.0.2"],\
             ["css-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:7.1.2"],\
@@ -8163,10 +8163,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["config", [\
-        ["npm:3.3.11", {\
-          "packageLocation": "./.yarn/cache/config-npm-3.3.11-a270a6a709-84d783978c.zip/node_modules/config/",\
+        ["npm:3.3.12", {\
+          "packageLocation": "./.yarn/cache/config-npm-3.3.12-ad44bb207f-db1b7718ff.zip/node_modules/config/",\
           "packageDependencies": [\
-            ["config", "npm:3.3.11"],\
+            ["config", "npm:3.3.12"],\
             ["json5", "npm:2.2.3"]\
           ],\
           "linkType": "HARD"\
@@ -8920,7 +8920,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["chai-as-promised", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:8.0.0"],\
             ["chokidar", "npm:3.6.0"],\
             ["compression", "npm:1.7.4"],\
-            ["config", "npm:3.3.11"],\
+            ["config", "npm:3.3.12"],\
             ["cookie-parser", "npm:1.4.6"],\
             ["copy-webpack-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:12.0.2"],\
             ["css-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:7.1.2"],\
