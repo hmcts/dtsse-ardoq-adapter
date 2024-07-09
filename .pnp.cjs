@@ -79,7 +79,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express", "npm:4.19.2"],\
             ["express-nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.1.2"],\
             ["express-openapi-validator", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.2.0"],\
-            ["glob", "npm:10.4.2"],\
+            ["glob", "npm:10.4.4"],\
             ["globby", "npm:14.0.2"],\
             ["govuk-frontend", "npm:5.4.0"],\
             ["helmet", "npm:7.1.0"],\
@@ -8934,7 +8934,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express", "npm:4.19.2"],\
             ["express-nunjucks", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.1.2"],\
             ["express-openapi-validator", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.2.0"],\
-            ["glob", "npm:10.4.2"],\
+            ["glob", "npm:10.4.4"],\
             ["globby", "npm:14.0.2"],\
             ["govuk-frontend", "npm:5.4.0"],\
             ["helmet", "npm:7.1.0"],\
@@ -10304,6 +10304,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/glob-npm-10.4.2-c8431e09a9-bd7c0e3070.zip/node_modules/glob/",\
           "packageDependencies": [\
             ["glob", "npm:10.4.2"],\
+            ["foreground-child", "npm:3.2.1"],\
+            ["jackspeak", "npm:3.4.0"],\
+            ["minimatch", "npm:9.0.5"],\
+            ["minipass", "npm:7.1.2"],\
+            ["package-json-from-dist", "npm:1.0.0"],\
+            ["path-scurry", "npm:1.11.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:10.4.4", {\
+          "packageLocation": "./.yarn/cache/glob-npm-10.4.4-7dabc41df1-49d3b15d73.zip/node_modules/glob/",\
+          "packageDependencies": [\
+            ["glob", "npm:10.4.4"],\
             ["foreground-child", "npm:3.2.1"],\
             ["jackspeak", "npm:3.4.0"],\
             ["minimatch", "npm:9.0.5"],\
