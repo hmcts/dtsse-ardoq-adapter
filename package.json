@@ -27,7 +27,7 @@
     "@hmcts/nodejs-healthcheck": "1.8.5",
     "@hmcts/nodejs-logging": "4.0.4",
     "@hmcts/properties-volume": "1.1.0",
-    "applicationinsights": "3.1.0",
+    "applicationinsights": "3.2.1",
     "axios": "1.7.2",
     "axios-request-throttle": "^1.0.0",
     "body-parser": "1.20.2",
