@@ -5935,7 +5935,7 @@ __metadata:
     express: 4.19.2
     express-nunjucks: 3.1.2
     express-openapi-validator: ^5.2.0
-    glob: 10.4.4
+    glob: 10.4.5
     globby: ^14.0.1
     govuk-frontend: 5.4.0
     helmet: 7.1.0
@@ -7126,9 +7126,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:10.4.4":
-  version: 10.4.4
-  resolution: "glob@npm:10.4.4"
+"glob@npm:10.4.5":
+  version: 10.4.5
+  resolution: "glob@npm:10.4.5"
   dependencies:
     foreground-child: ^3.1.0
     jackspeak: ^3.1.2
@@ -7138,7 +7138,7 @@ __metadata:
     path-scurry: ^1.11.1
   bin:
     glob: dist/esm/bin.mjs
-  checksum: 49d3b15d73f3557fa6efe6ba150c500917aa6326fab556849e3acb89866ce0b0773c71089d40585c00590b62b72655414e34c7188a9ef57040e933533f0483f7
+  checksum: 0bc725de5e4862f9f387fd0f2b274baf16850dcd2714502ccf471ee401803997983e2c05590cb65f9675a3c6f2a58e7a53f9e365704108c6ad3cbf1d60934c4a
   languageName: node
   linkType: hard
 
