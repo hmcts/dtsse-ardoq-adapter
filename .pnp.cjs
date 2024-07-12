@@ -99,7 +99,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["playwright", "npm:1.45.1"],\
             ["prettier", "npm:3.3.2"],\
             ["require-directory", "npm:2.1.1"],\
-            ["sass", "npm:1.77.7"],\
+            ["sass", "npm:1.77.8"],\
             ["sass-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:14.2.1"],\
             ["serve-favicon", "npm:2.5.0"],\
             ["sinon", "npm:15.2.0"],\
@@ -8674,7 +8674,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["playwright", "npm:1.45.1"],\
             ["prettier", "npm:3.3.2"],\
             ["require-directory", "npm:2.1.1"],\
-            ["sass", "npm:1.77.7"],\
+            ["sass", "npm:1.77.8"],\
             ["sass-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:14.2.1"],\
             ["serve-favicon", "npm:2.5.0"],\
             ["sinon", "npm:15.2.0"],\
@@ -14572,10 +14572,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["sass", [\
-        ["npm:1.77.7", {\
-          "packageLocation": "./.yarn/cache/sass-npm-1.77.7-251982e629-64c98cbeb2.zip/node_modules/sass/",\
+        ["npm:1.77.8", {\
+          "packageLocation": "./.yarn/cache/sass-npm-1.77.8-d0ad322666-6b5dce17fa.zip/node_modules/sass/",\
           "packageDependencies": [\
-            ["sass", "npm:1.77.7"],\
+            ["sass", "npm:1.77.8"],\
             ["chokidar", "npm:3.6.0"],\
             ["immutable", "npm:4.3.6"],\
             ["source-map-js", "npm:1.2.0"]\
@@ -14603,7 +14603,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/webpack", null],\
             ["neo-async", "npm:2.6.2"],\
             ["node-sass", null],\
-            ["sass", "npm:1.77.7"],\
+            ["sass", "npm:1.77.8"],\
             ["sass-embedded", null],\
             ["webpack", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.92.1"]\
           ],\
