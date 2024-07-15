@@ -81,7 +81,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express-openapi-validator", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.2.0"],\
             ["glob", "npm:10.4.5"],\
             ["globby", "npm:14.0.2"],\
-            ["govuk-frontend", "npm:5.4.0"],\
+            ["govuk-frontend", "npm:5.4.1"],\
             ["helmet", "npm:7.1.0"],\
             ["html-webpack-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.6.0"],\
             ["husky", "npm:9.0.11"],\
@@ -8656,7 +8656,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express-openapi-validator", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.2.0"],\
             ["glob", "npm:10.4.5"],\
             ["globby", "npm:14.0.2"],\
-            ["govuk-frontend", "npm:5.4.0"],\
+            ["govuk-frontend", "npm:5.4.1"],\
             ["helmet", "npm:7.1.0"],\
             ["html-webpack-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.6.0"],\
             ["husky", "npm:9.0.11"],\
@@ -10193,10 +10193,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["govuk-frontend", [\
-        ["npm:5.4.0", {\
-          "packageLocation": "./.yarn/cache/govuk-frontend-npm-5.4.0-460e1a1b3c-e0643f1ead.zip/node_modules/govuk-frontend/",\
+        ["npm:5.4.1", {\
+          "packageLocation": "./.yarn/cache/govuk-frontend-npm-5.4.1-b4c21995b5-1145c6213f.zip/node_modules/govuk-frontend/",\
           "packageDependencies": [\
-            ["govuk-frontend", "npm:5.4.0"]\
+            ["govuk-frontend", "npm:5.4.1"]\
           ],\
           "linkType": "HARD"\
         }]\
