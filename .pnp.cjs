@@ -84,7 +84,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["govuk-frontend", "npm:5.4.1"],\
             ["helmet", "npm:7.1.0"],\
             ["html-webpack-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.6.0"],\
-            ["husky", "npm:9.1.1"],\
+            ["husky", "npm:9.1.2"],\
             ["jest", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:29.7.0"],\
             ["jest-html-reporter", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.10.2"],\
             ["jest-junit", "npm:16.0.0"],\
@@ -8659,7 +8659,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["govuk-frontend", "npm:5.4.1"],\
             ["helmet", "npm:7.1.0"],\
             ["html-webpack-plugin", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:5.6.0"],\
-            ["husky", "npm:9.1.1"],\
+            ["husky", "npm:9.1.2"],\
             ["jest", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:29.7.0"],\
             ["jest-html-reporter", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.10.2"],\
             ["jest-junit", "npm:16.0.0"],\
@@ -10482,10 +10482,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["husky", [\
-        ["npm:9.1.1", {\
-          "packageLocation": "./.yarn/cache/husky-npm-9.1.1-fe3f215c23-d907eee996.zip/node_modules/husky/",\
+        ["npm:9.1.2", {\
+          "packageLocation": "./.yarn/cache/husky-npm-9.1.2-898836cc1f-850662c21b.zip/node_modules/husky/",\
           "packageDependencies": [\
-            ["husky", "npm:9.1.1"]\
+            ["husky", "npm:9.1.2"]\
           ],\
           "linkType": "HARD"\
         }]\
