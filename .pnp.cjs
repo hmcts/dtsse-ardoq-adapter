@@ -104,7 +104,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["serve-favicon", "npm:2.5.0"],\
             ["sinon", "npm:15.2.0"],\
             ["sinon-chai", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.7.0"],\
-            ["snyk-nodejs-lockfile-parser", "npm:1.58.6"],\
+            ["snyk-nodejs-lockfile-parser", "npm:1.58.7"],\
             ["style-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.3.4"],\
             ["supertest", "npm:6.3.4"],\
             ["ts-jest", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:29.2.3"],\
@@ -8700,7 +8700,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["serve-favicon", "npm:2.5.0"],\
             ["sinon", "npm:15.2.0"],\
             ["sinon-chai", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.7.0"],\
-            ["snyk-nodejs-lockfile-parser", "npm:1.58.6"],\
+            ["snyk-nodejs-lockfile-parser", "npm:1.58.7"],\
             ["style-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.3.4"],\
             ["supertest", "npm:6.3.4"],\
             ["ts-jest", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:29.2.3"],\
@@ -14971,10 +14971,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["snyk-nodejs-lockfile-parser", [\
-        ["npm:1.58.6", {\
-          "packageLocation": "./.yarn/cache/snyk-nodejs-lockfile-parser-npm-1.58.6-eb52783485-a1ecb3394d.zip/node_modules/snyk-nodejs-lockfile-parser/",\
+        ["npm:1.58.7", {\
+          "packageLocation": "./.yarn/cache/snyk-nodejs-lockfile-parser-npm-1.58.7-6311f2b3a5-405cb65117.zip/node_modules/snyk-nodejs-lockfile-parser/",\
           "packageDependencies": [\
-            ["snyk-nodejs-lockfile-parser", "npm:1.58.6"],\
+            ["snyk-nodejs-lockfile-parser", "npm:1.58.7"],\
             ["@snyk/dep-graph", "npm:2.9.0"],\
             ["@snyk/error-catalog-nodejs-public", "npm:5.22.4"],\
             ["@snyk/graphlib", "npm:2.1.9-patch.3"],\
