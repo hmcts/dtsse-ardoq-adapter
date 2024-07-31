@@ -3561,23 +3561,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/superagent@npm:*":
-  version: 8.1.7
-  resolution: "@types/superagent@npm:8.1.7"
+"@types/superagent@npm:^8.1.0":
+  version: 8.1.8
+  resolution: "@types/superagent@npm:8.1.8"
   dependencies:
     "@types/cookiejar": ^2.1.5
     "@types/methods": ^1.1.4
     "@types/node": "*"
-  checksum: 8f80c72bd1cc9a9295a2e1e8a7a8de9bef09348db63f33cc4f61e457917662064ab86ce013f28249c34d7239d9a4415c1a597dc70d4391b2ad83b338a63a3b73
+    form-data: ^4.0.0
+  checksum: 19e9573a66c0aebeafae8243dc8fb613f1ba3376d448faa648c097b889ca51e52c470e64d850dcc1d4d30c13cfa5721b564e062a6b67ccc4892330c9ec7aaa14
   languageName: node
   linkType: hard
 
-"@types/supertest@npm:2.0.16":
-  version: 2.0.16
-  resolution: "@types/supertest@npm:2.0.16"
+"@types/supertest@npm:6.0.2":
+  version: 6.0.2
+  resolution: "@types/supertest@npm:6.0.2"
   dependencies:
-    "@types/superagent": "*"
-  checksum: 2fc998ea698e0467cdbe3bea0ebce2027ea3a45a13e51a6cecb0435f44b486faecf99c34d8702d2d7fe033e6e09fdd2b374af52ecc8d0c69a1deec66b8c0dd52
+    "@types/methods": ^1.1.4
+    "@types/superagent": ^8.1.0
+  checksum: 1eafa472665757a6fd984439d11f388ae0480c6d243a6884066c474c4e0357de5373316488da503b1690c3163e075ca8c64c0c4853b3bb7deb09e05d1b64e556
   languageName: node
   linkType: hard
 
@@ -5920,7 +5922,7 @@ __metadata:
     "@types/nunjucks": 3.2.6
     "@types/require-directory": 2.1.6
     "@types/serve-favicon": 2.5.7
-    "@types/supertest": 2.0.16
+    "@types/supertest": 6.0.2
     "@typescript-eslint/eslint-plugin": 7.18.0
     "@typescript-eslint/parser": 7.18.0
     applicationinsights: 3.2.1
