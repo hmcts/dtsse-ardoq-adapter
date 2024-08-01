@@ -103,7 +103,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["sass-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:14.2.1"],\
             ["serve-favicon", "npm:2.5.0"],\
             ["sinon", "npm:15.2.0"],\
-            ["sinon-chai", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.7.0"],\
+            ["sinon-chai", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:4.0.0"],\
             ["snyk-nodejs-lockfile-parser", "npm:1.58.7"],\
             ["style-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.3.4"],\
             ["supertest", "npm:6.3.4"],\
@@ -8699,7 +8699,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["sass-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:14.2.1"],\
             ["serve-favicon", "npm:2.5.0"],\
             ["sinon", "npm:15.2.0"],\
-            ["sinon-chai", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.7.0"],\
+            ["sinon-chai", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:4.0.0"],\
             ["snyk-nodejs-lockfile-parser", "npm:1.58.7"],\
             ["style-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.3.4"],\
             ["supertest", "npm:6.3.4"],\
@@ -14878,17 +14878,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["sinon-chai", [\
-        ["npm:3.7.0", {\
-          "packageLocation": "./.yarn/cache/sinon-chai-npm-3.7.0-8e6588805e-49a353d8eb.zip/node_modules/sinon-chai/",\
+        ["npm:4.0.0", {\
+          "packageLocation": "./.yarn/cache/sinon-chai-npm-4.0.0-62a4c869d9-3c2f4eddff.zip/node_modules/sinon-chai/",\
           "packageDependencies": [\
-            ["sinon-chai", "npm:3.7.0"]\
+            ["sinon-chai", "npm:4.0.0"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.7.0", {\
-          "packageLocation": "./.yarn/__virtual__/sinon-chai-virtual-e0c99bb0b4/0/cache/sinon-chai-npm-3.7.0-8e6588805e-49a353d8eb.zip/node_modules/sinon-chai/",\
+        ["virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:4.0.0", {\
+          "packageLocation": "./.yarn/__virtual__/sinon-chai-virtual-c04098a823/0/cache/sinon-chai-npm-4.0.0-62a4c869d9-3c2f4eddff.zip/node_modules/sinon-chai/",\
           "packageDependencies": [\
-            ["sinon-chai", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.7.0"],\
+            ["sinon-chai", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:4.0.0"],\
             ["@types/chai", null],\
             ["@types/sinon", null],\
             ["chai", "npm:5.1.1"],\
