@@ -3435,12 +3435,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:20.14.8, @types/node@npm:>=13.7.0":
+"@types/node@npm:*, @types/node@npm:>=13.7.0":
   version: 20.14.8
   resolution: "@types/node@npm:20.14.8"
   dependencies:
     undici-types: ~5.26.4
   checksum: a9128840005d4a0aba68826e22ac0fdd86bb9073f1d274217d3509b52f969d1aab83415c85a8461259f33cf34f9eee02fb13dca059865bed2ba2e728bc936a76
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:20.14.14":
+  version: 20.14.14
+  resolution: "@types/node@npm:20.14.14"
+  dependencies:
+    undici-types: ~5.26.4
+  checksum: cb2199123efca94908ee7191cc7b7abc11b26bf1fbb93c2948d5537a6594eedc35d4748d9fa998078fdc2eb5cc3a11d6d87b2fea20a05bda9d304e37d3c3282a
   languageName: node
   linkType: hard
 
@@ -5916,7 +5925,7 @@ __metadata:
     "@types/lodash": 4.17.7
     "@types/mini-css-extract-plugin": 2.5.1
     "@types/mocha": ^10.0.7
-    "@types/node": 20.14.8
+    "@types/node": 20.14.14
     "@types/nunjucks": 3.2.6
     "@types/require-directory": 2.1.6
     "@types/serve-favicon": 2.5.7
