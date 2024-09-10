@@ -102,7 +102,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["sass", "npm:1.77.8"],\
             ["sass-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:14.2.1"],\
             ["serve-favicon", "npm:2.5.0"],\
-            ["sinon", "npm:15.2.0"],\
+            ["sinon", "npm:18.0.1"],\
             ["sinon-chai", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.7.0"],\
             ["snyk-nodejs-lockfile-parser", "npm:1.58.7"],\
             ["style-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.3.4"],\
@@ -8698,7 +8698,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["sass", "npm:1.77.8"],\
             ["sass-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:14.2.1"],\
             ["serve-favicon", "npm:2.5.0"],\
-            ["sinon", "npm:15.2.0"],\
+            ["sinon", "npm:18.0.1"],\
             ["sinon-chai", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.7.0"],\
             ["snyk-nodejs-lockfile-parser", "npm:1.58.7"],\
             ["style-loader", "virtual:f232c013a1dd0550e3e82ef5819cefecc6a1d77a47fd6fc09e453e920b78abe6d47929ef7004b1092b6f19e7250814fc92c750af8e9f007a409cc7ac027891a4#npm:3.3.4"],\
@@ -12982,15 +12982,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["nise", [\
-        ["npm:5.1.9", {\
-          "packageLocation": "./.yarn/cache/nise-npm-5.1.9-6af6a9c69b-ab9fd6eabc.zip/node_modules/nise/",\
+        ["npm:6.0.1", {\
+          "packageLocation": "./.yarn/cache/nise-npm-6.0.1-2500de31ea-1f75233dc3.zip/node_modules/nise/",\
           "packageDependencies": [\
-            ["nise", "npm:5.1.9"],\
+            ["nise", "npm:6.0.1"],\
             ["@sinonjs/commons", "npm:3.0.1"],\
             ["@sinonjs/fake-timers", "npm:11.2.2"],\
             ["@sinonjs/text-encoding", "npm:0.7.2"],\
             ["just-extend", "npm:6.2.0"],\
-            ["path-to-regexp", "npm:6.2.2"]\
+            ["path-to-regexp", "npm:8.1.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -13601,6 +13601,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/path-to-regexp-npm-6.2.2-0bf7f6805c-b7b0005c36.zip/node_modules/path-to-regexp/",\
           "packageDependencies": [\
             ["path-to-regexp", "npm:6.2.2"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:8.1.0", {\
+          "packageLocation": "./.yarn/cache/path-to-regexp-npm-8.1.0-a82a7a7724-982b784f8d.zip/node_modules/path-to-regexp/",\
+          "packageDependencies": [\
+            ["path-to-regexp", "npm:8.1.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -14863,15 +14870,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["sinon", [\
-        ["npm:15.2.0", {\
-          "packageLocation": "./.yarn/cache/sinon-npm-15.2.0-ba6c0831db-1641b9af8a.zip/node_modules/sinon/",\
+        ["npm:18.0.1", {\
+          "packageLocation": "./.yarn/cache/sinon-npm-18.0.1-eb670134a1-6201b5381c.zip/node_modules/sinon/",\
           "packageDependencies": [\
-            ["sinon", "npm:15.2.0"],\
+            ["sinon", "npm:18.0.1"],\
             ["@sinonjs/commons", "npm:3.0.1"],\
-            ["@sinonjs/fake-timers", "npm:10.3.0"],\
+            ["@sinonjs/fake-timers", "npm:11.2.2"],\
             ["@sinonjs/samsam", "npm:8.0.0"],\
             ["diff", "npm:5.2.0"],\
-            ["nise", "npm:5.1.9"],\
+            ["nise", "npm:6.0.1"],\
             ["supports-color", "npm:7.2.0"]\
           ],\
           "linkType": "HARD"\
@@ -14892,7 +14899,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/chai", null],\
             ["@types/sinon", null],\
             ["chai", "npm:5.1.1"],\
-            ["sinon", "npm:15.2.0"]\
+            ["sinon", "npm:18.0.1"]\
           ],\
           "packagePeers": [\
             "@types/chai",\
