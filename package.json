@@ -104,7 +104,7 @@
     "playwright": "^1.45.0",
     "prettier": "^3.3.2",
     "sass": "1.77.8",
-    "sass-loader": "14.2.1",
+    "sass-loader": "16.0.4",
     "sinon": "15.2.0",
     "sinon-chai": "3.7.0",
     "style-loader": "3.3.4",
