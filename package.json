@@ -71,7 +71,7 @@
     "@types/lodash": "4.17.7",
     "@types/mini-css-extract-plugin": "2.5.1",
     "@types/mocha": "^10.0.7",
-    "@types/node": "20.14.8",
+    "@types/node": "20.17.10",
     "@types/nunjucks": "3.2.6",
     "@types/require-directory": "2.1.6",
     "@types/serve-favicon": "2.5.7",
